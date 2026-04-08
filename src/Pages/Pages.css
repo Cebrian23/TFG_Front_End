@@ -1,0 +1,43 @@
+.show {
+    border: 1px black solid;
+    justify-content: center;
+    width: 25%;
+    margin: 1%;
+}
+
+.data{
+    text-align: center;
+    padding: 2%;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    padding: 2%;
+}
+
+.tablaNotas{
+    td{
+        border: 1px solid black;
+    }
+    th{
+        border: 1px solid black;
+    }
+    tr{
+        border: 1px solid black;
+    }
+}
+
+.userPage{
+    border: 1px black solid;
+    padding: 1%;
+    width: 20%;
+    h1, h2, h3{
+        text-align: center;
+    }
+    .columns{
+        display: flex;
+        flex-direction: column;
+        padding: 2%;
+    }
+}
