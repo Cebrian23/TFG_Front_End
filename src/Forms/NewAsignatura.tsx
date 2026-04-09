@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Asignatura_ins } from "../types/Asignaturas/Asignatura";
 import Cookie from "js-cookie";
+import type { Asignatura_ins } from "../types/Asignaturas/Asignatura.ts";
 
 function NewAsignatura() {
     const [nombre, setNombre] = useState("");

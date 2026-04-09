@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Asignatura_curso_docs_short, Asignatura_curso_short, Asignatura_Short } from "../types/Asignaturas/Asignatura";
 import Cookie from "js-cookie";
-import type { Profesor_Short } from "../types/Personas/Profesor";
-import type { Coordinador_Short } from "../types/Personas/Coordinador";
+import type { Asignatura_curso_short, Asignatura_curso_docs_short, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
+import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
+import type { Profesor_Short } from "../types/Personas/Profesor.ts";
 
 function ShowAsignaturasImpartidas() {
     const [asignaturas, setAsignaturas] = useState<Asignatura_curso_short[]>([]);

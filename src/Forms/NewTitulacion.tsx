@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { Asignatura_titulacion_ins } from "../types/Asignaturas/Asignatura";
-import type { Titulacion_ins } from "../types/Titulacion/Titulacion";
 import Cookie from "js-cookie";
+import type { Asignatura_titulacion_ins } from "../types/Asignaturas/Asignatura.ts";
+import type { Titulacion_ins } from "../types/Titulacion/Titulacion.ts";
 
 function NewTitulacion() {
     const [auth, setAuth] = useState("");

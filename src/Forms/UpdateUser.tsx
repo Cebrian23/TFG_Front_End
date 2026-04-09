@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
-import type { Estudiante } from "../types/Personas/Estudiante";
-import type { Coordinador } from "../types/Personas/Coordinador";
-import type { Profesor } from "../types/Personas/Profesor";
-import type { Administrativo } from "../types/Personas/Administrativo";
-import { Validate_Email } from "../utilities/Validations/Validate_Email";
-import { Validate_Phone } from "../utilities/Validations/Validate_Phone";
-import type { Persona_upt } from "../types/Personas/Persona";
+import type { Administrativo } from "../types/Personas/Administrativo.ts";
+import type { Coordinador } from "../types/Personas/Coordinador.ts";
+import type { Estudiante } from "../types/Personas/Estudiante.ts";
+import type { Persona_upt } from "../types/Personas/Persona.ts";
+import type { Profesor } from "../types/Personas/Profesor.ts";
+import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
+import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
 
 function UpdateUser() {
     const [user, setUser] = useState<Estudiante | Coordinador | Profesor | Administrativo>();

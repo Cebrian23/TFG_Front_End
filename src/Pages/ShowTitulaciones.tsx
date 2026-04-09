@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import './Pages.css'
-import type { Titulacion } from "../types/Titulacion/Titulacion";
+import type { Titulacion } from "../types/Titulacion/Titulacion.ts";
 
 function ShowTitulaciones() {
     const [titulaciones, setTitulaciones] = useState<Titulacion[]>([]);

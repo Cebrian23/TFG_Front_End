@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { Titulacion } from "../types/Titulacion/Titulacion";
 import Cookie from "js-cookie";
-import type { Administrativo_Short } from "../types/Personas/Administrativo";
+import type { Administrativo_Short } from "../types/Personas/Administrativo.ts";
+import type { Titulacion } from "../types/Titulacion/Titulacion.ts";
 
 function TitulacionPage() {
     const [titulacion, setTitulacion] = useState<Titulacion>();

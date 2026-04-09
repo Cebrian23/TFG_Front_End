@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { Estudiante_Short } from "../types/Personas/Estudiante";
-import type { Profesor_Short } from "../types/Personas/Profesor";
-import type { Coordinador_Short } from "../types/Personas/Coordinador";
-import type { TFM_ins } from "../types/Asignaturas/TFM";
 import Cookie from "js-cookie";
+import type { TFM_ins } from "../types/Asignaturas/TFM.ts";
+import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
+import type { Estudiante_Short } from "../types/Personas/Estudiante.ts";
+import type { Profesor_Short } from "../types/Personas/Profesor.ts";
 
 function NewTFM() {
     const [nombre, setNombre] = useState("");

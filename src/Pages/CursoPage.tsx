@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { Asignatura_curso, Asignatura_Short } from "../types/Asignaturas/Asignatura";
 import Cookie from "js-cookie";
-import type { Administrativo_Short } from "../types/Personas/Administrativo";
+import type { Asignatura_curso, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
+import type { Administrativo_Short } from "../types/Personas/Administrativo.ts";
 
 function CursoPage() {
     const [curso, setCurso] = useState<Asignatura_curso>();

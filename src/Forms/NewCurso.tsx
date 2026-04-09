@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { Curso_ins } from "../types/Asignaturas/Asignatura";
 import Cookie from "js-cookie";
-import type { Estudiante } from "../types/Personas/Estudiante";
-import type { Coordinador } from "../types/Personas/Coordinador";
-import type { Profesor } from "../types/Personas/Profesor";
+import type { Curso_ins } from "../types/Asignaturas/Asignatura.ts";
+import type { Coordinador } from "../types/Personas/Coordinador.ts";
+import type { Estudiante } from "../types/Personas/Estudiante.ts";
+import type { Profesor } from "../types/Personas/Profesor.ts";
 
 function NewCurso() {
     const [curso, setCurso] = useState("");

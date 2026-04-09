@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { Persona_ins } from "../types/Personas/Persona";
-import { Validate_Email } from "../utilities/Validations/Validate_Email";
-import { Validate_Phone } from "../utilities/Validations/Validate_Phone";
+import type { Persona_ins } from "../types/Personas/Persona.ts";
+import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
+import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
 
 const Register = () => {
     const [nombre, setNombre] = useState("");

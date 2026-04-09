@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Cookie from "js-cookie";
-import type { Profesor } from "../types/Personas/Profesor";
-import type { Estudiante } from "../types/Personas/Estudiante";
-import type { Coordinador } from "../types/Personas/Coordinador";
-import type { Administrativo } from "../types/Personas/Administrativo";
+import type { Administrativo } from "../types/Personas/Administrativo.ts";
+import type { Coordinador } from "../types/Personas/Coordinador.ts";
+import type { Estudiante } from "../types/Personas/Estudiante.ts";
+import type { Profesor } from "../types/Personas/Profesor.ts";
 
 function UserPage() {
     const [user, setUser] = useState<(Coordinador | Estudiante | Profesor | Administrativo)>();

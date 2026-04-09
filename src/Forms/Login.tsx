@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import './Forms.css'
-import { Validate_Email } from "../utilities/Validations/Validate_Email";
-import type { Coordinador } from "../types/Personas/Coordinador";
-import type { Estudiante } from "../types/Personas/Estudiante";
-import type { Profesor } from "../types/Personas/Profesor";
-import type { Administrativo } from "../types/Personas/Administrativo";
 import Cookie from "js-cookie";
+import type { Administrativo } from "../types/Personas/Administrativo.ts";
+import type { Coordinador } from "../types/Personas/Coordinador.ts";
+import type { Estudiante } from "../types/Personas/Estudiante.ts";
+import type { Profesor } from "../types/Personas/Profesor.ts";
+import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -45,14 +45,6 @@ function Login() {
         const password_aux = password.trim();
         if(email_aux === "" || password_aux === ""){
             setEmptyError("Hay que rellenar todos los parámetros");
-            error_exists = true;
-        }
-        else if(email_aux === "" && password_aux !== ""){
-            setEmailError("Hay que rellenar este campo");
-            error_exists = true;
-        }
-        else if(email_aux !== "" && password_aux === ""){
-            setPasswordError("Hay que rellenar este campo");
             error_exists = true;
         }
 

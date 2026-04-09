@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import type { Asignatura, Asignatura_Short } from "../types/Asignaturas/Asignatura";
 import Cookie from "js-cookie";
-import type { Administrativo_Short } from "../types/Personas/Administrativo";
+import type { Asignatura, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
+import type { Administrativo_Short } from "../types/Personas/Administrativo.ts";
 
 function AsignaturaTitulacionPage() {
     const [asignatura, setAsignatura] = useState<Asignatura>();

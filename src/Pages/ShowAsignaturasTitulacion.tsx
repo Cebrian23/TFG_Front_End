@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
-import type { Asignatura } from "../types/Asignaturas/Asignatura";
+import type { Asignatura } from "../types/Asignaturas/Asignatura.ts";
 
 function ShowAsignaturasTitulacion() {
     const [titulacion, setTitulacion] = useState("");

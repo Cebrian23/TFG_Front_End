@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Asignatura_curso, Asignatura_Short } from "../types/Asignaturas/Asignatura";
 import Cookie from "js-cookie";
-import type { Coordinador_Short } from "../types/Personas/Coordinador";
-import type { Profesor_Short } from "../types/Personas/Profesor";
+import type { Asignatura_curso, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
+import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
+import type { Profesor_Short } from "../types/Personas/Profesor.ts";
 
 function AsignaturaDocentePage() {
     const [asignatura, setAsignatura] = useState<Asignatura_curso>();
