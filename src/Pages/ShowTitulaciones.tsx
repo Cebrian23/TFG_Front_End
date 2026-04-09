@@ -12,7 +12,7 @@ function ShowTitulaciones() {
             Cookie.remove("TFG_curso");
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
@@ -24,7 +24,7 @@ function ShowTitulaciones() {
                 const error = await response_persona.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_persona = await response_persona.json();
@@ -32,7 +32,7 @@ function ShowTitulaciones() {
             if(data_persona.rol !== "Administrativo"){
                 alert("Tienes que ser un administrativo para ver estos datos");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const id_titulacion = Cookie.get("TFG_titulacion");
@@ -40,7 +40,7 @@ function ShowTitulaciones() {
             if(id_titulacion === undefined){
                 alert("No administras ninguna titulación");
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${id_titulacion}`;
@@ -51,7 +51,7 @@ function ShowTitulaciones() {
             if(response_titulacion.status !== 200){
                 const error = await response_titulacion.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             else{
                 const data = await response_titulacion.json();
@@ -77,12 +77,12 @@ function ShowTitulaciones() {
                                 <div key={titulacion.id} className="show">
                                     <div className="data">{titulacion.nombre}</div>
                                     <div className="buttons">
-                                        <button type="button" onClick={() => window.location.href = "/mostrarAsignaturasTitulacion"}>Ver asignaturas</button>
-                                        <button type="button" onClick={() => window.location.href = "/nuevaAsignatura"}>Insertar una asignatura nueva</button>
-                                        <button type="button" onClick={() => window.location.href = "/registrarPersona"}>Dar de alta a personas</button>
-                                        <button type="button" onClick={() => window.location.href = "/paginaTitulacion"}>Ver titulación</button>
+                                        <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Ver asignaturas</button>
+                                        <button type="button" onClick={() => globalThis.location.href = "/nuevaAsignatura"}>Insertar una asignatura nueva</button>
+                                        <button type="button" onClick={() => globalThis.location.href = "/registrarPersona"}>Dar de alta a personas</button>
+                                        <button type="button" onClick={() => globalThis.location.href = "/paginaTitulacion"}>Ver titulación</button>
                                         {
-                                            //<button type="button" onClick={() => window.location.href = "/actualizarDatosTitulacion"}>Editar datos</button>
+                                            //<button type="button" onClick={() => globalThis.location.href = "/actualizarDatosTitulacion"}>Editar datos</button>
                                         }
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@ function ShowTitulaciones() {
                 </>
             }
             <div>
-                <button type="button" onClick={() => window.location.href = "/paginaPersonal"}>Volver atras</button>
+                <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver atras</button>
             </div>
         </div>
     );

@@ -29,7 +29,7 @@ function NewTitulacion() {
             const auth = Cookie.get("authTFG");
 
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             else{
                 setAuth(auth)
@@ -44,7 +44,7 @@ function NewTitulacion() {
                 const error = await response_persona.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_persona = await response_persona.json();
@@ -52,7 +52,7 @@ function NewTitulacion() {
             if(data_persona.rol !== "Administrativo"){
                 alert("Tienes que ser un administrativo para dar de alta una titulación");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
         }
 
@@ -124,7 +124,7 @@ function NewTitulacion() {
 
                 Cookie.set("TFG_titulacion", data.id, {expires: 7});
                 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
         }
     }

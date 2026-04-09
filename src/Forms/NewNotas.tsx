@@ -12,7 +12,7 @@ function NewNotas() {
             const auth = Cookie.get("authTFG");
 
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
@@ -24,7 +24,7 @@ function NewNotas() {
                 const error = await response_user.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_user = await response_user.json();
@@ -32,13 +32,13 @@ function NewNotas() {
 
             if(data_user.rol !== "Coordinador" && data_user.rol !== "Profesor"){
                 alert("Tienes que ser un docente para poder calificar una asignatura");
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
 
             if(TFG_titulacion === undefined){
-                window.location.href = "/paginaPersonal"
+                globalThis.location.href = "/paginaPersonal"
             }
 
             const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${TFG_titulacion}`;
@@ -50,13 +50,13 @@ function NewNotas() {
                 const error = await response_titulacion.json();
                 alert(error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_asig = Cookie.get("TFG_asig");
 
             if(TFG_asig === undefined){
-                window.location.href = "/mostrarAsignaturas";
+                globalThis.location.href = "/mostrarAsignaturas";
             }
 
             const url_asig = `http://gestor-master-interuniv.deno.dev/asignatura?id=${TFG_asig}`;
@@ -68,7 +68,7 @@ function NewNotas() {
                 const error = await response_asig.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             //const data_asig = await response_asig.json();
@@ -76,7 +76,7 @@ function NewNotas() {
             const TFG_curso = Cookie.get("TFG_curso");
 
             if(TFG_curso === undefined){
-                window.location.href = "/mostrarAsignaturas";
+                globalThis.location.href = "/mostrarAsignaturas";
             }
 
             const url_curso = `http://localhost:4000/curso?asignatura=${TFG_asig}&curso=${TFG_curso}`;
@@ -88,7 +88,7 @@ function NewNotas() {
                 const error = await response_curso.json();
                 alert(error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             //const data_curso = await response_curso.json();
@@ -96,7 +96,7 @@ function NewNotas() {
             const TFG_conv = Cookie.get("TFG_conv");
 
             if(TFG_conv === undefined){
-                window.location.href = "/mostrarAsignaturas";
+                globalThis.location.href = "/mostrarAsignaturas";
             }
 
             setConvocatoria(TFG_conv!);
@@ -136,7 +136,7 @@ function NewNotas() {
                 </>
             }
             <div>
-                <button type="button" onClick={() => window.location.href = "/mostrarAsignaturas"}>Volver</button>
+                <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Volver</button>
                 <button type="button" disabled={alumnos === undefined ? true : false} onClick={handleCalificar}>Enviar</button>
             </div>
         </div>

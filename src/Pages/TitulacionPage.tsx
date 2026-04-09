@@ -15,7 +15,7 @@ function TitulacionPage() {
             const auth = Cookie.get("authTFG");
 
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
@@ -27,20 +27,20 @@ function TitulacionPage() {
                 const error = await response_user.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_user = await response_user.json();
             console.log(data_user);
 
             if(data_user.rol !== "Administrativo"){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
 
             if(TFG_titulacion === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${TFG_titulacion}`;
@@ -52,7 +52,7 @@ function TitulacionPage() {
                 const error = await response_titulacion.json();
                 alert(error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data_titulacion = await response_titulacion.json();
@@ -64,7 +64,7 @@ function TitulacionPage() {
             });
 
             if(admin === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             setTitulacion(data_titulacion);
@@ -204,7 +204,7 @@ function TitulacionPage() {
                         showTFM === false &&
                         <br/>
                     }
-                    <button type="button" onClick={() => window.location.href = "/mostrarTitulaciones"}>Volver</button>
+                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
                 </div>
             }
         </>

@@ -18,7 +18,7 @@ function NewAsignatura() {
             const auth = Cookie.get("authTFG");
 
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
@@ -30,7 +30,7 @@ function NewAsignatura() {
                 const error = await response_persona.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_persona = await response_persona.json();
@@ -38,13 +38,13 @@ function NewAsignatura() {
             if(data_persona.rol !== "Administrativo"){
                 alert("Tienes que ser un administrativo para dar de alta una asignatura");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const id_titulacion = Cookie.get("TFG_titulacion");
 
             if(id_titulacion === undefined){
-                window.location.href = "/paginaPersonal"
+                globalThis.location.href = "/paginaPersonal"
             }
 
             const url = `http://gestor-master-interuniv.deno.dev/titulacion/cursos?id=${id_titulacion}`;
@@ -55,7 +55,7 @@ function NewAsignatura() {
             if(response.status !== 200){
                 const error = await response.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data = await response.json();
@@ -117,7 +117,7 @@ function NewAsignatura() {
                 const data = await response.json();
                 alert(data.message);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
         }
     }
@@ -158,7 +158,7 @@ function NewAsignatura() {
                     </select>
                 </div>
                 <div className="buttons">
-                    <button type="button" onClick={(_e) => window.location.href = "/paginaPersonal"}>Volver atras</button>
+                    <button type="button" onClick={(_e) => globalThis.location.href = "/paginaPersonal"}>Volver atras</button>
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
                     <button type="button" onClick={handleCreation}>Enviar</button>
                 </div>

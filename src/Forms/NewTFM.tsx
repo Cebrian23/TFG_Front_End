@@ -34,7 +34,7 @@ function NewTFM() {
         const getPersonas = async () => {
            const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const url_persona = `http://localhost:4000/persona/id?id=${auth}`;
@@ -46,7 +46,7 @@ function NewTFM() {
                 const error = await response_persona.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_persona = await response_persona.json();
@@ -54,7 +54,7 @@ function NewTFM() {
             if(data_persona.rol !== "Coordinador"){
                 alert("Tienes que ser un coordinador para registrar un TFM");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
@@ -64,7 +64,7 @@ function NewTFM() {
                     alert("No puedes insertar un TFM");
                 }
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
@@ -76,7 +76,7 @@ function NewTFM() {
                 const error = await response_titulacion.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data_titulacion = await response_titulacion.json();
@@ -91,7 +91,7 @@ function NewTFM() {
             if(docente_exists === undefined){
                 alert("No eres coordinador en esta titulación");
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const urlAlumnos = `http://gestor-master-interuniv.deno.dev/personas/alumnos?titulacion=${TFG_titulacion}`;
@@ -113,7 +113,7 @@ function NewTFM() {
                 if(data.length === 0){
                     alert("Hay que tener al menos a un alumno dado de alta");
 
-                    window.location.href = "/paginaPersonal";
+                    globalThis.location.href = "/paginaPersonal";
                 }
                 
                 setAlumnos(data);
@@ -136,7 +136,7 @@ function NewTFM() {
                 if(data.length === 0){
                     alert("Hay que tener al menos a un docente dado de alta");
 
-                    window.location.href = "/paginaPersonal";
+                    globalThis.location.href = "/paginaPersonal";
                 }
 
                 setDocentes(data);
@@ -253,7 +253,7 @@ function NewTFM() {
             const data = await response.json();
             alert(data.message);
 
-            window.location.href = "/paginaPersonal";
+            globalThis.location.href = "/paginaPersonal";
         }
     }
 

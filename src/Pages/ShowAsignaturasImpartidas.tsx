@@ -15,7 +15,7 @@ function ShowAsignaturasImpartidas() {
 
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const url_user = `http://localhost:4000/persona/id?id=${auth}`;
@@ -27,7 +27,7 @@ function ShowAsignaturasImpartidas() {
                 const error = await response_user.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_user = await response_user.json();
@@ -42,7 +42,7 @@ function ShowAsignaturasImpartidas() {
                     alert("No coordinas ninguna titulación");
                 }
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_Titulacion}`;
@@ -54,7 +54,7 @@ function ShowAsignaturasImpartidas() {
                 const error = await response_titulacion.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data_titulacion = await response_titulacion.json();
@@ -68,7 +68,7 @@ function ShowAsignaturasImpartidas() {
             if(docente_exists === undefined){
                 alert("No das clase en esta titulación");
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_asig = `http://localhost:4000/docente/asignaturas?docente=${auth}&titulacion=${TFG_Titulacion}`;
@@ -80,7 +80,7 @@ function ShowAsignaturasImpartidas() {
                 const error = await response_asig.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data_asig = await response_asig.json();
@@ -97,7 +97,7 @@ function ShowAsignaturasImpartidas() {
             if(data_asig.length !== count_asig){
                 alert(`${data_asig.length - count_asig} asignaturas no encontradas`);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             let count_doc = 0;
@@ -112,7 +112,7 @@ function ShowAsignaturasImpartidas() {
             if(data_asig.length !== count_doc){
                 alert(`No apareces como docente en ${data_asig.length !== count_doc} asignaturas`);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             setAsignaturas(data_asig);
@@ -142,7 +142,7 @@ function ShowAsignaturasImpartidas() {
                                             Cookie.set("TFG_curso", asig.id, {expires: 7});
                                             Cookie.set("TFG_asig", asig.id_asig, {expires: 7});
 
-                                            window.location.href = "/paginaAsignatura"
+                                            globalThis.location.href = "/paginaAsignatura"
                                         }}>Ver asignatura</button>
                                     </div>
                                 </div>
@@ -151,7 +151,7 @@ function ShowAsignaturasImpartidas() {
                     }
                 </>
             }
-            <button type="button" onClick={() => window.location.href = "/paginaPersonal"}>Volver</button>
+            <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
         </div>
     );
 }

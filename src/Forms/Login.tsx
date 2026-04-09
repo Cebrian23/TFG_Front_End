@@ -21,7 +21,7 @@ function Login() {
             const auth = Cookie.get("authTFG");
 
             if(auth !== undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
         }
 
@@ -81,7 +81,7 @@ function Login() {
 
                 Cookie.set("authTFG", data.id, {expires: 7});
             
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
         }
     }

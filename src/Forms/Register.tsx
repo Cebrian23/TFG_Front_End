@@ -184,7 +184,7 @@ const Register = () => {
             else{
                 const data = await response.json();
                 alert(data.message);
-                window.location.href = "/login"
+                globalThis.location.href = "/login"
             }
         }
     }

@@ -12,7 +12,7 @@ function ShowAsignaturasTitulacion() {
             Cookie.remove("TFG_curso");
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
@@ -24,7 +24,7 @@ function ShowAsignaturasTitulacion() {
                 const error = await response_persona.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_persona = await response_persona.json();
@@ -32,7 +32,7 @@ function ShowAsignaturasTitulacion() {
             if(data_persona.rol !== "Administrativo"){
                 alert("Tienes que ser un administrativo para ver estos datos");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
@@ -40,7 +40,7 @@ function ShowAsignaturasTitulacion() {
             if(TFG_titulacion === undefined){
                 alert("No administras ninguna titulación");
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${TFG_titulacion}`;
@@ -51,7 +51,7 @@ function ShowAsignaturasTitulacion() {
             if(response_titulacion.status !== 200){
                 const error = await response_titulacion.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             
             const data = await response_titulacion.json();
@@ -76,22 +76,22 @@ function ShowAsignaturasTitulacion() {
                                 <button type="button" onClick={() => {
                                     Cookie.set("TFG_asig", asig.id, {expires: 7});
                                     
-                                    window.location.href = "/mostrarCursos";
+                                    globalThis.location.href = "/mostrarCursos";
                                 }}>Ver cursos</button>
                                 <button type="button" onClick={() => {
                                     Cookie.set("TFG_asig", asig.id, {expires: 7});
 
-                                    window.location.href = "/nuevoCurso";
+                                    globalThis.location.href = "/nuevoCurso";
                                 }}>Insertar un curso nuevo</button>
                                 <button type="button" onClick={() => {
                                     Cookie.set("TFG_asig", asig.id, {expires: 7});
 
-                                    window.location.href = "/paginaAsignaturaTitulacion";
+                                    globalThis.location.href = "/paginaAsignaturaTitulacion";
                                 }}>Ver asignatura</button>
                                 {
                                     /*
                                     <>
-                                        <button type="button" onClick={() => window.location.href = "/actualizarDatosAsignatura"}>Editar datos</button>
+                                        <button type="button" onClick={() => globalThis.location.href = "/actualizarDatosAsignatura"}>Editar datos</button>
                                     </>
                                     */
                                 }
@@ -100,7 +100,7 @@ function ShowAsignaturasTitulacion() {
                     );
                 })
             }
-            <button type="button" onClick={() => window.location.href = "/mostrarTitulaciones"}>Volver atras</button>
+            <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver atras</button>
         </div>
     );
 }

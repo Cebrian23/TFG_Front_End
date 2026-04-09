@@ -12,7 +12,7 @@ function AsignaturaTitulacionPage() {
             const auth = Cookie.get("authTFG");
 
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
@@ -24,19 +24,19 @@ function AsignaturaTitulacionPage() {
                 const error = await response_user.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_user = await response_user.json();
 
             if(data_user.rol !== "Administrativo"){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
 
             if(TFG_titulacion === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${TFG_titulacion}`;
@@ -48,7 +48,7 @@ function AsignaturaTitulacionPage() {
                 const error = await response_titulacion.json();
                 alert(error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data_titulacion = await response_titulacion.json();
@@ -60,13 +60,13 @@ function AsignaturaTitulacionPage() {
             });
 
             if(admin === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_asig = Cookie.get("TFG_asig");
 
             if(TFG_asig === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_asig = `http://localhost:4000/asignatura?id=${TFG_asig}`;
@@ -78,7 +78,7 @@ function AsignaturaTitulacionPage() {
                 const error = await response_asig.json();
                 alert(error.error);
             
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             
             const data_asig = await response_asig.json();
@@ -90,7 +90,7 @@ function AsignaturaTitulacionPage() {
             });
 
             if(asignatura_exists === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             console.log(data_asig);
@@ -157,7 +157,7 @@ function AsignaturaTitulacionPage() {
                         showCursos === false &&
                         <br/>
                     }
-                    <button type="button" onClick={() => window.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
                 </div>
             }
         </>

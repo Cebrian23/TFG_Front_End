@@ -40,7 +40,7 @@ function NewPersona() {
             const id_user = Cookie.get("authTFG");
 
             if(id_user === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${id_user}`;
@@ -53,7 +53,7 @@ function NewPersona() {
                 alert(error.error);
 
                 Cookie.remove("authTFG");
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data = await response_persona.json();
@@ -61,7 +61,7 @@ function NewPersona() {
             if(data.rol !== "Administrativo"){
                 alert("Tienes que ser un administrtivo para dar de alta a otras personas");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const id_titulacion = Cookie.get("TFG_titulacion");
@@ -69,7 +69,7 @@ function NewPersona() {
             if(id_titulacion === undefined){
                 alert("Hay que tener una titulación para poder dar de alta a otras personas");
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url = `http://gestor-master-interuniv.deno.dev/titulacion?id=${id_titulacion}`;
@@ -259,7 +259,7 @@ function NewPersona() {
             else{
                 const data = await response.json();
                 alert(data.message);
-                window.location.href = "/mostrarTitulaciones"
+                globalThis.location.href = "/mostrarTitulaciones"
             }
         }
     }
@@ -395,7 +395,7 @@ function NewPersona() {
                     </>
                 }
                 <div className="buttons">
-                    <button type="button" onClick={() => window.location.href = "/mostrarTitulaciones"}>Volver atras</button>
+                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver atras</button>
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
                     <button type="button" onClick={handleNewUser}>Enviar</button>
                 </div>

@@ -25,7 +25,7 @@ function NewCurso() {
         const getPersonas = async () => {
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
@@ -37,7 +37,7 @@ function NewCurso() {
                 const error = await response_persona.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_persona = await response_persona.json();
@@ -45,12 +45,12 @@ function NewCurso() {
             if(data_persona.rol !== "Administrativo"){
                 alert("Tienes que ser un administrativo para dar de alta una titulación");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const TFG_asig = Cookie.get("TFG_asig");
             if(TFG_asig === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_asignatura = `http://gestor-master-interuniv.deno.dev/asignatura?id=${TFG_asig}`;
@@ -61,7 +61,7 @@ function NewCurso() {
             if(response_asignatura.status !== 200){
                 const error = await response_asignatura.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             else{
                 const data = await response_asignatura.json();
@@ -78,7 +78,7 @@ function NewCurso() {
             if(id_titulacion === undefined){
                 alert("No administras ninguna titulación");
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${id_titulacion}`;
@@ -89,7 +89,7 @@ function NewCurso() {
             if(response_titulacion.status !== 200){
                 const error = await response_titulacion.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const urlAlumnos = `http://gestor-master-interuniv.deno.dev/personas/alumnos?titulacion=${id_titulacion}`;
@@ -102,14 +102,14 @@ function NewCurso() {
             if(dataAlumnos.status !== 200){
                 const error = await dataAlumnos.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             else{
                 const data = await dataAlumnos.json();
 
                 if(data.length === 0){
                     alert("Hay que tener al menos a un alumno dado de alta");
-                    window.location.href = "/mostrarTitulaciones";
+                    globalThis.location.href = "/mostrarTitulaciones";
                 }
 
                 setEstudiantes(data);   
@@ -125,14 +125,14 @@ function NewCurso() {
             if(dataDocentes.status !== 200){
                 const error = await dataDocentes.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             else{
                 const data = await dataDocentes.json();
 
                 if(data.length === 0){
                     alert("Hay que tener al menos a un docente dado de alta");
-                    window.location.href = "/mostrarTitulaciones";
+                    globalThis.location.href = "/mostrarTitulaciones";
                 }
 
                 setProfesores(data);
@@ -192,7 +192,7 @@ function NewCurso() {
 
             const data = await response.json();
             alert(data.message);
-            window.location.href = "/ShowAsignaturasTitulacion"
+            globalThis.location.href = "/ShowAsignaturasTitulacion"
         }
     }
     
@@ -305,7 +305,7 @@ function NewCurso() {
                     <div className="error">{alumnosError}</div>
                 </div>
                 <div className="buttons">
-                    <button type="button" onClick={() => window.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
                     <button type="button" onClick={handleCreation}>Enviar</button>
                 </div>

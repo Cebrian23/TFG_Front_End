@@ -15,7 +15,7 @@ function AsignaturaDocentePage() {
             const auth = Cookie.get("authTFG");
 
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
@@ -27,19 +27,19 @@ function AsignaturaDocentePage() {
                 const error = await response_user.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_user = await response_user.json();
 
             if(data_user.rol !== "Coordinador" && data_user.rol !== "Profesor"){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
 
             if(TFG_titulacion === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
@@ -51,7 +51,7 @@ function AsignaturaDocentePage() {
                 const error = await response_titulacion.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data_titulacion = await response_titulacion.json();
@@ -65,13 +65,13 @@ function AsignaturaDocentePage() {
             if(docente_exists === undefined){
                 alert("No das clase en esta titulación");
         
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_asig = Cookie.get("TFG_asig");
 
             if(TFG_asig === undefined){
-                window.location.href = "/mostrarAsignaturas"
+                globalThis.location.href = "/mostrarAsignaturas"
             }
 
             const url_asig = `http://localhost:4000/asignatura?id=${TFG_asig}`;
@@ -83,7 +83,7 @@ function AsignaturaDocentePage() {
                 const error = await response_asig.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             
             const data_asig = await response_asig.json();
@@ -97,13 +97,13 @@ function AsignaturaDocentePage() {
             if(asignatura_exists === undefined){
                 alert(`Asignatura no encontrada en el ${data_titulacion.nombre}`);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const TFG_curso = Cookie.get("TFG_curso");
 
             if(TFG_curso === undefined){
-                window.location.href = "/mostrarAsignaturas";
+                globalThis.location.href = "/mostrarAsignaturas";
             }
 
             const url_curso = `http://localhost:4000/curso?curso=${TFG_curso}&asignatura=${TFG_asig}`;
@@ -115,7 +115,7 @@ function AsignaturaDocentePage() {
                 const error = await response_curso.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const data_curso = await response_curso.json();
@@ -123,7 +123,7 @@ function AsignaturaDocentePage() {
             if(data_curso.id_asig !== data_asig.id){
                 alert(`Curso no encontrado en ${data_asig.nombre}`);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const docente_in = data_curso.profesores.find((profesor: (Profesor_Short | Coordinador_Short)) => {
@@ -133,7 +133,7 @@ function AsignaturaDocentePage() {
             });
 
             if(docente_in === undefined){
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             setAsignatura(data_curso);
@@ -190,23 +190,23 @@ function AsignaturaDocentePage() {
                             if((date.getFullYear() > Number(curso_aux)) || date.getMonth() >= 8){
                                 alert("No se puede evaluar una asignatura fuera de fecha");
 
-                                window.location.href = "/mostrarAsignaturas";
+                                globalThis.location.href = "/mostrarAsignaturas";
                             }
 
                             if(asignatura.ordinaria_firmada === false){
                                 Cookie.set("TFG_conv", "Ordinaria", {expires: 7});
 
-                                window.location.href = "/calificarAsignatura";
+                                globalThis.location.href = "/calificarAsignatura";
                             }
                             else if(asignatura.extraordinaria_firmada === false){
                                 Cookie.set("TFG_conv", "Extraordinaria", {expires: 7});
 
-                                window.location.href = "/calificarAsignatura";
+                                globalThis.location.href = "/calificarAsignatura";
                             }
                             else{
                                 alert("Ambas convocatorias ya estan evaluadas y firmadas");
 
-                                window.location.href = "/mostrarAsignaturas";
+                                globalThis.location.href = "/mostrarAsignaturas";
                             }
                         }}>
                             {
@@ -218,7 +218,7 @@ function AsignaturaDocentePage() {
                         <button type="button" onClick={() => {
                             Cookie.remove("TFG_conv");
 
-                            window.location.href =  "/mostrarAsignaturas";
+                            globalThis.location.href =  "/mostrarAsignaturas";
                         }}>Volver</button>
                     </div>
                 </div>

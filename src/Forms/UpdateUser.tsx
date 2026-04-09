@@ -39,7 +39,7 @@ function UpdateUser() {
         const getUser = async () => {
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const url = `http://localhost:4000/persona/id?id=${auth}`;
@@ -247,13 +247,13 @@ function UpdateUser() {
                 const error = await response.json();
                 alert(error.error);
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             
             const data = await response.json();
             alert(data.message);
 
-            window.location.href = "/paginaPersonal";
+            globalThis.location.href = "/paginaPersonal";
         }
     }
 
@@ -382,7 +382,7 @@ function UpdateUser() {
                     </>*/
                 }
                 <div className="buttons">
-                    <button type="button" onClick={() => window.location.href = "/paginaPersonal"}>Volver atras</button>
+                    <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver atras</button>
                     <button type="button" onClick={handleReset}>Vaciar campos</button>
                     <button type="button" onClick={handleUpdate}>Enviar</button>
                 </div>

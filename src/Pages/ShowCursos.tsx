@@ -11,7 +11,7 @@ function ShowCursos() {
             Cookie.remove("TFG_curso");
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             
             const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
@@ -23,7 +23,7 @@ function ShowCursos() {
                 const error = await response_persona.json();
                 alert(error.error);
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const data_persona = await response_persona.json();
@@ -31,7 +31,7 @@ function ShowCursos() {
             if(data_persona.rol !== "Administrativo"){
                 alert("Tienes que ser un administrativo para ver estos datos");
 
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
 
             const id_titulacion = Cookie.get("TFG_titulacion");
@@ -39,7 +39,7 @@ function ShowCursos() {
             if(id_titulacion === undefined){
                 alert("No administras ninguna titulación");
 
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
 
             const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${id_titulacion}`;
@@ -50,7 +50,7 @@ function ShowCursos() {
             if(response_titulacion.status !== 200){
                 const error = await response_titulacion.json();
                 alert(error.error);
-                window.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
             }
             
             const data_titulacion = await response_titulacion.json();
@@ -60,7 +60,7 @@ function ShowCursos() {
             if(TFG_asig === undefined){
                 alert("No has seleccionado la asignatura");
 
-                window.location.href = "/mostrarAsignaturasTitulacion";
+                globalThis.location.href = "/mostrarAsignaturasTitulacion";
             }
 
             const asignatura_exists: Asignatura | undefined = data_titulacion.asignaturas.find((asig: Asignatura) => {
@@ -72,7 +72,7 @@ function ShowCursos() {
             if(asignatura_exists === undefined){
                 alert("Asignatura no encontrada en la titulación");
 
-                window.location.href = "/mostrarTitulaciones";
+                globalThis.location.href = "/mostrarTitulaciones";
             }
 
             const url_asignatura = `http://gestor-master-interuniv.deno.dev/asignatura?id=${TFG_asig}`
@@ -84,7 +84,7 @@ function ShowCursos() {
                 const error = await response_asignatura.json();
                 alert(error.error);
 
-                window.location.href = "/mostrarAsignaturasTitulacion";
+                globalThis.location.href = "/mostrarAsignaturasTitulacion";
             }
 
             const data_asignatura = await response_asignatura.json();
@@ -112,17 +112,17 @@ function ShowCursos() {
                             <div className="buttons">
                                 <button type="button" onClick={() => {
                                     Cookie.set("TFG_curso", curso.id, {expires: 7});
-                                    window.location.href = "/paginaCurso";
+                                    globalThis.location.href = "/paginaCurso";
                                 }}>Ver Curso</button>
                                 {
-                                    //<button type="button" onClick={() => window.location.href = "/actualizarDatosCurso"}>Editar datos</button>
+                                    //<button type="button" onClick={() => globalThis.location.href = "/actualizarDatosCurso"}>Editar datos</button>
                                 }
                             </div>
                         </div>
                     )
                 })
             }
-            <button type="button" onClick={() => window.location.href = "/mostrarAsignaturasTitulacion"}>Volver atras</button>
+            <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver atras</button>
         </div>
     );
 }

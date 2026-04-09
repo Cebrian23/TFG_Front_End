@@ -18,7 +18,7 @@ function UserPage() {
 
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
-                window.location.href = "/login";
+                globalThis.location.href = "/login";
             }
             else{
                 const url_num =  `http://localhost:4000/titulaciones/num`;
@@ -38,7 +38,7 @@ function UserPage() {
                     const error = await response.json();
                     alert(error.error);
 
-                    window.location.href = "/login";
+                    globalThis.location.href = "/login";
                 }
 
                 const data_user = await response.json();
@@ -52,13 +52,13 @@ function UserPage() {
                     if(response_titulacion.status !== 200){
                         const error = await response_titulacion.json();
                         alert(error.error);
-                        window.location.href = "/login";
+                        globalThis.location.href = "/login";
                     }
 
                     const data = await response_titulacion.json();
 
                     if(data.length === 0 && num_titulaciones === 0){
-                        window.location.href = "/nuevaTitulacion";
+                        globalThis.location.href = "/nuevaTitulacion";
                     }
                     else if(data.length === 0 && num_titulaciones !== 0){
                         setNoAdmin(true);
@@ -76,13 +76,13 @@ function UserPage() {
                     if(response_titulacion.status !== 200){
                         const error = await response_titulacion.json();
                         alert(error.error);
-                        window.location.href = "/login";
+                        globalThis.location.href = "/login";
                     }
 
                     const data = await response_titulacion.json();
 
                     if(data.length === 0 && num_titulaciones === 0){
-                        window.location.href = "/nuevaTitulacion";
+                        globalThis.location.href = "/nuevaTitulacion";
                     }
                     else if(data.length === 0 && num_titulaciones !== 0){
                         setNoAsig(true);
@@ -106,7 +106,7 @@ function UserPage() {
         Cookie.remove("TFG_curso");
         Cookie.remove("TFG_conv");
         
-        window.location.href = "/login";
+        globalThis.location.href = "/login";
     }
 
     return(
@@ -128,25 +128,25 @@ function UserPage() {
                             {
                                user.rol === "Administrativo" && noAdmin === false &&
                                 <>
-                                    <button type="button" onClick={() => window.location.href = "/mostrarTitulaciones"}>Ver titulaciones administradas</button>
+                                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Ver titulaciones administradas</button>
                                     <br/>
                                 </>
                             }
                             {
                                 (user.rol === "Coordinador" || user.rol === "Profesor") && noAsig === false &&
                                 <>
-                                    <button type="button" onClick={() => window.location.href = "/mostrarAsignaturas"}>Ver asignaturas impartidas</button>
+                                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Ver asignaturas impartidas</button>
                                     <br/>
                                 </>
                             }
                             {
                                 user.rol === "Coordinador" &&
                                 <>
-                                    <button type="button" onClick={() => window.location.href = "/nuevoTFM"}>Insertar TFM de un alumno</button>
+                                    <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Insertar TFM de un alumno</button>
                                     <br/>
                                 </>
                             }
-                            <button type="button" onClick={() => window.location.href = "/actualizarDatosPersonales"}>Modificar información personal</button>
+                            <button type="button" onClick={() => globalThis.location.href = "/actualizarDatosPersonales"}>Modificar información personal</button>
                             <br/>
                             <button type="button" onClick={handleLogout}>Cerrar sesion</button>
                         </div>
