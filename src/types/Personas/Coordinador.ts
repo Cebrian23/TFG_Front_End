@@ -1,0 +1,21 @@
+export type Coordinador = {
+    id: string;
+    nombre: string;
+    apellido_1: string;
+    apellido_2?: string;
+    DNI: string;
+    prefijo_movil?: string;
+    numero_movil?: string;
+    email: string;
+    rol: "Coordinador";
+    universidad: string;
+}
+
+export type Coordinador_Short = {
+    id: string;
+    nombre: string;
+    apellido_1: string;
+    apellido_2?: string;
+    email: string;
+    rol: "Coordinador",
+}

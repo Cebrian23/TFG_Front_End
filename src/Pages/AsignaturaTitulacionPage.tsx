@@ -1,0 +1,169 @@
+import { useState, useEffect } from "react";
+import Cookie from "js-cookie";
+import type { Asignatura, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
+import type { Administrativo_Short } from "../types/Personas/Administrativo.ts";
+
+function AsignaturaTitulacionPage() {
+    const [asignatura, setAsignatura] = useState<Asignatura>();
+    const [titulacion, setTitulacion] = useState("");
+    const [showCursos, setShowCursos] = useState(false);
+    
+    useEffect(() => {
+        const getAsignatura = async () => {
+            const auth = Cookie.get("authTFG");
+
+            if(auth === undefined){
+                globalThis.location.href = "/login";
+            }
+
+            const url_auth = `https://tfg-back-end.cebrian23.deno.net/persona/id?id=${auth}`;
+            const response_user = await fetch(url_auth, {
+                method: "GET",
+            });
+
+            if(response_user.status !== 200){
+                const error = await response_user.json();
+                alert(error.error);
+
+                globalThis.location.href = "/login";
+            }
+
+            const data_user = await response_user.json();
+
+            if(data_user.rol !== "Administrativo"){
+                globalThis.location.href = "/paginaPersonal";
+            }
+
+            const TFG_titulacion = Cookie.get("TFG_titulacion");
+
+            if(TFG_titulacion === undefined){
+                globalThis.location.href = "/paginaPersonal";
+            }
+
+            const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${TFG_titulacion}`;
+            const response_titulacion = await fetch(url_titulacion, {
+                method: "GET",
+            });
+
+            if(response_titulacion.status !== 200){
+                const error = await response_titulacion.json();
+                alert(error);
+
+                globalThis.location.href = "/paginaPersonal";
+            }
+
+            const data_titulacion = await response_titulacion.json();
+            setTitulacion(data_titulacion.nombre)
+
+            const admin = data_titulacion.administrativos.find((administrativo: Administrativo_Short) => {
+                if(administrativo.id === auth){
+                    return administrativo;
+                }
+            });
+
+            if(admin === undefined){
+                globalThis.location.href = "/paginaPersonal";
+            }
+
+            const TFG_asig = Cookie.get("TFG_asig");
+
+            if(TFG_asig === undefined){
+                globalThis.location.href = "/paginaPersonal";
+            }
+
+            const url_asig = `https://tfg-back-end.cebrian23.deno.net/asignatura?id=${TFG_asig}`;
+            const response_asig = await fetch(url_asig, {
+                method: "GET",
+            })
+
+            if(response_asig.status !== 200){
+                const error = await response_asig.json();
+                alert(error.error);
+            
+                globalThis.location.href = "/paginaPersonal";
+            }
+            
+            const data_asig = await response_asig.json();
+            
+            const asignatura_exists = data_titulacion.asignaturas.find((asignatura: Asignatura_Short) => {
+                if(asignatura.id === data_asig.id){
+                    return asignatura;
+                }
+            });
+
+            if(asignatura_exists === undefined){
+                globalThis.location.href = "/paginaPersonal";
+            }
+
+            console.log(data_asig);
+
+            setAsignatura(data_asig);
+        }
+
+        getAsignatura();
+    }, []);
+    
+    return(
+        <>
+            {
+                asignatura !== undefined &&
+                <div>
+                    <h1>Página de {asignatura.nombre}</h1>
+                    <div>
+                        <p><b>Nombre: </b>{asignatura.nombre}</p>
+                    </div>
+                    <div>
+                        <p><b>Titulación: </b>{titulacion}</p>
+                    </div>
+                    <div>
+                        <p><b>Curso: </b>{asignatura.curso}</p>
+                    </div>
+                    <div>
+                        <p><b>Créditos: </b>{asignatura.creditos}</p>
+                    </div>
+                    <div>
+                        <p><b>Optatividad: </b>{asignatura.optatividad}</p>
+                    </div>
+                    <div>
+                        <button type="button" onClick={() => setShowCursos(!showCursos)}>{showCursos === false ? <>Mostrar cursos académicos</> : <>Ocultar cursos académicos</>}</button>
+                        {
+                            showCursos === true && asignatura.cursos_academicos.length === 1 &&
+                            <p>
+                                <b>Curso académico: </b>
+                                {
+                                    asignatura.cursos_academicos.map((curso) => {
+                                        return(
+                                            <span key={curso.id}>{curso.curso_academico}</span>
+                                        )
+                                    })
+                                }
+                            </p>
+                        }
+                        {
+                            showCursos === true && asignatura.cursos_academicos.length > 1 &&
+                            <>
+                                <p><b>Cursos académicos:</b></p>
+                                <ul>
+                                    {
+                                        asignatura.cursos_academicos.map((curso) => {
+                                            return(
+                                                <li key={curso.id}>{curso.curso_academico}</li>
+                                            )
+                                        })
+                                    }
+                                </ul>
+                            </>
+                        }
+                    </div>
+                    {
+                        showCursos === false &&
+                        <br/>
+                    }
+                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                </div>
+            }
+        </>
+    );
+}
+
+export default AsignaturaTitulacionPage;
