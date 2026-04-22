@@ -15,7 +15,7 @@ function NewNotas() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `https://tfg-back-end.cebrian23.deno.net/persona/id?id=${auth}`;
+            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });
@@ -79,7 +79,7 @@ function NewNotas() {
                 globalThis.location.href = "/mostrarAsignaturas";
             }
 
-            const url_curso = `https://tfg-back-end.cebrian23.deno.net/curso?asignatura=${TFG_asig}&curso=${TFG_curso}`;
+            const url_curso = `https://tfg-back-end.onrender.com/curso?asignatura=${TFG_asig}&curso=${TFG_curso}`;
             const response_curso = await fetch(url_curso, {
                 method: "GET",
             });

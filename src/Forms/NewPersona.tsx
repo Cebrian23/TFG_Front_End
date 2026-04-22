@@ -246,7 +246,7 @@ function NewPersona() {
                 body.grado_academico = gradoUniversitario;
             }
 
-            const url = `https://tfg-back-end.cebrian23.deno.net/persona`;
+            const url = `https://tfg-back-end.onrender.com/persona`;
             const response = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(body),
@@ -265,7 +265,7 @@ function NewPersona() {
     }
 
     return (
-        <div>
+        <div className="new">
             <form className="registerForm">
                 <h2>Registro de usuario</h2>
                 <div className="column">

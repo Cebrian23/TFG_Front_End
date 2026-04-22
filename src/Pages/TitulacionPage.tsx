@@ -18,7 +18,7 @@ function TitulacionPage() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `https://tfg-back-end.cebrian23.deno.net/persona/id?id=${auth}`;
+            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });

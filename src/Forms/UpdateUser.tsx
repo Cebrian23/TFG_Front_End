@@ -21,9 +21,6 @@ function UpdateUser() {
     const [prefix, setPrefix] = useState("+34");
     const [phone, setPhone] = useState("");
 
-    //const [universidad, setUniversidad] = useState("");
-    //const [universidades, setUniversidades] = useState<string[]>([]);
-
     const [nombreError, setNombreError] = useState("");
     const [apellido1Error, setApellido1Error] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -42,7 +39,7 @@ function UpdateUser() {
                 globalThis.location.href = "/login";
             }
 
-            const url = `https://tfg-back-end.cebrian23.deno.net/persona/id?id=${auth}`;
+            const url = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response = await fetch(url, {
                 method: "GET",
             });
@@ -237,7 +234,7 @@ function UpdateUser() {
                 body.numero_movil = phone;
             }
 
-            const url = "https://tfg-back-end.cebrian23.deno.net/datos_persona";
+            const url = "https://tfg-back-end.onrender.com/datos_persona";
             const response = await fetch(url, {
                 method: "PUT",
                 body: JSON.stringify(body),
@@ -258,7 +255,7 @@ function UpdateUser() {
     }
 
     return(
-        <div>
+        <div className="upt">
             <form className="registerForm">
                 <h2>Actualización de datos de usuario</h2>
                 <div className="column">

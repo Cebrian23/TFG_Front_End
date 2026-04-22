@@ -103,7 +103,7 @@ function NewAsignatura() {
                 optatividad: optatividad,
             }
 
-            const url = `https://tfg-back-end.cebrian23.deno.net/asignatura`;
+            const url = `https://tfg-back-end.onrender.com/asignatura`;
             const response = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(data),

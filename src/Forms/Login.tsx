@@ -59,7 +59,7 @@ function Login() {
         }
         
         if(error_exists === false){
-            const URL = `https://tfg-back-end.cebrian23.deno.net/login?email=${email}&password=${password}`;
+            const URL = `https://tfg-back-end.onrender.com/login?email=${email}&password=${password}`;
             const response = await fetch(URL, {
                 method: "GET",
             });
@@ -79,7 +79,7 @@ function Login() {
     }
     
     return (
-        <div>
+        <div className="login">
             <form className="loginForm" onSubmit={(e) => e.preventDefault()}>
                 <h2>Inicio de sesión</h2>
                 <div className="column">

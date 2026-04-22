@@ -21,7 +21,7 @@ function UserPage() {
                 globalThis.location.href = "/login";
             }
 
-            const url_num =  `https://tfg-back-end.cebrian23.deno.net/titulaciones/num`;
+            const url_num =  `https://tfg-back-end.onrender.com/titulaciones/num`;
             const response_num = await fetch(url_num, {
                 method: "GET"
             });
@@ -29,7 +29,7 @@ function UserPage() {
             const data = await response_num.json();
             const num_titulaciones = data.titulaciones_number;
 
-            const url_user = `https://tfg-back-end.cebrian23.deno.net/persona/id?id=${auth}`;
+            const url_user = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_user = await fetch(url_user, {
                 method: "GET",
             });
@@ -44,7 +44,7 @@ function UserPage() {
             const data_user = await response_user.json();
 
             if(data_user.rol === "Administrativo"){
-                const url_titulacion = `https://tfg-back-end.cebrian23.deno.net/administrativo/titulaciones?admin=${auth}`;
+                const url_titulacion = `https://tfg-back-end.onrender.com/administrativo/titulaciones?admin=${auth}`;
                 const response_titulacion = await fetch(url_titulacion, {
                     method: "GET",
                 });
@@ -68,7 +68,7 @@ function UserPage() {
                 }
             }
             else{
-                const url_titulacion = `https://tfg-back-end.cebrian23.deno.net/docente/titulaciones?docente=${auth}`;
+                const url_titulacion = `https://tfg-back-end.onrender.com/docente/titulaciones?docente=${auth}`;
                 const response_titulacion = await fetch(url_titulacion, {
                     method: "GET",
                 });
@@ -109,7 +109,7 @@ function UserPage() {
     }
 
     return(
-        <>
+        <div className="userPageShow">
             {
                 user !== undefined &&
                 <div className="userPage">
@@ -152,7 +152,7 @@ function UserPage() {
                     </form>
                 </div>
             }
-        </>
+        </div>
     );
 }
 

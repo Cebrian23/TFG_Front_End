@@ -179,7 +179,7 @@ function NewCurso() {
                 profesores: docentes,
             }
 
-            const url = `https://tfg-back-end.cebrian23.deno.net/curso`;
+            const url = `https://tfg-back-end.onrender.com/curso`;
             const response = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(body),

@@ -171,7 +171,7 @@ const Register = () => {
                 body.numero_movil = phone;
             }
 
-            const url = `https://tfg-back-end.cebrian23.deno.net/register`;
+            const url = `https://tfg-back-end.onrender.com/register`;
             const response = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(body),
@@ -190,7 +190,7 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <div className="new">
             <form className="registerForm">
                 <h2>Registro de usuario</h2>
                 <div className="column">

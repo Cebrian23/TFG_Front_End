@@ -14,7 +14,7 @@ function CursoPage() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `https://tfg-back-end.cebrian23.deno.net/persona/id?id=${auth}`;
+            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });
@@ -68,7 +68,7 @@ function CursoPage() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_asig = `https://tfg-back-end.cebrian23.deno.net/asignatura?id=${TFG_asig}`;
+            const url_asig = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
             const response_asig = await fetch(url_asig, {
                 method: "GET",
             })
