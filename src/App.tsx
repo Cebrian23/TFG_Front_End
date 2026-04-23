@@ -38,7 +38,9 @@ function App() {
           <Route path="paginaCurso" element={<CursoPage/>}/>
           <Route path="actualizarDatosPersonales" element={<UpdateUser/>}/>
           {
-            /*<Route path="registroAdmin" element={<Register/>}/>*/
+            /*
+              <Route path="registroAdmin" element={<Register/>}/>
+            */
           }
           <Route path="mostrarTitulaciones" element={<ShowTitulaciones/>}/>
           <Route path="mostrarAsignaturasTitulacion" element={<ShowAsignaturasTitulacion/>}/>
