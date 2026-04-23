@@ -265,7 +265,7 @@ function NewPersona() {
     }
 
     return (
-        <div className="new">
+        <div className="newPersona">
             <form className="registerForm">
                 <h2>Registro de usuario</h2>
                 <div className="column">

@@ -28,7 +28,6 @@ function NewNotas() {
             }
 
             const data_user = await response_user.json();
-            console.log(data_user);
 
             if(data_user.rol !== "Coordinador" && data_user.rol !== "Profesor"){
                 alert("Tienes que ser un docente para poder calificar una asignatura");

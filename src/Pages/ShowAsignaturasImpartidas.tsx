@@ -122,11 +122,11 @@ function ShowAsignaturasImpartidas() {
     }, []);
 
     return(
-        <div>
-            <h3>Asignaturas impartidas</h3>
+        <div className="Asigs_Imp_Pages">
+            <h1>Asignaturas impartidas</h1>
             {
                 asignaturas.length === 0 &&
-                <p>No impartes ninguna asignatura</p>
+                <h2>No impartes ninguna asignatura</h2>
             }
             {
                 asignaturas.length > 0 &&
@@ -151,7 +151,9 @@ function ShowAsignaturasImpartidas() {
                     }
                 </>
             }
-            <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+            <div>
+                <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+            </div>
         </div>
     );
 }

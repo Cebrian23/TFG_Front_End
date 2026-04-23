@@ -115,11 +115,11 @@ function UserPage() {
                 <div className="userPage">
                     {
                         (user.apellido_2 !== undefined && user.apellido_2 !== null && user.apellido_2 !== "") &&
-                        <h1>Hola, {user.nombre} {user.apellido_1} {user.apellido_2}</h1>
+                        <h1>Bienvenido, {user.nombre} {user.apellido_1} {user.apellido_2}</h1>
                     }
                     {
                         (user.apellido_2 === undefined || user.apellido_2 === null || user.apellido_2 === "") &&
-                        <h1>Hola, {user.nombre} {user.apellido_1}</h1>
+                        <h1>Bienvenido, {user.nombre} {user.apellido_1}</h1>
                     }
                     <form>
                         <h2>¿Que deseas hacer?</h2>

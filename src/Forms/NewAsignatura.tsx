@@ -123,8 +123,9 @@ function NewAsignatura() {
     }
     
     return(
-        <div>
+        <div className="new">
             <form className="newAsignatura">
+                <h1>Registro de asignatura</h1>
                 <div className="column">
                     <label htmlFor="nombre">Nombre:</label>
                     <input id="nombre" name="nombre" value={nombre} placeholder="Nombre" onChange={(e) => {
@@ -158,7 +159,7 @@ function NewAsignatura() {
                     </select>
                 </div>
                 <div className="buttons">
-                    <button type="button" onClick={(_e) => globalThis.location.href = "/paginaPersonal"}>Volver atras</button>
+                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver atras</button>
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
                     <button type="button" onClick={handleCreation}>Enviar</button>
                 </div>

@@ -31,7 +31,6 @@ function TitulacionPage() {
             }
 
             const data_user = await response_user.json();
-            console.log(data_user);
 
             if(data_user.rol !== "Administrativo"){
                 globalThis.location.href = "/paginaPersonal";
@@ -80,10 +79,15 @@ function TitulacionPage() {
                 <div>
                     <h1>Página de {titulacion.nombre}</h1>
                     <div>
-                        <p><b>Nombre de la titulación: </b>{titulacion.nombre}</p>
+                        <h2>¿Que deseas hacer?</h2>
+                        <button type="button" onClick={() => setShowUnis(!showUnis)}>{showUnis === false ? <>Mostrar universidades involucradas</> : <>Ocultar universidades involucradas</>}</button>
+                        <button type="button" onClick={() => setShowGrados(!showGrados)}>{showGrados === false ? <>Mostrar cursos requeridos</> : <>Ocultar cursos requeridos</>}</button>
+                        <button type="button" onClick={() => setShowAsigs(!showAsigs)}>{showAsigs === false ? <>Mostrar asignaturas</> : <>Ocultar asignaturas</>}</button>
+                        <button type="button" onClick={() => setShowTFM(!showTFM)}>{showTFM === false ? <>Mostrar datos del TFM</> : <>Ocultar datos del TFM</>}</button>
+                        <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
                     </div>
                     <div>
-                        <button type="button" onClick={() => setShowUnis(!showUnis)}>{showUnis === false ? <>Mostrar universidades involucradas</> : <>Ocultar universidades involucradas</>}</button>
+                        <p><b>Nombre de la titulación: </b>{titulacion.nombre}</p>
                         {
                             showUnis === true && titulacion.universidades.length === 1 &&
                             <p>
@@ -112,13 +116,10 @@ function TitulacionPage() {
                                 </ul>
                             </>
                         }
-                    </div>
-                    {
-                        showUnis === false &&
-                        <br/>
-                    }
-                    <div>
-                        <button type="button" onClick={() => setShowGrados(!showGrados)}>{showGrados === false ? <>Mostrar cursos requeridos</> : <>Ocultar cursos requeridos</>}</button>
+                        {
+                            showUnis === false &&
+                            <br/>
+                        }
                         {
                             showGrados === true && titulacion.grados_aptos.length === 1 &&
                             <p>
@@ -147,13 +148,10 @@ function TitulacionPage() {
                                 </ul>
                             </>
                         }
-                    </div>
-                    {
-                        showGrados === false &&
-                        <br/>
-                    }
-                    <div>
-                        <button type="button" onClick={() => setShowAsigs(!showAsigs)}>{showAsigs === false ? <>Mostrar asignaturas</> : <>Ocultar asignaturas</>}</button>
+                        {
+                            showGrados === false &&
+                            <br/>
+                        }    
                         {
                             showAsigs === true && titulacion.asignaturas.length === 1 &&
                             <p>
@@ -182,13 +180,10 @@ function TitulacionPage() {
                                 </ul>
                             </>
                         }
-                    </div>
-                    {
-                        showAsigs === false &&
-                        <br/>
-                    }
-                    <div>
-                        <button type="button" onClick={() => setShowTFM(!showTFM)}>{showTFM === false ? <>Mostrar datos del TFM</> : <>Ocultar datos del TFM</>}</button>
+                        {
+                            showAsigs === false &&
+                            <br/>
+                        }
                         {
                             showTFM === true &&
                             <>
@@ -200,11 +195,6 @@ function TitulacionPage() {
                             </>
                         }
                     </div>
-                    {
-                        showTFM === false &&
-                        <br/>
-                    }
-                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
                 </div>
             }
         </>

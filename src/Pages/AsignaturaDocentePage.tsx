@@ -147,41 +147,14 @@ function AsignaturaDocentePage() {
             {
                 asignatura !== undefined &&
                 <div>
-                    <h3>{asignatura.nombre} ({asignatura.curso_academico})</h3>
+                    <h1>{asignatura.nombre} ({asignatura.curso_academico})</h1>
                     <div>
+                        <h2>¿Que deseas hacer?</h2>
                         <button type="button" onClick={() => setShowAlumnos(!showAlumnos)}>
                             {
                                 showAlumnos === false ? <>Mostrar alumnos</> : <>Ocultar alumnos</>
                             }
                         </button>
-                        {
-                            showAlumnos === true &&
-                            <ul>
-                                {
-                                asignatura.estudiantes.map((alumno) => {
-                                    if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
-                                        return(
-                                            <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2} ({alumno.email})</li>
-                                        )
-                                    }
-                                    else{
-                                        return(
-                                            <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</li>
-                                        )
-                                    }
-                                })
-                            }
-                            </ul>
-                        }
-                        {
-                            showAlumnos === false &&
-                            <>
-                                <br/>
-                                <br/>
-                            </>
-                        }
-                    </div>
-                    <div>
                         <button type="button" onClick={() => {
                             const curso_aux = asignatura.curso_academico.split(" ")[1].split("-")[1];
 
@@ -213,13 +186,32 @@ function AsignaturaDocentePage() {
                                 asignatura.ordinaria_firmada === false ? <>Calificar convocatoria ordinaria</> : <>Calificar convocatoria extraordinaria</>
                             }
                         </button>
-                        <br/>
-                        <br/>
                         <button type="button" onClick={() => {
                             Cookie.remove("TFG_conv");
 
                             globalThis.location.href =  "/mostrarAsignaturas";
                         }}>Volver</button>
+                    </div>
+                    <div>
+                        {
+                            showAlumnos === true &&
+                            <ul>
+                                {
+                                asignatura.estudiantes.map((alumno) => {
+                                    if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
+                                        return(
+                                            <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2} ({alumno.email})</li>
+                                        )
+                                    }
+                                    else{
+                                        return(
+                                            <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</li>
+                                        )
+                                    }
+                                })
+                            }
+                            </ul>
+                        }
                     </div>
                 </div>
             }

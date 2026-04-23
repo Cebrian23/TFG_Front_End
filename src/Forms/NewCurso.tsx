@@ -197,7 +197,7 @@ function NewCurso() {
     }
     
     return(
-        <div className="">
+        <div className="grid_group_Curso">
             <form className="newCurso">
                 <h1>Registro de un curso</h1>
                 <div className="column">

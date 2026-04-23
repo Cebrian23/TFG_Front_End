@@ -1,22 +1,22 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import Login from './Forms/Login'
-import NewPersona from './Forms/NewPersona'
-import NewTitulacion from './Forms/NewTitulacion'
-import NewAsignatura from './Forms/NewAsignatura'
-import NewCurso from './Forms/NewCurso'
-import NewTFM from './Forms/NewTFM'
-import UserPage from './Pages/UserPage'
-import UpdateUser from './Forms/UpdateUser'
-import ShowTitulaciones from './Pages/ShowTitulaciones'
-import ShowAsignaturasTitulacion from './Pages/ShowAsignaturasTitulacion'
-import ShowAsignaturasImpartidas from './Pages/ShowAsignaturasImpartidas'
-import ShowCursos from './Pages/ShowCursos'
-import TitulacionPage from './Pages/TitulacionPage'
-import CursoPage from './Pages/CursoPage'
-import AsignaturaTitulacionPage from './Pages/AsignaturaTitulacionPage'
-import AsignaturaDocentePage from './Pages/AsignaturaDocentePage'
-import NewNotas from './Forms/NewNotas'
+import Login from './Forms/Login.tsx';
+import NewAsignatura from './Forms/NewAsignatura.tsx';
+import NewCurso from './Forms/NewCurso.tsx';
+import NewNotas from './Forms/NewNotas.tsx';
+import NewPersona from './Forms/NewPersona.tsx';
+import NewTFM from './Forms/NewTFM.tsx';
+import NewTitulacion from './Forms/NewTitulacion.tsx';
+import UpdateUser from './Forms/UpdateUser.tsx';
+import AsignaturaDocentePage from './Pages/AsignaturaDocentePage.tsx';
+import AsignaturaTitulacionPage from './Pages/AsignaturaTitulacionPage.tsx';
+import CursoPage from './Pages/CursoPage.tsx';
+import ShowAsignaturasImpartidas from './Pages/ShowAsignaturasImpartidas.tsx';
+import ShowAsignaturasTitulacion from './Pages/ShowAsignaturasTitulacion.tsx';
+import ShowCursos from './Pages/ShowCursos.tsx';
+import ShowTitulaciones from './Pages/ShowTitulaciones.tsx';
+import TitulacionPage from './Pages/TitulacionPage.tsx';
+import UserPage from './Pages/UserPage.tsx';
 
 function App() {
   return (

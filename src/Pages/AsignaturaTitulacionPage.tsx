@@ -95,8 +95,6 @@ function AsignaturaTitulacionPage() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            console.log(data_asig);
-
             setAsignatura(data_asig);
         }
 
@@ -110,22 +108,16 @@ function AsignaturaTitulacionPage() {
                 <div>
                     <h1>Página de {asignatura.nombre}</h1>
                     <div>
-                        <p><b>Nombre: </b>{asignatura.nombre}</p>
-                    </div>
-                    <div>
-                        <p><b>Titulación: </b>{titulacion}</p>
-                    </div>
-                    <div>
-                        <p><b>Curso: </b>{asignatura.curso}</p>
-                    </div>
-                    <div>
-                        <p><b>Créditos: </b>{asignatura.creditos}</p>
-                    </div>
-                    <div>
-                        <p><b>Optatividad: </b>{asignatura.optatividad}</p>
-                    </div>
-                    <div>
+                        <h2>¿Que deseas hacer?</h2>
                         <button type="button" onClick={() => setShowCursos(!showCursos)}>{showCursos === false ? <>Mostrar cursos académicos</> : <>Ocultar cursos académicos</>}</button>
+                        <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                    </div>
+                    <div>
+                        <p><b>Nombre: </b>{asignatura.nombre}</p>
+                        <p><b>Titulación: </b>{titulacion}</p>
+                        <p><b>Curso: </b>{asignatura.curso}</p>
+                        <p><b>Créditos: </b>{asignatura.creditos}</p>
+                        <p><b>Optatividad: </b>{asignatura.optatividad}</p>
                         {
                             showCursos === true && asignatura.cursos_academicos.length === 1 &&
                             <p>
@@ -155,11 +147,6 @@ function AsignaturaTitulacionPage() {
                             </>
                         }
                     </div>
-                    {
-                        showCursos === false &&
-                        <br/>
-                    }
-                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
                 </div>
             }
         </>

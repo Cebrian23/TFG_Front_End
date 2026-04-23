@@ -5,6 +5,8 @@ import type { Administrativo_Short } from "../types/Personas/Administrativo.ts";
 
 function CursoPage() {
     const [curso, setCurso] = useState<Asignatura_curso>();
+    const [showProfesores, setShowProfesores] = useState(false);
+    const [showEstudiantes, setShowEstudiantes] = useState(false);
 
     useEffect(() => {
         const getCurso = async () => {
@@ -107,8 +109,7 @@ function CursoPage() {
             if(curso_exists === undefined){
                 globalThis.location.href = "/paginaPersonal";
             }
-
-            console.log(curso_exists[0].estudiantes)
+            
             setCurso(curso_exists[0]);
         }
 
@@ -122,14 +123,16 @@ function CursoPage() {
                 <div>
                     <h1>Página de {curso.nombre} ({curso.curso_academico})</h1>
                     <div>
+                        <h2>¿Que deseas hacer?</h2>
+                        <button type="button" onClick={() => setShowProfesores(!showProfesores)}>{showProfesores === false ? "Mostrar profesores" : "Ocultar profesores"}</button>
+                        <button type="button" onClick={() => setShowEstudiantes(!showEstudiantes)}>{showEstudiantes === false ? "Mostrar estudiantes" : "Ocultar estudiantes"}</button>
+                        <button type="button" onClick={() => globalThis.location.href = "/mostrarCursos"}>Volver</button>
+                    </div>
+                    <div>
                         <p><b>Nombre: </b>{curso.nombre}</p>
-                    </div>
-                    <div>
                         <p><b>Curso académico: </b>{curso.curso_academico}</p>
-                    </div>
-                    <div>
                         {
-                            curso.profesores.length === 1 &&
+                            showProfesores === true && curso.profesores.length === 1 &&
                             <p>
                                 <b>Profesor: </b>
                                 {
@@ -149,7 +152,7 @@ function CursoPage() {
                             </p>
                         }
                         {
-                            curso.profesores.length > 1 &&
+                            showProfesores === true && curso.profesores.length > 1 &&
                             <>
                                 <p><b>Profesores:</b></p>
                                 <ul>
@@ -170,10 +173,8 @@ function CursoPage() {
                                 </ul>
                             </>
                         }
-                    </div>
-                    <div>
                         {
-                            curso.estudiantes.length === 1 &&
+                            showEstudiantes === true && curso.estudiantes.length === 1 &&
                             <p>
                                 <b>Estudiante: </b>
                                 {
@@ -193,7 +194,7 @@ function CursoPage() {
                             </p>
                         }
                         {
-                            curso.estudiantes.length > 1 &&
+                            showEstudiantes === true && curso.estudiantes.length > 1 &&
                             <>
                                 <p><b>Estudiantes:</b></p>
                                 <ul>
@@ -215,7 +216,6 @@ function CursoPage() {
                             </>
                         }
                     </div>
-                    <button type="button" onClick={() => globalThis.location.href = "/mostrarCursos"}>Volver</button>
                 </div>
             }
         </>

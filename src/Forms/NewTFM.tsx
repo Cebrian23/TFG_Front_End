@@ -271,7 +271,7 @@ function NewTFM() {
     }
 
     return(
-        <div className="grid_group">
+        <div className="grid_group_TFM">
             <form className="newTFM">
                 <h1>Registro de TFM</h1>
                 {

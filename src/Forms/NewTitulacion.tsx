@@ -153,7 +153,7 @@ function NewTitulacion() {
     }
 
     return(
-        <div className="grid_group">
+        <div className="grid_group_Titulacion">
             <form className="newTitulacion">
                 <h1>Registro de una titulacion</h1>
                 <div className="column">
