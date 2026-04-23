@@ -1,8 +1,151 @@
-.show {
+.show{
     border: 1px black solid;
     justify-content: center;
     width: 25%;
     margin: 1%;
+}
+
+.showAsigs_Titulacion, .showCursos, .showTitulaciones{
+    margin-left: auto;
+    margin-right: auto;
+    place-items: center;
+    display: grid;
+    grid-template-rows: 1fr 9fr 1fr;
+}
+
+.grid_titulaciones1{
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        width: 80%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_titulaciones2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        width: 80%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_titulaciones3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;    
+    .cards{
+        border: 1px black solid;
+        width: 80%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_asigs_titulacion1{
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        width: 80%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_asigs_titulacion2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        width: 80%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_asigs_titulacion3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;    
+    .cards{
+        border: 1px black solid;
+        width: 80%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_cursos1{
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        width: 125%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_cursos2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        width: 125%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
+}
+
+.grid_cursos3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;    
+    .cards{
+        border: 1px black solid;
+        width: 125%;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 4%;
+    }
 }
 
 .data{
@@ -26,6 +169,20 @@
     tr{
         border: 1px solid black;
     }
+}
+
+.Asigs_Imp_Pages{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25dvb;
+    place-items: center;
+}
+
+.Titulaciones_Pages{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25dvb;
+    place-items: center;
 }
 
 .userPageShow{

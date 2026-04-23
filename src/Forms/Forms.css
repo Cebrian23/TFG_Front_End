@@ -1,6 +1,27 @@
-.grid_group{
+.grid_group_Titulacion{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5dvh;
+    place-items: center;
+}
+
+.grid_group_Curso{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20dvh;
+    place-items: center;
+}
+
+.grid_group_TFM{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    place-items: center;
 }
 
 .login, .new{
@@ -10,10 +31,17 @@
     place-items: center;
 }
 
+.newPersona{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15dvh;
+    place-items: center;
+}
+
 .upt{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10dvh;
+    margin-top: 15dvh;
     place-items: center;
 }
 
