@@ -185,6 +185,42 @@
     place-items: center;
 }
 
+.TitulacionPage, .AsignaturaTitulacionPage, .AsignaturaImpPage, .CursoPage{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5dvb;
+    place-items: center;
+}
+
+.TitulacionPageMenu, .AsignaturaTitulacionPageMenu, .AsignaturaImpPageMenu, .CursoPageMenu{
+    border: 1px black solid;
+    margin-top: 5dvb;
+    width: 20%;
+    h1, h2, h3{
+        text-align: center;
+    }
+}
+
+.infoPage{
+    margin-top: 5dvb;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2%;
+    label{
+        margin: 1%;
+    }
+    select{
+        margin: 1%;
+    }
+    input{
+        margin: 1%;
+    }
+}
+
 .userPageShow{
     margin-left: auto;
     margin-right: auto;
