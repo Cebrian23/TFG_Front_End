@@ -76,17 +76,19 @@ function TitulacionPage() {
         <>
             {
                 titulacion !== undefined &&
-                <div>
+                <div className="TitulacionPage">
                     <h1>Página de {titulacion.nombre}</h1>
-                    <div>
+                    <div className="TitulacionPageMenu">
                         <h2>¿Que deseas hacer?</h2>
-                        <button type="button" onClick={() => setShowUnis(!showUnis)}>{showUnis === false ? <>Mostrar universidades involucradas</> : <>Ocultar universidades involucradas</>}</button>
-                        <button type="button" onClick={() => setShowGrados(!showGrados)}>{showGrados === false ? <>Mostrar cursos requeridos</> : <>Ocultar cursos requeridos</>}</button>
-                        <button type="button" onClick={() => setShowAsigs(!showAsigs)}>{showAsigs === false ? <>Mostrar asignaturas</> : <>Ocultar asignaturas</>}</button>
-                        <button type="button" onClick={() => setShowTFM(!showTFM)}>{showTFM === false ? <>Mostrar datos del TFM</> : <>Ocultar datos del TFM</>}</button>
-                        <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
+                        <div className="column">
+                            <button type="button" onClick={() => setShowUnis(!showUnis)}>{showUnis === false ? <>Mostrar universidades involucradas</> : <>Ocultar universidades involucradas</>}</button>
+                            <button type="button" onClick={() => setShowGrados(!showGrados)}>{showGrados === false ? <>Mostrar cursos requeridos</> : <>Ocultar cursos requeridos</>}</button>
+                            <button type="button" onClick={() => setShowAsigs(!showAsigs)}>{showAsigs === false ? <>Mostrar asignaturas</> : <>Ocultar asignaturas</>}</button>
+                            <button type="button" onClick={() => setShowTFM(!showTFM)}>{showTFM === false ? <>Mostrar datos del TFM</> : <>Ocultar datos del TFM</>}</button>
+                            <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
+                        </div>
                     </div>
-                    <div>
+                    <div className="infoPage">
                         <p><b>Nombre de la titulación: </b>{titulacion.nombre}</p>
                         {
                             showUnis === true && titulacion.universidades.length === 1 &&
@@ -117,10 +119,6 @@ function TitulacionPage() {
                             </>
                         }
                         {
-                            showUnis === false &&
-                            <br/>
-                        }
-                        {
                             showGrados === true && titulacion.grados_aptos.length === 1 &&
                             <p>
                                 <b>Grado requerido para optar a la titulación: </b>
@@ -147,11 +145,7 @@ function TitulacionPage() {
                                     }
                                 </ul>
                             </>
-                        }
-                        {
-                            showGrados === false &&
-                            <br/>
-                        }    
+                        } 
                         {
                             showAsigs === true && titulacion.asignaturas.length === 1 &&
                             <p>
@@ -179,10 +173,6 @@ function TitulacionPage() {
                                     }
                                 </ul>
                             </>
-                        }
-                        {
-                            showAsigs === false &&
-                            <br/>
                         }
                         {
                             showTFM === true &&

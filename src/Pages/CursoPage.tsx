@@ -120,15 +120,17 @@ function CursoPage() {
         <>    
             {
                 curso !== undefined &&
-                <div>
+                <div className="CursoPage">
                     <h1>Página de {curso.nombre} ({curso.curso_academico})</h1>
-                    <div>
+                    <div className="CursoPageMenu">
                         <h2>¿Que deseas hacer?</h2>
-                        <button type="button" onClick={() => setShowProfesores(!showProfesores)}>{showProfesores === false ? "Mostrar profesores" : "Ocultar profesores"}</button>
-                        <button type="button" onClick={() => setShowEstudiantes(!showEstudiantes)}>{showEstudiantes === false ? "Mostrar estudiantes" : "Ocultar estudiantes"}</button>
-                        <button type="button" onClick={() => globalThis.location.href = "/mostrarCursos"}>Volver</button>
+                        <div className="column">
+                            <button type="button" onClick={() => setShowProfesores(!showProfesores)}>{showProfesores === false ? "Mostrar profesores" : "Ocultar profesores"}</button>
+                            <button type="button" onClick={() => setShowEstudiantes(!showEstudiantes)}>{showEstudiantes === false ? "Mostrar estudiantes" : "Ocultar estudiantes"}</button>
+                            <button type="button" onClick={() => globalThis.location.href = "/mostrarCursos"}>Volver</button>
+                        </div>
                     </div>
-                    <div>
+                    <div className="infoPage">
                         <p><b>Nombre: </b>{curso.nombre}</p>
                         <p><b>Curso académico: </b>{curso.curso_academico}</p>
                         {

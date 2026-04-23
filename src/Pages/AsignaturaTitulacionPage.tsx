@@ -105,14 +105,16 @@ function AsignaturaTitulacionPage() {
         <>
             {
                 asignatura !== undefined &&
-                <div>
+                <div className="AsignaturaTitulacionPage">
                     <h1>Página de {asignatura.nombre}</h1>
-                    <div>
+                    <div className="AsignaturaTitulacionPageMenu">
                         <h2>¿Que deseas hacer?</h2>
-                        <button type="button" onClick={() => setShowCursos(!showCursos)}>{showCursos === false ? <>Mostrar cursos académicos</> : <>Ocultar cursos académicos</>}</button>
-                        <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                        <div className="column">
+                            <button type="button" onClick={() => setShowCursos(!showCursos)}>{showCursos === false ? <>Mostrar cursos académicos</> : <>Ocultar cursos académicos</>}</button>
+                            <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                        </div>
                     </div>
-                    <div>
+                    <div className="infoPage">
                         <p><b>Nombre: </b>{asignatura.nombre}</p>
                         <p><b>Titulación: </b>{titulacion}</p>
                         <p><b>Curso: </b>{asignatura.curso}</p>
