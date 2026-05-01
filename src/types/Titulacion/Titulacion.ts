@@ -1,9 +1,9 @@
-import type { Asignatura_Short } from "../Asignaturas/Asignatura"
-import type { TFM_Block_Short } from "../Asignaturas/TFM"
-import type { Administrativo_Short } from "../Personas/Administrativo"
-import type { Coordinador_Short } from "../Personas/Coordinador"
-import type { Estudiante_Short } from "../Personas/Estudiante"
-import type { Profesor_Short } from "../Personas/Profesor"
+import type { Asignatura_Short } from "../Asignaturas/Asignatura.ts";
+import type { TFM_Block_Short } from "../Asignaturas/TFM.ts";
+import type { Administrativo_Short } from "../Personas/Administrativo.ts";
+import type { Coordinador_Short } from "../Personas/Coordinador.ts";
+import type { Estudiante_Short } from "../Personas/Estudiante.ts";
+import type { Profesor_Short } from "../Personas/Profesor.ts";
 
 export type Titulacion = {
     id: string,

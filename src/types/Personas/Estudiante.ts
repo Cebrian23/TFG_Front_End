@@ -1,5 +1,5 @@
-import type { Asignatura_alumno } from "../Asignaturas/Asignatura"
-import type { TFM_alumno } from "../Asignaturas/TFM"
+import type { Asignatura_alumno } from "../Asignaturas/Asignatura.ts";
+import type { TFM_alumno } from "../Asignaturas/TFM.ts";
 
 export type Estudiante = {
     id: string,

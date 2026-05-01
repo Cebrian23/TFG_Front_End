@@ -1,7 +1,7 @@
-import type { Coordinador_Short } from "../Personas/Coordinador"
-import type { Estudiante_Short } from "../Personas/Estudiante"
-import type { Profesor_Short } from "../Personas/Profesor"
-import type { Convocatoria } from "./Convocatoria"
+import type { Coordinador_Short } from "../Personas/Coordinador.ts";
+import type { Estudiante_Short } from "../Personas/Estudiante.ts";
+import type { Profesor_Short } from "../Personas/Profesor.ts";
+import type { Convocatoria } from "./Convocatoria.ts";
 
 export type TFM_Block = {
     id: string,

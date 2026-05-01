@@ -1,6 +1,6 @@
-import type { Coordinador_Short } from "../Personas/Coordinador"
-import type { Estudiante_Short } from "../Personas/Estudiante"
-import type { Profesor_Short } from "../Personas/Profesor"
+import type { Coordinador_Short } from "../Personas/Coordinador.ts";
+import type { Estudiante_Short } from "../Personas/Estudiante.ts";
+import type { Profesor_Short } from "../Personas/Profesor.ts";
 
 export type Asignatura = {
     id: string,

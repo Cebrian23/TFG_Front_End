@@ -1,4 +1,4 @@
-import type { Titulacion_Short } from "../Titulacion/Titulacion";
+import type { Titulacion_Short } from "../Titulacion/Titulacion.ts";
 
 export type Administrativo = {
     id: string,
