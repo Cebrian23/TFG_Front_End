@@ -31,6 +31,13 @@
     place-items: center;
 }
 
+.newNotas{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10dvh;
+    place-items: center;
+}
+
 .newPersona{
     margin-left: auto;
     margin-right: auto;
@@ -136,6 +143,16 @@
     button{
         margin-left: 1%;
         margin-right: 1%;
+    }
+}
+
+.buttonsNotas{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    button{
+        margin-left: 5%;
+        margin-right: 5%;
     }
 }
 
