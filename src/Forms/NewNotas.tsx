@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
+import type { Alumno, Asignatura_curso_short, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
 
 function NewNotas() {
-    //cconst [calificados, setCalificados] = useState([])
+    const [estudiantes, setEstudiantes] =useState<
+        {
+            alumno: string,
+            presentado: boolean,
+            nota: (string | number),
+        }[]
+    >([]);
 
-    const [alumnos, setAlumnos] = useState([]);
+    const [alumnos, setAlumnos] = useState<Alumno[]>([]);
+    const [asignatura, setAsignatura] = useState("");
+    const [curso, setCurso] = useState("")
     const [convocatoria, setConvocatoria] = useState("");
 
     useEffect(() => {
@@ -52,6 +61,8 @@ function NewNotas() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
+            const data_titulacion = await response_titulacion.json();
+
             const TFG_asig = Cookie.get("TFG_asig");
 
             if(TFG_asig === undefined){
@@ -70,7 +81,20 @@ function NewNotas() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            //const data_asig = await response_asig.json();
+            const data_asig = await response_asig.json();
+            const asig_exists: Asignatura_Short | undefined = data_titulacion.asignaturas.find((asignatura: Asignatura_Short) => {
+                if(asignatura.id === data_asig.id){
+                    return asignatura;
+                }
+            });
+
+            if(asig_exists === undefined){
+                alert("La asignatura no existe en la titulación");
+
+                globalThis.location.href = "/mostrarAsignaturas";
+            }
+
+            setAsignatura(data_asig.id);
 
             const TFG_curso = Cookie.get("TFG_curso");
 
@@ -90,7 +114,20 @@ function NewNotas() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            //const data_curso = await response_curso.json();
+            const data_curso = await response_curso.json();
+            const curso_exists: Asignatura_curso_short | undefined = data_asig.cursos_academicos.find((curso: Asignatura_curso_short) => {
+                if(curso.id === data_curso.id){
+                    return curso;
+                }
+            });
+
+            if(curso_exists === undefined){
+                alert("No existe este curso en la asignatura");
+
+                globalThis.location.href = "/mostrarAsignaturas";
+            }
+
+            setCurso(data_curso.id);
 
             const TFG_conv = Cookie.get("TFG_conv");
 
@@ -99,44 +136,234 @@ function NewNotas() {
             }
 
             setConvocatoria(TFG_conv!);
-            setAlumnos([])
+
+            const estudiantes_aux: {
+                alumno: string,
+                presentado: boolean,
+                nota: (string | number),
+            }[] = [];
+
+            if(TFG_conv === "Ordinaria"){
+                if(data_curso.ordinaria_firmada === true){
+                    alert("No puedes calificar una convocatoria ya cerrada");
+                }
+                else{
+                    setAlumnos(data_curso.alumnos_ordinaria);
+                    data_curso.alumnos_ordinaria.forEach((alumno: Alumno) => {
+                        estudiantes_aux.push(
+                            {
+                                alumno: alumno.estudiante.id,
+                                presentado: false,
+                                nota: "No presentado",
+                            }
+                        );
+                    });
+                }
+            }
+            else if(TFG_conv === "Extraordinaria"){
+                if(data_curso.extraordinaria_firmada === true){
+                    alert("No puedes calificar una convocatoria ya cerrada");
+                }
+                else{
+                    setAlumnos(data_curso.alumnos_extraordinaria);
+                    data_curso.alumnos_ordinaria.forEach((alumno: Alumno) => {
+                        estudiantes_aux.push(
+                            {
+                                alumno: alumno.estudiante.id,
+                                presentado: false,
+                                nota: "No presentado",
+                            }
+                        );
+                    });
+                }
+            }
+
+            setEstudiantes(estudiantes_aux);
         }
 
         getAlumnos();
-    },[]);
+    }, []);
 
-    const handleCalificar = () => {
-        //
+    const handlePresentado = (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>, user: string) => {
+        const estudiantes_aux: {
+            alumno: string,
+            presentado: boolean,
+            nota: (string | number),
+        }[] = []
+
+        estudiantes.forEach((alumno) => {
+            if(alumno.alumno === user){
+                if(e.currentTarget.value === "Si"){
+                    estudiantes_aux.push(
+                        {
+                            alumno: alumno.alumno,
+                            presentado: true,
+                            nota: 5,
+                        }
+                    );
+                }
+                else if(e.currentTarget.value === "No"){
+                    estudiantes_aux.push(
+                        {
+                            alumno: alumno.alumno,
+                            presentado: false,
+                            nota: "No presentado"
+                        }
+                    );
+                }
+            }
+            else{
+                estudiantes_aux.push(alumno);
+            }
+
+            setEstudiantes(estudiantes_aux);
+        });
+    }
+
+    const handleCalificar = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>, user: string) => {
+        
+        const estudiantes_aux: {
+            alumno: string,
+            presentado: boolean,
+            nota: (string | number),
+        }[] = []
+
+        estudiantes.forEach((alumno) => {
+            if(alumno.alumno === user){
+                if(Number(e.currentTarget.value) >= 10){
+                    estudiantes_aux.push(
+                        {
+                            alumno: alumno.alumno,
+                            presentado: alumno.presentado,
+                            nota: 10,
+                        }
+                    );
+                }
+                else{
+                    estudiantes_aux.push(
+                        {
+                            alumno: alumno.alumno,
+                            presentado: alumno.presentado,
+                            nota: Number(e.currentTarget.value),
+                        }
+                    );
+                }
+            }
+            else{
+                estudiantes_aux.push(alumno);
+            }
+
+            setEstudiantes(estudiantes_aux);
+        });
+    }
+
+    const handleSend = async () => {
+        const url_notas = `http://localhost:4000/curso/convocatoria/notas`;
+        const response_notas = await fetch(url_notas, {
+            method: "POST",
+            body: JSON.stringify(
+                {
+                    asignatura: asignatura,
+                    curso: curso,
+                    convocatoria: convocatoria,
+                    notas: estudiantes,
+                }
+            ),
+        });
+
+        if(response_notas.status !== 200){
+            const error = await response_notas.json();
+            
+            alert(error.error);
+        }
+        else{
+            const data = await response_notas.json();
+
+            alert(data.message);
+
+            globalThis.location.href = "/paginaPersonal";
+        }
     }
 
     return(
         <div>
             <h3>Calificación de la convocatoria {convocatoria.toLowerCase()}</h3>
             {
-                alumnos !== undefined &&
+                alumnos !== undefined && alumnos.length > 0 &&
                 <>
                     <table className="tablaNotas">
-                        <tr>
-                            <th>Nombre completo</th>
-                            <th>Email</th>
-                            <th>DNI</th>
-                            <th>Presentado</th>
-                            <th>Calificacion</th>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Nombre completo</th>
+                                <th>Email</th>
+                                <th>DNI</th>
+                                <th>Presentado</th>
+                                <th>Calificacion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                alumnos.map((alumno) => {
+                                    const estudiante = estudiantes.find((estudiante) => {
+                                        if(alumno.estudiante.id === estudiante.alumno){
+                                            return estudiante;
+                                        }
+                                    })
+
+                                    if(estudiante === undefined){
+                                        alert("Estudiante no encontrado");
+
+                                        globalThis.location.href = "/paginaAsignatura";
+                                    }
+
+                                    return(
+                                        <tr key={alumno.estudiante.id}>
+                                            <td>
+                                                {
+                                                    alumno.estudiante.apellido_2 !== undefined && alumno.estudiante.apellido_2 !== null && alumno.estudiante.apellido_2.trim() !== "" && 
+                                                    <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1} {alumno.estudiante.apellido_2}</>
+                                                }
+                                                {
+                                                    (alumno.estudiante.apellido_2 === undefined || alumno.estudiante.apellido_2 === null || alumno.estudiante.apellido_2.trim() === "") && 
+                                                    <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1}</>
+                                                }
+                                            </td>
+                                            <td>
+                                                {alumno.estudiante.email}
+                                            </td>
+                                            <td>
+                                                {alumno.estudiante.DNI}
+                                            </td>
+                                            <td>
+                                                <select defaultValue={estudiante!.presentado === true ? "Si" : "No"} onChange={(e) => {
+                                                    handlePresentado(e, estudiante!.alumno);
+                                                }}>
+                                                    <option value="No">No</option>
+                                                    <option value="Si">Si</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                {
+                                                    estudiante!.presentado === false &&
+                                                    <p>No presentado</p>
+                                                }
+                                                {
+                                                    estudiante!.presentado === true &&
+                                                    <input type="number" min={0} defaultValue={estudiante!.nota} max={10} step="0.1" onChange={(e) => handleCalificar(e, estudiante!.alumno)}/>
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
                     </table>
                     <br/>
                 </>
             }
             <div>
                 <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Volver</button>
-                <button type="button" disabled={alumnos === undefined ? true : false} onClick={handleCalificar}>Enviar</button>
+                <button type="button" disabled={alumnos === undefined ? true : false} onClick={handleSend}>Enviar</button>
             </div>
         </div>
     );
