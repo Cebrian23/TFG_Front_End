@@ -160,14 +160,21 @@
 }
 
 .tablaNotas{
+    border-collapse: collapse;
     td{
+        padding: 3px;
         border: 1px solid black;
     }
     th{
+        padding: 3px;
         border: 1px solid black;
     }
     tr{
         border: 1px solid black;
+    }
+    select{
+        width: 100%;
+        border: white;
     }
 }
 
