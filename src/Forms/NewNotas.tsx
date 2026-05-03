@@ -286,8 +286,8 @@ function NewNotas() {
     }
 
     return(
-        <div>
-            <h3>Calificación de la convocatoria {convocatoria.toLowerCase()}</h3>
+        <div className="newNotas">
+            <h1>Calificación de la convocatoria {convocatoria.toLowerCase()}</h1>
             {
                 alumnos !== undefined && alumnos.length > 0 &&
                 <>
@@ -361,7 +361,7 @@ function NewNotas() {
                     <br/>
                 </>
             }
-            <div>
+            <div className="buttonsNotas">
                 <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Volver</button>
                 <button type="button" disabled={alumnos === undefined ? true : false} onClick={handleSend}>Enviar</button>
             </div>
