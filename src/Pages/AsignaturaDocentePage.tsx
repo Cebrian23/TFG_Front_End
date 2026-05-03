@@ -83,7 +83,7 @@ function AsignaturaDocentePage() {
                 const error = await response_asig.json();
                 alert(error.error);
 
-                globalThis.location.href = "/paginaPersonal";
+                globalThis.location.href = "/mostrarAsignaturas";
             }
             
             const data_asig = await response_asig.json();
