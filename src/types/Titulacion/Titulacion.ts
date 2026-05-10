@@ -13,6 +13,10 @@ export type Titulacion = {
     cursos: number,
     convocatorias_disponibles: number,
     asignaturas: Asignatura_Short[],
+    requisitos_TFM: {
+        creditos_obligatorios: number,
+        creditos_optativos: number,
+    },
     TFM: TFM_Block_Short,
     administrativos: Administrativo_Short[],
     docentes: (Coordinador_Short | Profesor_Short)[],
@@ -26,6 +30,8 @@ export type Titulacion_ins = {
     cursos: number,
     convocatorias: number,
     asignaturas?: {nombre: string, curso: string, creditos: number}[],
+    creditos_obligatorios: number,
+    creditos_optativos: number,
     creditos_TFM: number,
     administrativo: string,
 }
