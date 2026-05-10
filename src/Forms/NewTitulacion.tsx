@@ -15,7 +15,9 @@ function NewTitulacion() {
     const [nombre_asig, setNombreAsig] = useState("");
     const [curso_asig, setCursoAsig] = useState(1);
     const [creditos_asig, setCreditosAsig] = useState(4);
-    const [optatividad_asig, setOptatividadAsig] = useState("Obligatoria")
+    const [optatividad_asig, setOptatividadAsig] = useState("Obligatoria");
+    const [creditos_asig_oblig, setCreditosAsigOblig] = useState(30);
+    const [creditos_asig_opt, setCreditosAsigOpt] = useState(30);
     const [asignaturas, setAsignaturas] = useState<Asignatura_titulacion_ins[]>([]);
     const [convocatorias, setConvocatorias] = useState(4);
 
@@ -23,6 +25,8 @@ function NewTitulacion() {
     const [universidadesError, setUniversidadesError] = useState("");
     const [gradosError, setGradosError] = useState("");
     const [asignaturaError, setAsignaturaError] = useState("");
+
+    const [buttonAction, setButtonAction] = useState(false);
 
     useEffect(() => {
         const Verification = async () => {
@@ -71,6 +75,8 @@ function NewTitulacion() {
         setCursoAsig(1);
         setCreditosAsig(4);
         setAsignaturas([]);
+        setCreditosAsigOblig(30);
+        setCreditosAsigOpt(30);
 
         setNombreError("");
         setUniversidadesError("");
@@ -79,6 +85,8 @@ function NewTitulacion() {
     }
 
     const handleCreation = async () => {
+        setButtonAction(!buttonAction);
+
         let error_exists = false;
         
         if(nombre.trim() === ""){
@@ -104,6 +112,8 @@ function NewTitulacion() {
                 cursos: cursos,
                 convocatorias: convocatorias,
                 administrativo: auth,
+                creditos_obligatorios: creditos_asig_oblig,
+                creditos_optativos: creditos_asig_opt,
                 creditos_TFM: creditosTFM,
                 asignaturas: asignaturas,
             }
@@ -116,7 +126,10 @@ function NewTitulacion() {
 
             if(response.status !== 200){
                 const error = await response.json();
+
                 alert(error.error);
+                
+                setButtonAction(!buttonAction);
             }
             else{
                 const data = await response.json();
@@ -126,6 +139,9 @@ function NewTitulacion() {
                 
                 globalThis.location.href = "/paginaPersonal";
             }
+        }
+        else{
+            setButtonAction(!buttonAction);
         }
     }
 
@@ -318,12 +334,20 @@ function NewTitulacion() {
                     <div className="error">{asignaturaError}</div>
                 </div>
                 <div className="column">
+                    <label>Creditos obligatorios para presentar el TFM:</label>
+                    <input type="number" defaultValue={creditos_asig_oblig} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
+                </div>
+                <div className="column">
+                    <label>Creditos optativos para presentar el TFM:</label>
+                    <input type="number" defaultValue={creditos_asig_opt} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
+                </div>
+                <div className="column">
                     <label htmlFor="creditos">Creditos TFM:</label>
-                    <input name="creditos" type="number" defaultValue="10" min="1" max="30" onChange={(e) => setCreditos(Math.trunc(Number(e.currentTarget.value)))}/>
+                    <input name="creditos" type="number" defaultValue={creditosTFM} min="1" max="30" onChange={(e) => setCreditos(Math.trunc(Number(e.currentTarget.value)))}/>
                 </div>
                 <div className="buttons">
                     <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
-                    <button type="button" onClick={handleCreation}>Enviar</button>
+                    <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
                 </div>
             </form>
             <div>

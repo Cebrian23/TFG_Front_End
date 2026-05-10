@@ -32,6 +32,8 @@ function UpdateUser() {
     const [passNumError, setPassNumError] = useState("");
     const [passSpaceError, setPassSpaceError] = useState("");
 
+    const [buttonAction, setButtonAction] = useState(false);
+
     useEffect(() => {
         const getUser = async () => {
             const auth = Cookie.get("authTFG");
@@ -121,6 +123,8 @@ function UpdateUser() {
     }
 
     const handleUpdate = async () => {
+        setButtonAction(!buttonAction);
+
         let error_exists = false;
 
         if(nombre.trim() === ""){
@@ -242,15 +246,19 @@ function UpdateUser() {
 
             if(response.status !== 200){
                 const error = await response.json();
-                alert(error.error);
 
-                globalThis.location.href = "/paginaPersonal";
+                alert(error.error);
             }
-            
-            const data = await response.json();
-            alert(data.message);
+            else{
+                const data = await response.json();
+                
+                alert(data.message);
+            }
 
             globalThis.location.href = "/paginaPersonal";
+        }
+        else{
+            setButtonAction(!buttonAction);
         }
     }
 
@@ -381,7 +389,7 @@ function UpdateUser() {
                 <div className="buttons">
                     <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver atras</button>
                     <button type="button" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleUpdate}>Enviar</button>
+                    <button type="button" onClick={handleUpdate} disabled={buttonAction}>Enviar</button>
                 </div>
             </form>
         </div>

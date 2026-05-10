@@ -35,6 +35,8 @@ function NewPersona() {
     const [emailError, setEmailError] = useState("");
     const [phoneError, setPhoneError] = useState("");
 
+    const [buttonAction, setButtonAction] = useState(false);
+
     useEffect(() => {
         const getDatosTitulacion = async () => {
             const id_user = Cookie.get("authTFG");
@@ -129,6 +131,8 @@ function NewPersona() {
     }
 
     const handleNewUser = async () => {
+        setButtonAction(!buttonAction);
+
         let error_exists = false;
 
         if(nombre.trim() === ""){
@@ -254,13 +258,20 @@ function NewPersona() {
 
             if(response.status !== 200){
                 const error = await response.json();
+
                 alert(error.error);
+                
+                setButtonAction(!buttonAction);
             }
             else{
                 const data = await response.json();
                 alert(data.message);
+                
                 globalThis.location.href = "/mostrarTitulaciones"
             }
+        }
+        else{
+            setButtonAction(!buttonAction);
         }
     }
 
@@ -397,7 +408,7 @@ function NewPersona() {
                 <div className="buttons">
                     <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver atras</button>
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleNewUser}>Enviar</button>
+                    <button type="button" onClick={handleNewUser} disabled={buttonAction}>Enviar</button>
                 </div>
             </form>
         </div>

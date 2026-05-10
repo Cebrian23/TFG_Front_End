@@ -21,6 +21,8 @@ function NewCurso() {
     const [alumnosError, setAlumnosError] = useState("");
     const [docentesError, setDocentesError] = useState("");
 
+    const [buttonAction, setButtonAction] = useState(false);
+
     useEffect(() => {
         const getPersonas = async () => {
             const auth = Cookie.get("authTFG");
@@ -159,6 +161,8 @@ function NewCurso() {
     }
 
     const handleCreation = async () => {
+        setButtonAction(!buttonAction);
+
         let error_exists = false;
 
         if(alumnos.length === 0){
@@ -187,12 +191,20 @@ function NewCurso() {
 
             if(response.status !== 200){
                 const error = await response.json();
-                alert(error.error);
-            }
 
-            const data = await response.json();
-            alert(data.message);
-            globalThis.location.href = "/ShowAsignaturasTitulacion"
+                alert(error.error);
+                
+                setButtonAction(!buttonAction);
+            }
+            else{
+                const data = await response.json();
+                alert(data.message);
+                
+                globalThis.location.href = "/ShowAsignaturasTitulacion"
+            }
+        }
+        else{
+            setButtonAction(!buttonAction);
         }
     }
     
@@ -307,7 +319,7 @@ function NewCurso() {
                 <div className="buttons">
                     <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleCreation}>Enviar</button>
+                    <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
                 </div>
             </form>
             <div>

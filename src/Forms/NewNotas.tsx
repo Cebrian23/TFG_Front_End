@@ -16,6 +16,8 @@ function NewNotas() {
     const [curso, setCurso] = useState("")
     const [convocatoria, setConvocatoria] = useState("");
 
+    const [buttonAction, setButtonAction] = useState(false);
+
     useEffect(() => {
         const getAlumnos = async () => {
             const auth = Cookie.get("authTFG");
@@ -146,6 +148,8 @@ function NewNotas() {
             if(TFG_conv === "Ordinaria"){
                 if(data_curso.ordinaria_firmada === true){
                     alert("No puedes calificar una convocatoria ya cerrada");
+
+                    globalThis.location.href = "/paginaAsignatura";
                 }
                 else{
                     setAlumnos(data_curso.alumnos_ordinaria);
@@ -163,6 +167,8 @@ function NewNotas() {
             else if(TFG_conv === "Extraordinaria"){
                 if(data_curso.extraordinaria_firmada === true){
                     alert("No puedes calificar una convocatoria ya cerrada");
+
+                    globalThis.location.href = "/paginaAsignatura";
                 }
                 else{
                     setAlumnos(data_curso.alumnos_extraordinaria);
@@ -178,10 +184,39 @@ function NewNotas() {
                 }
             }
 
+            if(TFG_conv === "Extraordinaria" && data_curso.alumnos_extraordinaria.length === 0){
+                const url_extra = `https://tfg-back-end.onrender.com/curso/convocatoria/notas`;
+               
+                const response_extra = await fetch(url_extra, {
+                    method: "POST",
+                    body: JSON.stringify(
+                        {
+                            asignatura: TFG_asig,
+                            curso: TFG_curso,
+                            convocatoria: TFG_conv,
+                            notas: [],
+                        }
+                    ),
+                });
+
+                if(response_extra.status !== 200){
+                    const error = await response_extra.json();
+
+                    alert(error.error);
+                }
+                else{
+                    const data = await response_extra.json();
+                    
+                    alert(data.message);
+                }
+            }
+
             setEstudiantes(estudiantes_aux);
         }
 
         getAlumnos();
+
+
     }, []);
 
     const handlePresentado = (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>, user: string) => {
@@ -258,7 +293,9 @@ function NewNotas() {
     }
 
     const handleSend = async () => {
-        const url_notas = `http://localhost:4000/curso/convocatoria/notas`;
+        setButtonAction(!buttonAction);
+        
+        const url_notas = `hhttps://tfg-back-end.onrender.com/curso/convocatoria/notas`;
         const response_notas = await fetch(url_notas, {
             method: "POST",
             body: JSON.stringify(
@@ -275,6 +312,8 @@ function NewNotas() {
             const error = await response_notas.json();
             
             alert(error.error);
+            
+            setButtonAction(!buttonAction);
         }
         else{
             const data = await response_notas.json();
@@ -363,7 +402,7 @@ function NewNotas() {
             }
             <div className="buttonsNotas">
                 <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Volver</button>
-                <button type="button" disabled={alumnos === undefined ? true : false} onClick={handleSend}>Enviar</button>
+                <button type="button" disabled={buttonAction} onClick={handleSend}>Enviar</button>
             </div>
         </div>
     );

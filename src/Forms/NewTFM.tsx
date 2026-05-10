@@ -31,6 +31,8 @@ function NewTFM() {
     const [tribunalError, setTribunalError] = useState("");
     const [calificacionError, setCalificacionError] = useState("");
 
+    const [buttonAction, setButtonAction] = useState(false);
+
     useEffect(() => {
         const getPersonas = async () => {
            const auth = Cookie.get("authTFG");
@@ -211,6 +213,8 @@ function NewTFM() {
     }
 
     const handleCreation = async () => {
+        setButtonAction(!buttonAction);
+
         let error_exists = false;
 
         if(nombre.trim() === ""){
@@ -260,13 +264,20 @@ function NewTFM() {
 
             if(response.status !== 200){
                 const error = await response.json();
+
                 alert(error.error);
+                
+                setButtonAction(!buttonAction);
             }
+            else{
+                const data = await response.json();
+                alert(data.message);
 
-            const data = await response.json();
-            alert(data.message);
-
-            globalThis.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaPersonal";
+            }
+        }
+        else{
+            setButtonAction(!buttonAction);
         }
     }
 
@@ -449,7 +460,7 @@ function NewTFM() {
                 <div className="buttons">
                     <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleCreation}>Enviar</button>
+                    <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
                 </div>
             </form>
             <div>

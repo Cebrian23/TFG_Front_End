@@ -16,6 +16,8 @@ function Login() {
     const [emptyError, setEmptyError] = useState("");
     const [validationError, setValidationError] = useState("");
 
+    const [buttonAction, setButtonAction] = useState(false);
+
     useEffect(() => {
         const Verify_Id = () => {
             const auth = Cookie.get("authTFG");
@@ -39,6 +41,8 @@ function Login() {
     }
 
     const handleLogin = async () => {
+        setButtonAction(!buttonAction);
+
         let error_exists = false;
 
         const email_aux = email.trim();
@@ -66,7 +70,10 @@ function Login() {
 
             if(response.status !== 200){
                 const error = await response.json();
+
                 alert(error.error);
+                
+                setButtonAction(!buttonAction);
             }
             else{
                 const data: (Coordinador | Estudiante | Profesor | Administrativo) = await response.json();
@@ -75,6 +82,9 @@ function Login() {
             
                 globalThis.location.href = "/paginaPersonal";
             }
+        }
+        else{
+            setButtonAction(!buttonAction);
         }
     }
     
@@ -105,7 +115,7 @@ function Login() {
                 <div className="error">{emptyError}</div>
                 <div className="buttons">
                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleLogin}>Enviar</button>
+                    <button type="button" onClick={handleLogin} disabled={buttonAction}>Enviar</button>
                 </div>
             </form>
         </div>
