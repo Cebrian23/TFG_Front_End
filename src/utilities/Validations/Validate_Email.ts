@@ -1,4 +1,4 @@
-import type { Email_Ninja } from "../../types/Validaciones/Validaciones";
+import type { Email_Ninja } from "../../types/Validaciones/Validaciones.ts";
 
 export const Validate_Email = async (email: string): Promise<Response> => {
     const API_KEY = import.meta.env.VITE_API_KEY;

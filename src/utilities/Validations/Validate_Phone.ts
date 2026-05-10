@@ -1,4 +1,4 @@
-import type { Phone_Ninja } from "../../types/Validaciones/Validaciones";
+import type { Phone_Ninja } from "../../types/Validaciones/Validaciones.ts";
 
 export const Validate_Phone = async (prefijo: string, numero: string): Promise<Response> => {
     const full_number = prefijo+numero;
