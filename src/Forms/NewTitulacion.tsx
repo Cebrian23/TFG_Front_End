@@ -39,7 +39,7 @@ function NewTitulacion() {
                 setAuth(auth)
             }
 
-            const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
+            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -85,7 +85,7 @@ function NewTitulacion() {
     }
 
     const handleCreation = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
 
         let error_exists = false;
         
@@ -118,7 +118,7 @@ function NewTitulacion() {
                 asignaturas: asignaturas,
             }
 
-            const url = "http://gestor-master-interuniv.deno.dev/titulacion";
+            const url = "https://tfg-back-end.onrender.com/titulacion";
             const response = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(newTitulacion),
@@ -129,7 +129,7 @@ function NewTitulacion() {
 
                 alert(error.error);
                 
-                setButtonAction(!buttonAction);
+                setButtonAction(false);
             }
             else{
                 const data = await response.json();
@@ -141,7 +141,7 @@ function NewTitulacion() {
             }
         }
         else{
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
     }
 

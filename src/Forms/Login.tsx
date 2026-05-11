@@ -41,7 +41,7 @@ function Login() {
     }
 
     const handleLogin = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
 
         let error_exists = false;
 
@@ -73,7 +73,7 @@ function Login() {
 
                 alert(error.error);
                 
-                setButtonAction(!buttonAction);
+                setButtonAction(false);
             }
             else{
                 const data: (Coordinador | Estudiante | Profesor | Administrativo) = await response.json();
@@ -84,7 +84,7 @@ function Login() {
             }
         }
         else{
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
     }
     

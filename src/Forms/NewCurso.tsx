@@ -30,7 +30,7 @@ function NewCurso() {
                 globalThis.location.href = "/login";
             }
 
-            const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
+            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -55,7 +55,7 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_asignatura = `http://gestor-master-interuniv.deno.dev/asignatura?id=${TFG_asig}`;
+            const url_asignatura = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
             const response_asignatura = await fetch(url_asignatura, {
                 method: "GET",
             });
@@ -83,7 +83,7 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${id_titulacion}`;
+            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${id_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -94,7 +94,7 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const urlAlumnos = `http://gestor-master-interuniv.deno.dev/personas/alumnos?titulacion=${id_titulacion}`;
+            const urlAlumnos = `https://tfg-back-end.onrender.com/personas/alumnos?titulacion=${id_titulacion}`;
             const dataAlumnos = await fetch(urlAlumnos,
                 {
                     method: "GET",
@@ -117,7 +117,7 @@ function NewCurso() {
                 setEstudiantes(data);   
             }
 
-            const urlDocentes = `http://gestor-master-interuniv.deno.dev/personas/docentes?titulacion=${id_titulacion}`;
+            const urlDocentes = `https://tfg-back-end.onrender.com/personas/docentes?titulacion=${id_titulacion}`;
             const dataDocentes = await fetch(urlDocentes,
                 {
                     method: "GET",
@@ -161,7 +161,7 @@ function NewCurso() {
     }
 
     const handleCreation = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
 
         let error_exists = false;
 
@@ -194,17 +194,17 @@ function NewCurso() {
 
                 alert(error.error);
                 
-                setButtonAction(!buttonAction);
+                setButtonAction(false);
             }
             else{
                 const data = await response.json();
                 alert(data.message);
                 
-                globalThis.location.href = "/ShowAsignaturasTitulacion"
+                globalThis.location.href = "/mostrarAsignaturasTitulacion"
             }
         }
         else{
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
     }
     

@@ -45,7 +45,7 @@ function NewPersona() {
                 globalThis.location.href = "/login";
             }
             
-            const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${id_user}`;
+            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${id_user}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -74,7 +74,7 @@ function NewPersona() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url = `http://gestor-master-interuniv.deno.dev/titulacion?id=${id_titulacion}`;
+            const url = `https://tfg-back-end.onrender.com/titulacion?id=${id_titulacion}`;
             const response = await fetch(url, {
                 method: "GET"
             });
@@ -131,7 +131,7 @@ function NewPersona() {
     }
 
     const handleNewUser = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
 
         let error_exists = false;
 
@@ -261,7 +261,7 @@ function NewPersona() {
 
                 alert(error.error);
                 
-                setButtonAction(!buttonAction);
+                setButtonAction(false);
             }
             else{
                 const data = await response.json();
@@ -271,7 +271,7 @@ function NewPersona() {
             }
         }
         else{
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
     }
 
@@ -331,6 +331,7 @@ function NewPersona() {
                     <label htmlFor="email">Email:</label>
                     <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
                         setEmail(e.currentTarget.value);
+                        setEmailError("");
                     }} required/>
                     <div className="error">{emailError}</div>
                 </div>

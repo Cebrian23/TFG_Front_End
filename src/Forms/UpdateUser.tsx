@@ -123,7 +123,7 @@ function UpdateUser() {
     }
 
     const handleUpdate = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
 
         let error_exists = false;
 
@@ -248,6 +248,8 @@ function UpdateUser() {
                 const error = await response.json();
 
                 alert(error.error);
+                
+                setButtonAction(false);
             }
             else{
                 const data = await response.json();
@@ -258,7 +260,7 @@ function UpdateUser() {
             globalThis.location.href = "/paginaPersonal";
         }
         else{
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
     }
 

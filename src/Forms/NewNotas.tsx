@@ -51,7 +51,7 @@ function NewNotas() {
                 globalThis.location.href = "/paginaPersonal"
             }
 
-            const url_titulacion = `http://gestor-master-interuniv.deno.dev/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -71,7 +71,7 @@ function NewNotas() {
                 globalThis.location.href = "/mostrarAsignaturas";
             }
 
-            const url_asig = `http://gestor-master-interuniv.deno.dev/asignatura?id=${TFG_asig}`;
+            const url_asig = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
             const response_asig = await fetch(url_asig, {
                 method: "GET",
             });
@@ -293,7 +293,7 @@ function NewNotas() {
     }
 
     const handleSend = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
         
         const url_notas = `hhttps://tfg-back-end.onrender.com/curso/convocatoria/notas`;
         const response_notas = await fetch(url_notas, {
@@ -313,7 +313,7 @@ function NewNotas() {
             
             alert(error.error);
             
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
         else{
             const data = await response_notas.json();

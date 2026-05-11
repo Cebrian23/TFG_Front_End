@@ -23,7 +23,7 @@ function NewAsignatura() {
                 globalThis.location.href = "/login";
             }
             
-            const url_persona = `http://gestor-master-interuniv.deno.dev/persona/id?id=${auth}`;
+            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -49,7 +49,7 @@ function NewAsignatura() {
                 globalThis.location.href = "/paginaPersonal"
             }
 
-            const url = `http://gestor-master-interuniv.deno.dev/titulacion/cursos?id=${id_titulacion}`;
+            const url = `https://tfg-back-end.onrender.com/titulacion/cursos?id=${id_titulacion}`;
             const response = await fetch(url, {
                 method: "GET",
             });
@@ -89,7 +89,7 @@ function NewAsignatura() {
     }
 
     const handleCreation = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
 
         let error_exists = false;
 
@@ -98,7 +98,7 @@ function NewAsignatura() {
             error_exists = true;
         }
 
-        if(error_exists === false){            
+        if(error_exists === false){
             const data: Asignatura_ins = {
                 nombre: nombre,
                 titulacion: titulacion,
@@ -118,7 +118,7 @@ function NewAsignatura() {
 
                 alert(error.error);
                 
-                setButtonAction(!buttonAction);
+                setButtonAction(false);
             }
             else{
                 const data = await response.json();
@@ -128,7 +128,7 @@ function NewAsignatura() {
             }
         }
         else{
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
     }
     

@@ -97,7 +97,7 @@ function NewTFM() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const urlAlumnos = `http://gestor-master-interuniv.deno.dev/personas/alumnos?titulacion=${TFG_titulacion}`;
+            const urlAlumnos = `https://tfg-back-end.onrender.com/personas/alumnos?titulacion=${TFG_titulacion}`;
             const urlDocentes = `https://tfg-back-end.onrender.com/personas/docentes?titulacion=${TFG_titulacion}`;
 
             const dataAlumnos = await fetch(urlAlumnos,
@@ -213,7 +213,7 @@ function NewTFM() {
     }
 
     const handleCreation = async () => {
-        setButtonAction(!buttonAction);
+        setButtonAction(true);
 
         let error_exists = false;
 
@@ -267,7 +267,7 @@ function NewTFM() {
 
                 alert(error.error);
                 
-                setButtonAction(!buttonAction);
+                setButtonAction(false);
             }
             else{
                 const data = await response.json();
@@ -277,7 +277,7 @@ function NewTFM() {
             }
         }
         else{
-            setButtonAction(!buttonAction);
+            setButtonAction(false);
         }
     }
 
