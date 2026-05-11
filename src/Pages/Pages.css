@@ -237,6 +237,7 @@
 
 .userPage{
     border: 1px black solid;
+    border-radius: 5%;
     padding: 1%;
     width: 20%;
     h1, h2, h3{

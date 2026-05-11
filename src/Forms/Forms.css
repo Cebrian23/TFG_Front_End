@@ -41,7 +41,7 @@
 .newPersona{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15dvh;
+    margin-top: 5dvh;
     place-items: center;
 }
 
@@ -52,7 +52,17 @@
     place-items: center;
 }
 
-.loginForm, .registerForm, .newAsignatura, .uptTitulacion{
+.loginForm{
+    border: 1px black solid;
+    border-radius: 5%;
+    padding: 1%;
+    width: 20%;
+    h1, h2, h3{
+        text-align: center;
+    }
+}
+
+.registerForm, .newAsignatura, .uptTitulacion{
     border: 1px black solid;
     padding: 1%;
     width: 20%;
