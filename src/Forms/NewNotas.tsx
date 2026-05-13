@@ -172,7 +172,7 @@ function NewNotas() {
                 }
                 else{
                     setAlumnos(data_curso.alumnos_extraordinaria);
-                    data_curso.alumnos_ordinaria.forEach((alumno: Alumno) => {
+                    data_curso.alumnos_extraordinaria.forEach((alumno: Alumno) => {
                         estudiantes_aux.push(
                             {
                                 alumno: alumno.estudiante.id,
@@ -295,7 +295,7 @@ function NewNotas() {
     const handleSend = async () => {
         setButtonAction(true);
         
-        const url_notas = `hhttps://tfg-back-end.onrender.com/curso/convocatoria/notas`;
+        const url_notas = `https://tfg-back-end.onrender.com/curso/convocatoria/notas`;
         const response_notas = await fetch(url_notas, {
             method: "POST",
             body: JSON.stringify(
