@@ -159,6 +159,7 @@ function NewNotas() {
 
                         if(alumno_DNI_trans === undefined){
                             alert("Error de la página");
+                            globalThis.location.href = "/mostrarAsignaturas"
                         }
 
                         alumnos_conv.push(
@@ -168,7 +169,7 @@ function NewNotas() {
                                     nombre: alumno.estudiante.nombre,
                                     apellido_1: alumno.estudiante.apellido_1,
                                     apellido_2: alumno.estudiante.apellido_2,
-                                    DNI: alumno_DNI_trans,
+                                    DNI: alumno_DNI_trans!,
                                     email: alumno.estudiante.email,
                                     rol: alumno.estudiante.rol,
                                 },
@@ -201,6 +202,7 @@ function NewNotas() {
 
                         if(alumno_DNI_trans === undefined){
                             alert("Error de la página");
+                            globalThis.location.href = "/mostrarAsignaturas"
                         }
 
                         alumnos_conv.push(
@@ -210,7 +212,7 @@ function NewNotas() {
                                     nombre: alumno.estudiante.nombre,
                                     apellido_1: alumno.estudiante.apellido_1,
                                     apellido_2: alumno.estudiante.apellido_2,
-                                    DNI: alumno_DNI_trans,
+                                    DNI: alumno_DNI_trans!,
                                     email: alumno.estudiante.email,
                                     rol: alumno.estudiante.rol,
                                 },

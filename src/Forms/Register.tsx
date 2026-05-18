@@ -172,7 +172,7 @@ const Register = () => {
                 apellido_1: apellido1,
                 email: email,
                 password: passwordCrypt,
-                DNI: dniCrypt,
+                DNI: dniCrypt!,
                 rol: rol,
             }
 
