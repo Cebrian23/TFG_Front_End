@@ -2,6 +2,8 @@ import { useState } from "react";
 import type { Persona_ins } from "../types/Personas/Persona.ts";
 import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
+import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
+import { Encrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 
 const Register = () => {
     const [nombre, setNombre] = useState("");
@@ -152,13 +154,25 @@ const Register = () => {
             error_exists = true;
         }
 
+        const passwordCrypt = Encrypt_Passwords(password1);
+        
+        if(passwordCrypt === undefined){
+            error_exists = true;
+        }
+
+        const dniCrypt = Encrypt_DNI(dni);
+
+        if(dniCrypt === undefined){
+            error_exists = true;
+        }
+
         if(error_exists === false){
             const body: Persona_ins = {
                 nombre: nombre,
                 apellido_1: apellido1,
                 email: email,
-                password: password1,
-                DNI: dni,
+                password: passwordCrypt,
+                DNI: dniCrypt,
                 rol: rol,
             }
 

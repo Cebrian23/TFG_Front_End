@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import type { Alumno, Asignatura_curso_short, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
+import { Decrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 
 function NewNotas() {
     const [estudiantes, setEstudiantes] =useState<
@@ -144,6 +145,7 @@ function NewNotas() {
                 presentado: boolean,
                 nota: (string | number),
             }[] = [];
+            const alumnos_conv: Alumno[] = [];
 
             if(TFG_conv === "Ordinaria"){
                 if(data_curso.ordinaria_firmada === true){
@@ -152,8 +154,31 @@ function NewNotas() {
                     globalThis.location.href = "/paginaAsignatura";
                 }
                 else{
-                    setAlumnos(data_curso.alumnos_ordinaria);
                     data_curso.alumnos_ordinaria.forEach((alumno: Alumno) => {
+                        const alumno_DNI_trans = Decrypt_DNI(alumno.estudiante.DNI);
+
+                        if(alumno_DNI_trans === undefined){
+                            alert("Error de la página");
+                        }
+
+                        alumnos_conv.push(
+                            {
+                                estudiante: {
+                                    id: alumno.estudiante.id,
+                                    nombre: alumno.estudiante.nombre,
+                                    apellido_1: alumno.estudiante.apellido_1,
+                                    apellido_2: alumno.estudiante.apellido_2,
+                                    DNI: alumno_DNI_trans,
+                                    email: alumno.estudiante.email,
+                                    rol: alumno.estudiante.rol,
+                                },
+                                convocatoria_name: alumno.convocatoria_name,
+                                convocatoria_num: alumno.convocatoria_num,
+                                nota: alumno.nota,
+                                tipo: alumno.tipo
+                            }
+                        );
+
                         estudiantes_aux.push(
                             {
                                 alumno: alumno.estudiante.id,
@@ -171,8 +196,31 @@ function NewNotas() {
                     globalThis.location.href = "/paginaAsignatura";
                 }
                 else{
-                    setAlumnos(data_curso.alumnos_extraordinaria);
                     data_curso.alumnos_extraordinaria.forEach((alumno: Alumno) => {
+                        const alumno_DNI_trans = Decrypt_DNI(alumno.estudiante.DNI);
+
+                        if(alumno_DNI_trans === undefined){
+                            alert("Error de la página");
+                        }
+
+                        alumnos_conv.push(
+                            {
+                                estudiante: {
+                                    id: alumno.estudiante.id,
+                                    nombre: alumno.estudiante.nombre,
+                                    apellido_1: alumno.estudiante.apellido_1,
+                                    apellido_2: alumno.estudiante.apellido_2,
+                                    DNI: alumno_DNI_trans,
+                                    email: alumno.estudiante.email,
+                                    rol: alumno.estudiante.rol,
+                                },
+                                convocatoria_name: alumno.convocatoria_name,
+                                convocatoria_num: alumno.convocatoria_num,
+                                nota: alumno.nota,
+                                tipo: alumno.tipo
+                            }
+                        );
+                        
                         estudiantes_aux.push(
                             {
                                 alumno: alumno.estudiante.id,
@@ -183,6 +231,9 @@ function NewNotas() {
                     });
                 }
             }
+
+            setEstudiantes(estudiantes_aux);
+            setAlumnos(alumnos_conv);
 
             if(TFG_conv === "Extraordinaria" && data_curso.alumnos_extraordinaria.length === 0){
                 const url_extra = `https://tfg-back-end.onrender.com/curso/convocatoria/notas`;
@@ -210,8 +261,6 @@ function NewNotas() {
                     alert(data.message);
                 }
             }
-
-            setEstudiantes(estudiantes_aux);
         }
 
         getAlumnos();

@@ -4,6 +4,8 @@ import Cookie from "js-cookie";
 import type { Persona_ins } from "../types/Personas/Persona.ts";
 import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
+import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
+import { Encrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 
 function NewPersona() {
     const [nombre, setNombre] = useState("");
@@ -221,12 +223,26 @@ function NewPersona() {
             }
         }
 
+        const passwordCrypt = Encrypt_Passwords(password);
+
+        if(passwordCrypt === undefined){
+            alert("Error al procesar");
+            error_exists = true;
+        }
+
+        const dniCrypt = Encrypt_DNI(dni);
+
+        if(dniCrypt === undefined){
+            alert("Error al procesar");
+            error_exists = true;
+        }
+
         if(error_exists === false){
             const body: Persona_ins = {
                 nombre: nombre,
                 apellido_1: apellido1,
                 email: email,
-                DNI: dni,
+                DNI: dniCrypt,
                 rol: rol,
                 titulacion: titulacion,
             }
@@ -242,7 +258,10 @@ function NewPersona() {
 
             if(rol === "Profesor" || rol === "Coordinador"){
                 body.universidad = universidad;
-                body.password = password;
+                body.password = passwordCrypt;
+            }
+            else if(rol === "Administrativo"){
+                body.password = passwordCrypt;
             }
             else if(rol === "Estudiante"){
                 body.universidad = universidad;

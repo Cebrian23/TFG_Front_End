@@ -7,6 +7,7 @@ import type { Persona_upt } from "../types/Personas/Persona.ts";
 import type { Profesor } from "../types/Personas/Profesor.ts";
 import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
+import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 
 function UpdateUser() {
     const [user, setUser] = useState<Estudiante | Coordinador | Profesor | Administrativo>();
@@ -215,6 +216,12 @@ function UpdateUser() {
                 error_exists = true;
             }
         }
+        
+        const passwordCrypt = Encrypt_Passwords(password1);
+        
+        if(passwordCrypt === undefined){
+            error_exists = true;
+        }
 
         if(error_exists === false){
             const body: Persona_upt = {
@@ -230,7 +237,7 @@ function UpdateUser() {
             }
 
             if(rol !== "Estudiante" && password1.trim() !== ""){
-                body.password = password1;
+                body.password = passwordCrypt;
             }
 
             if(phone.trim() !== ""){

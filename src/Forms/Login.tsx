@@ -6,6 +6,7 @@ import type { Coordinador } from "../types/Personas/Coordinador.ts";
 import type { Estudiante } from "../types/Personas/Estudiante.ts";
 import type { Profesor } from "../types/Personas/Profesor.ts";
 import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
+import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -61,9 +62,15 @@ function Login() {
                 error_exists = true;
             }
         }
+
+        const passwordCrypt = Encrypt_Passwords(password);
+
+        if(passwordCrypt === undefined){
+            error_exists = true;
+        }
         
         if(error_exists === false){
-            const URL = `https://tfg-back-end.onrender.com/login?email=${email}&password=${password}`;
+            const URL = `https://tfg-back-end.onrender.com/login?email=${email}&password=${passwordCrypt}`;
             const response = await fetch(URL, {
                 method: "GET",
             });
