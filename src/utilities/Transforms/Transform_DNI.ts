@@ -1,0 +1,24 @@
+import CryptoJS from "crypto-js";
+
+export const Encrypt_DNI = (dni: string) => {
+    const DNI_KEY = import.meta.env.VITE_DNI_KEY;
+    
+    if(!DNI_KEY){
+        return undefined;
+    }
+
+    return CryptoJS.AES.encrypt(dni.trim(), DNI_KEY).toString();
+}
+
+export const Decrypt_DNI = (dni: string) => {
+    const DNI_KEY = import.meta.env.VITE_DNI_KEY;
+    
+    if(!DNI_KEY){
+        return undefined;
+    }
+
+    const bytes = CryptoJS.AES.decrypt(dni.trim(), DNI_KEY);
+    console.log("Decode: "+ bytes.toString(CryptoJS.enc.Utf8));
+
+    return bytes.toString(CryptoJS.enc.Utf8);
+}
