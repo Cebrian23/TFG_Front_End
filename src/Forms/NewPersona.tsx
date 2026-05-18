@@ -242,7 +242,7 @@ function NewPersona() {
                 nombre: nombre,
                 apellido_1: apellido1,
                 email: email,
-                DNI: dniCrypt!,
+                DNI: dniCrypt,
                 rol: rol,
                 titulacion: titulacion,
             }

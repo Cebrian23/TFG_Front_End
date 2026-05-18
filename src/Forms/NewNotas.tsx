@@ -169,7 +169,7 @@ function NewNotas() {
                                     nombre: alumno.estudiante.nombre,
                                     apellido_1: alumno.estudiante.apellido_1,
                                     apellido_2: alumno.estudiante.apellido_2,
-                                    DNI: alumno_DNI_trans!,
+                                    DNI: alumno_DNI_trans,
                                     email: alumno.estudiante.email,
                                     rol: alumno.estudiante.rol,
                                 },
