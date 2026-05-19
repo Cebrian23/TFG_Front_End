@@ -208,8 +208,10 @@
     }
 }
 
-.infoPage{
-    margin-top: 5dvb;
+.AsignaturaImp{
+    margin-left: 50dvb;
+    margin-right: 50dvb;
+    place-items: center;
 }
 
 .column{
