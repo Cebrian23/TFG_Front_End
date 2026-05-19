@@ -3,13 +3,18 @@ import Cookie from "js-cookie";
 import type { Asignatura_curso, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
 import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
 import type { Profesor_Short } from "../types/Personas/Profesor.ts";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'
+import type { Estudiante_Short } from "../types/Personas/Estudiante.ts";
+import { Decrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 
 function AsignaturaDocentePage() {
     const [asignatura, setAsignatura] = useState<Asignatura_curso>();
     const [showAlumnos, setShowAlumnos] = useState(false);
+    const [urlAlumnos, setUrlAlumnos] = useState("");
 
     useEffect(() => {
-        const getAsignatura = async () => {
+        const getData = async () => {
             Cookie.remove("TFG_conv");
 
             const auth = Cookie.get("authTFG");
@@ -137,9 +142,60 @@ function AsignaturaDocentePage() {
             }
 
             setAsignatura(data_curso);
+
+            const doc = new jsPDF();
+
+            const headers = [["Nombre completo", "DNI", "Email"]];
+            const data: string[][] = [];
+
+            data_curso!.estudiantes.forEach((estudiante: Estudiante_Short) => {
+                const alumno: string[] = [];
+
+                let nombreAlumno = estudiante.nombre + " " + estudiante.apellido_1;
+
+                if(estudiante.apellido_2 !== null && estudiante.apellido_2 !== undefined && estudiante.apellido_2.trim() !== ""){
+                    nombreAlumno += ` ${estudiante.apellido_2}`;
+                }
+
+                const dni = Decrypt_DNI(estudiante.DNI)
+                
+                if(dni === undefined){
+                    alert("Error al mostrar la página")
+                    Cookie.remove("TFG_conv");
+
+                    globalThis.location.href =  "/mostrarAsignaturas";
+                }
+
+                alumno.push(nombreAlumno);
+                alumno.push(dni!);
+                alumno.push(estudiante.email);
+
+                data.push(alumno);
+            });
+
+            doc.setFontSize(20);
+            doc.text("Lista de alumnos", 20, 20);
+
+            autoTable(doc,
+                {
+                    head: headers,
+                    body: data,
+                    startY: 30,
+                    theme: "striped",
+                    margin: {
+                        left: 14,
+                        right: 14,
+                    }
+                }
+            );
+
+            const pdfBlob = doc.output('blob');
+
+            const newUrl = URL.createObjectURL(pdfBlob);
+            setUrlAlumnos(newUrl);
         }
 
-        getAsignatura();
+        getData();
     }, []);
 
     return(
@@ -194,27 +250,13 @@ function AsignaturaDocentePage() {
                             }}>Volver</button>
                         </div>
                     </div>
-                    <div className="infoPage">
-                        {
-                            showAlumnos === true &&
-                            <ul>
-                                {
-                                asignatura.estudiantes.map((alumno) => {
-                                    if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
-                                        return(
-                                            <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2} ({alumno.email})</li>
-                                        )
-                                    }
-                                    else{
-                                        return(
-                                            <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</li>
-                                        )
-                                    }
-                                })
-                            }
-                            </ul>
-                        }
-                    </div>
+                </div>
+            }
+            {
+                showAlumnos === true &&
+                <div className="AsignaturaImp">
+                    <br/>
+                    <embed src={urlAlumnos} width="100%" height="350px"/>
                 </div>
             }
         </>
