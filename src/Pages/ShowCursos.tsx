@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import type { Asignatura_curso, Asignatura } from "../types/Asignaturas/Asignatura.ts";
+import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
+import Header from "../Header/Header.tsx";
 
 function ShowCursos() {
     const [asignatura, setAsignatura] = useState("");
@@ -97,37 +99,48 @@ function ShowCursos() {
 
 
     return(
-        <div className="showCursos">
-            <h1>Cursos de {asignatura}</h1>
-            <div>
-                {
-                    cursos !== undefined && cursos.length > 0 &&
-                    <>
-                        <div className={cursos.length >= 3 ? "grid_cursos3" : (cursos.length%2 === 0 ? "grid_cursos2" : "grid_cursos1")}>
-                            {
-                                cursos.map((curso) => {
-                                    return(
-                                        <div key={curso.id} className="cards">
-                                            <div className="data">{curso.curso_academico}</div>
-                                            <div className="buttons">
-                                                <button type="button" onClick={() => {
-                                                    Cookie.set("TFG_curso", curso.id, {expires: 7});
-                                                    globalThis.location.href = "/paginaCurso";
-                                                }}>Ver Curso</button>
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                <SidebarAdministrativo/>
+                <div className="showCursos">
+                    {
+                        asignatura !== "" &&
+                        <h1>Cursos de {asignatura}</h1>
+                    }
+                    {
+                        asignatura === "" &&
+                        <h1></h1>
+                    }
+                    <div>
+                        {
+                            cursos !== undefined && cursos.length > 0 &&
+                            <div className={cursos.length >= 3 ? "grid_cursos3" : (cursos.length%2 === 0 ? "grid_cursos2" : "grid_cursos1")}>
+                                {
+                                    cursos.map((curso) => {
+                                        return(
+                                            <div key={curso.id} className="cards">
+                                                <div className="data">{curso.curso_academico}</div>
+                                                <div className="buttons">
+                                                    <button type="button" onClick={() => {
+                                                        Cookie.set("TFG_curso", curso.id, {expires: 7});
+                                                        globalThis.location.href = "/paginaCurso";
+                                                    }}>Ver Curso</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    </>
-                }
-                {
-                    cursos !== undefined && cursos.length === 0 &&
-                    <h2>{asignatura} no tiene cursos creados</h2>
-                }
+                                        )
+                                    })
+                                }
+                            </div>
+                        }
+                        {
+                            cursos !== undefined && cursos.length === 0 &&
+                            <h2>La asignatura no tiene cursos creados</h2>
+                        }
+                    </div>
+                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                </div>
             </div>
-            <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver atras</button>
         </div>
     );
 }

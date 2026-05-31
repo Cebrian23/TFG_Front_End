@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import './Pages.css'
 import type { Titulacion } from "../types/Titulacion/Titulacion.ts";
+import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
+import Header from "../Header/Header.tsx";
 
 function ShowTitulaciones() {
     const [titulaciones, setTitulaciones] = useState<Titulacion[]>([]);
@@ -65,34 +67,36 @@ function ShowTitulaciones() {
     }, []);
 
     return(
-        <div className="showTitulaciones">
-            <h1>Titulaciones administradas:</h1>
-            <div>
-                {
-                    titulaciones !== undefined && titulaciones.length > 0 &&
-                    <>
-                        <div className={titulaciones.length >= 3 ? "grid_titulaciones3" : (titulaciones.length%2 === 0 ? "grid_titulaciones2" : "grid_titulaciones1")}>
-                            {
-                                titulaciones.map((titulacion) => {
-                                    return(
-                                        <div key={titulacion.id} className="cards">
-                                            <div className="data">{titulacion.nombre}</div>
-                                            <div className="buttons">
-                                                <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Ver asignaturas</button>
-                                                <button type="button" onClick={() => globalThis.location.href = "/nuevaAsignatura"}>Insertar una asignatura nueva</button>
-                                                <button type="button" onClick={() => globalThis.location.href = "/registrarPersona"}>Dar de alta a personas</button>
-                                                <button type="button" onClick={() => globalThis.location.href = "/paginaTitulacion"}>Ver titulación</button>
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                <SidebarAdministrativo/>
+                <div className="showTitulaciones">
+                    <h1>Titulaciones administradas:</h1>
+                    <div>
+                        {
+                            titulaciones !== undefined && titulaciones.length > 0 &&
+                            <div className={titulaciones.length >= 3 ? "grid_titulaciones3" : (titulaciones.length%2 === 0 ? "grid_titulaciones2" : "grid_titulaciones1")}>
+                                {
+                                    titulaciones.map((titulacion) => {
+                                        return(
+                                            <div key={titulacion.id} className="cards">
+                                                <div className="data">{titulacion.nombre}</div>
+                                                <div className="buttons">
+                                                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Ver asignaturas</button>
+                                                    <button type="button" onClick={() => globalThis.location.href = "/nuevaAsignatura"}>Insertar una asignatura nueva</button>
+                                                    <button type="button" onClick={() => globalThis.location.href = "/registrarPersona"}>Dar de alta a personas</button>
+                                                    <button type="button" onClick={() => globalThis.location.href = "/paginaTitulacion"}>Ver titulación</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })
-                            }
-                        </div>
-                    </>
-                }
-            </div>
-            <div>
-                <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver atras</button>
+                                        );
+                                    })
+                                }
+                            </div>
+                        }
+                    </div>
+                    <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+                </div>
             </div>
         </div>
     );

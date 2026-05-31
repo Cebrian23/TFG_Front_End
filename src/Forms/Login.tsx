@@ -7,6 +7,7 @@ import type { Estudiante } from "../types/Personas/Estudiante.ts";
 import type { Profesor } from "../types/Personas/Profesor.ts";
 import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
+import Header from "../Header/Header.tsx";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -96,35 +97,38 @@ function Login() {
     }
     
     return (
-        <div className="login">
-            <form className="loginForm" onSubmit={(e) => e.preventDefault()}>
-                <h2>Inicio de sesión</h2>
-                <div className="column">
-                    <label htmlFor="email">Email:</label>
-                    <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
-                        setEmail(e.currentTarget.value);
-                        setEmptyError("");
-                        setEmailError("");
-                        setValidationError("");
-                    }}/>
-                    <div className="error">{emailError}</div>
-                    <div className="error">{validationError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="password">Password:</label>
-                    <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
-                        setPassword(e.currentTarget.value);
-                        setPasswordError("");
-                        setEmptyError("");
-                    }}/>
-                    <div className="error">{passwordError}</div>
-                </div>
-                <div className="error">{emptyError}</div>
-                <div className="buttons">
-                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleLogin} disabled={buttonAction}>Enviar</button>
-                </div>
-            </form>
+        <div className="finalPage">
+            <Header/>
+            <div className="login">
+                <form className="loginForm" onSubmit={(e) => e.preventDefault()}>
+                    <h2>Inicio de sesión</h2>
+                    <div className="column">
+                        <label htmlFor="email">Email:</label>
+                        <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
+                            setEmail(e.currentTarget.value);
+                            setEmptyError("");
+                            setEmailError("");
+                            setValidationError("");
+                        }}/>
+                        <div className="error">{emailError}</div>
+                        <div className="error">{validationError}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="password">Password:</label>
+                        <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
+                            setPassword(e.currentTarget.value);
+                            setPasswordError("");
+                            setEmptyError("");
+                        }}/>
+                        <div className="error">{passwordError}</div>
+                    </div>
+                    <div className="error">{emptyError}</div>
+                    <div className="buttons">
+                        <button type="reset" onClick={handleReset}>Vaciar campos</button>
+                        <button type="button" onClick={handleLogin} disabled={buttonAction}>Enviar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

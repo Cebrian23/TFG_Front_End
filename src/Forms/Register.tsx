@@ -4,8 +4,9 @@ import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
 import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 import { Encrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
+import Header from "../Header/Header.tsx";
 
-const Register = () => {
+function Register() {
     const [nombre, setNombre] = useState("");
     const [apellido1, setApellido1] = useState("");
     const [apellido2, setApellido2] = useState("");
@@ -28,6 +29,8 @@ const Register = () => {
     const [passNumError, setPassNumError] = useState("");
     const [passSpaceError, setPassSpaceError] = useState("");
     const [password2Error, setPassword2Error] = useState("");
+
+    const [buttonAction, setButtonAction] = useState(false);
 
     const handleReset = () => {
         setNombre("");
@@ -55,6 +58,8 @@ const Register = () => {
     }
 
     const handleNewUser = async () => {
+        setButtonAction(true);
+
         let error_exists = false;
 
         if(nombre.trim() === ""){
@@ -167,7 +172,7 @@ const Register = () => {
         }
 
         if(error_exists === false){
-            const body: Persona_ins = {
+                const body: Persona_ins = {
                 nombre: nombre,
                 apellido_1: apellido1,
                 email: email,
@@ -194,105 +199,112 @@ const Register = () => {
             if(response.status !== 200){
                 const error = await response.json();
                 alert(error.error);
+
+                setButtonAction(false);
             }
             else{
                 const data = await response.json();
                 alert(data.message);
-                globalThis.location.href = "/login"
+                globalThis.location.href = "/paginaPersonal"
             }
+        }
+        else{
+            setButtonAction(false);
         }
     }
 
     return (
-        <div className="new">
-            <form className="registerForm">
-                <h2>Registro de usuario</h2>
-                <div className="column">
-                    <label htmlFor="nombre">Nombre:</label>
-                    <input id="nombre" name="nombre" type="text" placeholder="Nombre" onChange={(e) => {
-                        setNombre(e.currentTarget.value);
-                        setNombreError("");
-                    }} required/>
-                    <div className="error">{nombreError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="1er_apellido">1er Apellido:</label>
-                    <input id="1er_apellido" name="1er_apellido" type="text" placeholder="1er Apellido" onChange={(e) => {
-                        setApellido1(e.currentTarget.value);
-                        setApellido1Error("");
-                    }} required/>
-                    <div className="error">{apellido1Error}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="2do_apellido">2do Apellido:</label>
-                    <input id="2do_apellido" name="2do_apellido" type="text" placeholder="2do Apellido" onChange={(e) => setApellido2(e.currentTarget.value)}/>
-                </div>
-                <div className="column">
-                    <label htmlFor="dni">DNI:</label>
-                    <input id="dni" name="dni" type="text" placeholder="DNI" onChange={(e) => {
-                        setDNI(e.currentTarget.value);
-                        setDNIError("");
-                    }} required/>
-                    <div className="error">{dniError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="phone_number">Numero telefónico:</label>
-                    <div id="phone_number" className="combo_data">
-                        <select id="prefix" name="prefix" defaultValue="+34" className="registerPhoneInput"  onChange={(e) => setPrefix(e.currentTarget.value)}>
-                            <option value="+30">+30</option>
-                            <option value="+31">+31</option>
-                            <option value="+32">+32</option>
-                            <option value="+33">+33</option>
-                            <option value="+34" selected>+34</option>
-                            <option value="+39">+39</option>
-                            <option value="+49">+49</option>
-                            <option value="+351">+351</option>
-                        </select>
-                        <input id="phone" name="phone" type="text" placeholder="Número telefónico" className="registerPhoneSelect" onChange={(e) => {
-                            setPhone(e.currentTarget.value);
-                            setPhoneError("");
-                        }}/>
+        <div className="finalPage">
+            <Header/>
+            <div className="register">
+                <form className="registerForm">
+                    <h2>Registro de usuario</h2>
+                    <div className="column">
+                        <label htmlFor="nombre">Nombre:</label>
+                        <input id="nombre" name="nombre" type="text" placeholder="Nombre" onChange={(e) => {
+                            setNombre(e.currentTarget.value);
+                            setNombreError("");
+                        }} required/>
+                        <div className="error">{nombreError}</div>
                     </div>
-                    <div className="error">{phoneError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="email">Email:</label>
-                    <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
-                        setEmail(e.currentTarget.value);
-                        setEmailError("");
-                    }} required/>
-                    <div>{email}</div>
-                    <div className="error">{emailError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="password">Password:</label>
-                    <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
-                        setPassword1(e.currentTarget.value);
-                        setPassword1Error("");
-                        setPassLengthError("");
-                        setPassSpaceError("");
-                        setPassCharError("");
-                        setPassNumError("");
-                    }} required/>
-                    <div className="error">{password1Error}</div>
-                    <div className="error">{passCharError}</div>
-                    <div className="error">{passLengthError}</div>
-                    <div className="error">{passNumError}</div>
-                    <div className="error">{passSpaceError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="verificacion">Password:</label>
-                    <input id="verificacion" name="verificacion" type="password" placeholder="Verificacion de la password" onChange={(e) => {
-                        setPassword2(e.currentTarget.value);
-                        setPassword2Error("");
-                    }} required/>
-                    <div className="error">{password2Error}</div>
-                </div>
-                <div className="buttons">
-                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleNewUser}>Enviar</button>
-                </div>
-            </form>
+                    <div className="column">
+                        <label htmlFor="1er_apellido">1er Apellido:</label>
+                        <input id="1er_apellido" name="1er_apellido" type="text" placeholder="1er Apellido" onChange={(e) => {
+                            setApellido1(e.currentTarget.value);
+                            setApellido1Error("");
+                        }} required/>
+                        <div className="error">{apellido1Error}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="2do_apellido">2do Apellido:</label>
+                        <input id="2do_apellido" name="2do_apellido" type="text" placeholder="2do Apellido" onChange={(e) => setApellido2(e.currentTarget.value)}/>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="dni">DNI:</label>
+                        <input id="dni" name="dni" type="text" placeholder="DNI" onChange={(e) => {
+                            setDNI(e.currentTarget.value);
+                            setDNIError("");
+                        }} required/>
+                        <div className="error">{dniError}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="phone_number">Numero telefónico:</label>
+                        <div id="phone_number" className="combo_data">
+                            <select id="prefix" name="prefix" defaultValue="+34" className="registerPhoneInput"  onChange={(e) => setPrefix(e.currentTarget.value)}>
+                                <option value="+30">+30</option>
+                                <option value="+31">+31</option>
+                                <option value="+32">+32</option>
+                                <option value="+33">+33</option>
+                                <option value="+34">+34</option>
+                                <option value="+39">+39</option>
+                                <option value="+49">+49</option>
+                                <option value="+351">+351</option>
+                            </select>
+                            <input id="phone" name="phone" type="text" placeholder="Número telefónico" className="registerPhoneSelect" onChange={(e) => {
+                                setPhone(e.currentTarget.value);
+                                setPhoneError("");
+                            }}/>
+                        </div>
+                        <div className="error">{phoneError}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="email">Email:</label>
+                        <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
+                            setEmail(e.currentTarget.value);
+                            setEmailError("");
+                        }} required/>
+                        <div className="error">{emailError}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="password">Password:</label>
+                        <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
+                            setPassword1(e.currentTarget.value);
+                            setPassword1Error("");
+                            setPassLengthError("");
+                            setPassSpaceError("");
+                            setPassCharError("");
+                            setPassNumError("");
+                        }} required/>
+                        <div className="error">{password1Error}</div>
+                        <div className="error">{passCharError}</div>
+                        <div className="error">{passLengthError}</div>
+                        <div className="error">{passNumError}</div>
+                        <div className="error">{passSpaceError}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="verificacion">Password:</label>
+                        <input id="verificacion" name="verificacion" type="password" placeholder="Verificacion de la password" onChange={(e) => {
+                            setPassword2(e.currentTarget.value);
+                            setPassword2Error("");
+                        }} required/>
+                        <div className="error">{password2Error}</div>
+                    </div>
+                    <div className="buttons">
+                        <button type="reset" onClick={handleReset}>Vaciar campos</button>
+                        <button type="button" disabled={buttonAction} onClick={handleNewUser}>Enviar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

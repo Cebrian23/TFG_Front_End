@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Cookie from "js-cookie";
 import type { Asignatura, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
 import type { Administrativo_Short } from "../types/Personas/Administrativo.ts";
+import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
+import Header from "../Header/Header.tsx";
 
 function AsignaturaTitulacionPage() {
     const [asignatura, setAsignatura] = useState<Asignatura>();
@@ -102,56 +104,60 @@ function AsignaturaTitulacionPage() {
     }, []);
     
     return(
-        <>
-            {
-                asignatura !== undefined &&
-                <div className="AsignaturaTitulacionPage">
-                    <h1>Página de {asignatura.nombre}</h1>
-                    <div className="AsignaturaTitulacionPageMenu">
-                        <h2>¿Que deseas hacer?</h2>
-                        <div className="column">
-                            <button type="button" onClick={() => setShowCursos(!showCursos)}>{showCursos === false ? <>Mostrar cursos académicos</> : <>Ocultar cursos académicos</>}</button>
-                            <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                <SidebarAdministrativo/>
+                {
+                    asignatura !== undefined &&
+                    <div className="AsignaturaTitulacionPage">
+                        <h1>Página de {asignatura.nombre}</h1>
+                        <div className="AsignaturaTitulacionPageMenu">
+                            <h2>¿Que deseas hacer?</h2>
+                            <div className="column">
+                                <button type="button" onClick={() => setShowCursos(!showCursos)}>{showCursos === false ? <>Mostrar cursos académicos</> : <>Ocultar cursos académicos</>}</button>
+                                <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="infoPage">
-                        <p><b>Nombre: </b>{asignatura.nombre}</p>
-                        <p><b>Titulación: </b>{titulacion}</p>
-                        <p><b>Curso: </b>{asignatura.curso}</p>
-                        <p><b>Créditos: </b>{asignatura.creditos}</p>
-                        <p><b>Optatividad: </b>{asignatura.optatividad}</p>
-                        {
-                            showCursos === true && asignatura.cursos_academicos.length === 1 &&
-                            <p>
-                                <b>Curso académico: </b>
-                                {
-                                    asignatura.cursos_academicos.map((curso) => {
-                                        return(
-                                            <span key={curso.id}>{curso.curso_academico}</span>
-                                        )
-                                    })
-                                }
-                            </p>
-                        }
-                        {
-                            showCursos === true && asignatura.cursos_academicos.length > 1 &&
-                            <>
-                                <p><b>Cursos académicos:</b></p>
-                                <ul>
+                        <div className="infoPage">
+                            <p><b>Nombre: </b>{asignatura.nombre}</p>
+                            <p><b>Titulación: </b>{titulacion}</p>
+                            <p><b>Curso: </b>{asignatura.curso}</p>
+                            <p><b>Créditos: </b>{asignatura.creditos}</p>
+                            <p><b>Optatividad: </b>{asignatura.optatividad}</p>
+                            {
+                                showCursos === true && asignatura.cursos_academicos.length === 1 &&
+                                <p>
+                                    <b>Curso académico: </b>
                                     {
                                         asignatura.cursos_academicos.map((curso) => {
                                             return(
-                                                <li key={curso.id}>{curso.curso_academico}</li>
+                                                <span key={curso.id}>{curso.curso_academico}</span>
                                             )
                                         })
                                     }
-                                </ul>
-                            </>
-                        }
+                                </p>
+                            }
+                            {
+                                showCursos === true && asignatura.cursos_academicos.length > 1 &&
+                                <>
+                                    <p><b>Cursos académicos:</b></p>
+                                    <ul>
+                                        {
+                                            asignatura.cursos_academicos.map((curso) => {
+                                                return(
+                                                    <li key={curso.id}>{curso.curso_academico}</li>
+                                                )
+                                            })
+                                        }
+                                    </ul>
+                                </>
+                            }
+                        </div>
                     </div>
-                </div>
-            }
-        </>
+                }
+            </div>
+        </div>
     );
 }
 

@@ -3,9 +3,14 @@ import Cookie from "js-cookie";
 import type { Asignatura_curso_short, Asignatura_curso_docs_short, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
 import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
 import type { Profesor_Short } from "../types/Personas/Profesor.ts";
+import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
+import SidebarProfesor from "../Sidebar/SidebarProfesor.tsx";
+import Header from "../Header/Header.tsx";
 
 function ShowAsignaturasImpartidas() {
     const [asignaturas, setAsignaturas] = useState<Asignatura_curso_short[]>([]);
+
+    const [userRol, setRol] = useState("");
 
     useEffect(() => {
         const getAsignaturas = async () => {
@@ -31,6 +36,8 @@ function ShowAsignaturasImpartidas() {
             }
 
             const data_user = await response_user.json();
+
+            setRol(data_user.rol);
 
             const TFG_Titulacion = Cookie.get("TFG_titulacion");
 
@@ -122,37 +129,48 @@ function ShowAsignaturasImpartidas() {
     }, []);
 
     return(
-        <div className="Asigs_Imp_Pages">
-            <h1>Asignaturas impartidas</h1>
-            {
-                asignaturas.length === 0 &&
-                <h2>No impartes ninguna asignatura</h2>
-            }
-            {
-                asignaturas.length > 0 &&
-                <>
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                {
+                    userRol === "Coordinador" &&
+                    <SidebarCoordinador/>
+                }
+                {
+                    userRol === "Profesor" &&
+                    <SidebarProfesor/>
+                }
+                <div className="showAsigsDocente">
+                    <h1>Asignaturas impartidas</h1>
                     {
-                        asignaturas.map((asig) => {
-                            return(
-                                <div key={asig.id} className="show">
-                                    <div className="data">{asig.nombre}</div>
-                                    <div className="data">{asig.curso_academico}</div>
-                                    <div className="buttons">
-                                        <button type="button" onClick={() => {
-                                            Cookie.set("TFG_curso", asig.id, {expires: 7});
-                                            Cookie.set("TFG_asig", asig.id_asig, {expires: 7});
-
-                                            globalThis.location.href = "/paginaAsignatura"
-                                        }}>Ver asignatura</button>
-                                    </div>
-                                </div>
-                            )
-                        })
+                        asignaturas.length === 0 &&
+                        <h2>No impartes ninguna asignatura</h2>
                     }
-                </>
-            }
-            <div>
-                <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+                    {
+                        asignaturas.length > 0 &&
+                        <div className={asignaturas.length >= 3 ? "grid_asigs_docente3" : (asignaturas.length%2 === 0 ? "grid_asigs_docente2" : "grid_asigs_docente1")}>
+                            {
+                                asignaturas.map((asig) => {
+                                    return(
+                                        <div key={asig.id} className="cards">
+                                            <div className="data">{asig.nombre}</div>
+                                            <div className="data">{asig.curso_academico}</div>
+                                            <div className="buttons">
+                                                <button type="button" onClick={() => {
+                                                    Cookie.set("TFG_curso", asig.id, {expires: 7});
+                                                    Cookie.set("TFG_asig", asig.id_asig, {expires: 7});
+
+                                                    globalThis.location.href = "/paginaAsignatura"
+                                                }}>Ver asignatura</button>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    }
+                    <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+                </div>
             </div>
         </div>
     );

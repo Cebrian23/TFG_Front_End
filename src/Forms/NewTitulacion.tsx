@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import type { Asignatura_titulacion_ins } from "../types/Asignaturas/Asignatura.ts";
 import type { Titulacion_ins } from "../types/Titulacion/Titulacion.ts";
+import Header from "../Header/Header.tsx";
 
 function NewTitulacion() {
     const [auth, setAuth] = useState("");
@@ -169,245 +170,248 @@ function NewTitulacion() {
     }
 
     return(
-        <div className="grid_group_Titulacion">
-            <form className="newTitulacion">
-                <h1>Registro de una titulacion</h1>
-                <div className="column">
-                    <label htmlFor="nombre">Nombre:</label>
-                    <input id="nombre" name="nombre" placeholder="Nombre de la titulación" onChange={(e) => {
-                        setNombre(e.currentTarget.value);
-                        setNombreError("");
-                    }}/>
-                    <div className="error">{nombreError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="universidades">Universidades involucradas:</label>
-                    <div id="universidades" className="add_data">
-                        <input name="universidades" placeholder="Nombre de la universidad" value={universidad} onChange={(e) => {
-                            setUniversidad(e.currentTarget.value);
-                            setUniversidadesError("");
+        <div className="finalPage">
+            <Header/>
+            <div className="grid_group_Titulacion">
+                <form className="newTitulacion">
+                    <h1>Registro de una titulacion</h1>
+                    <div className="column">
+                        <label htmlFor="nombre">Nombre:</label>
+                        <input id="nombre" name="nombre" placeholder="Nombre de la titulación" onChange={(e) => {
+                            setNombre(e.currentTarget.value);
+                            setNombreError("");
                         }}/>
-                        <button type="button" onClick={() => {
-                            if(universidad.trim() !== ""){
-                                const uni_exists = universidades.find((uni) => {
-                                    if(uni === universidad.trim()){
-                                        return uni;
+                        <div className="error">{nombreError}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="universidades">Universidades involucradas:</label>
+                        <div id="universidades" className="add_data">
+                            <input name="universidades" placeholder="Nombre de la universidad" value={universidad} onChange={(e) => {
+                                setUniversidad(e.currentTarget.value);
+                                setUniversidadesError("");
+                            }}/>
+                            <button type="button" onClick={() => {
+                                if(universidad.trim() !== ""){
+                                    const uni_exists = universidades.find((uni) => {
+                                        if(uni === universidad.trim()){
+                                            return uni;
+                                        }
+                                    });
+
+                                    if(uni_exists === undefined){
+                                        const new_universidades = universidades;
+                                        new_universidades.push(universidad);
+                                        setUniversidades(new_universidades);
+                                        setUniversidadesError("");
                                     }
-                                });
-
-                                if(uni_exists === undefined){
-                                    const new_universidades = universidades;
-                                    new_universidades.push(universidad);
-                                    setUniversidades(new_universidades);
-                                    setUniversidadesError("");
-                                }
-                                else{
-                                    setUniversidadesError(`${universidad.trim()} ya existe en la lista`);
-                                }
-                            }
-                            setUniversidad("");
-                        }}>Insertar a la lista</button>
-                        <button type="button" onClick={() => {
-                            setUniversidad("");
-                            setUniversidades([]);
-                        }}>Reiniciar lista</button>
-                    </div>
-                    <div className="error">{universidadesError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="grados">Grados universitarios necesarios:</label>
-                    <div id="grados" className="add_data">
-                        <input name="grados" value={grado} placeholder="Nombre del grado" onChange={(e) => {
-                            setGrado(e.currentTarget.value);
-                            setGradosError("");
-                        }}/>
-                        <button type="button" onClick={() => {
-                            if(grado.trim() !== ""){
-                                const grado_exists = grados.find((gradito) => {
-                                    if(gradito === grado.trim()){
-                                        return gradito;
+                                    else{
+                                        setUniversidadesError(`${universidad.trim()} ya existe en la lista`);
                                     }
-                                });
-
-                                if(grado_exists === undefined){
-                                    const new_grados = grados;
-                                    new_grados.push(grado);
-                                    setGrados(new_grados);
-                                    setGradosError("");
                                 }
-                                else{
-                                    setGradosError(`${grado.trim()} ya existe en la lista`);
-                                }
-                            }
-                            setGrado("");
-                        }}>Insertar a la lista</button>
-                        <button type="button" onClick={(_e) => setGrados([])}>Reiniciar lista</button>
+                                setUniversidad("");
+                            }}>Insertar a la lista</button>
+                            <button type="button" onClick={() => {
+                                setUniversidad("");
+                                setUniversidades([]);
+                            }}>Reiniciar lista</button>
+                        </div>
+                        <div className="error">{universidadesError}</div>
                     </div>
-                    <div className="error">{gradosError}</div>
-                </div>
-                <div className="column">
-                    <label htmlFor="cursos">Cursos:</label>
-                    <input name="cursos" type="number" defaultValue={cursos} min="1" max="4" onChange={(e) => {
-                        setCursos(Math.trunc(Number(e.currentTarget.value)));
+                    <div className="column">
+                        <label htmlFor="grados">Grados universitarios necesarios:</label>
+                        <div id="grados" className="add_data">
+                            <input name="grados" value={grado} placeholder="Nombre del grado" onChange={(e) => {
+                                setGrado(e.currentTarget.value);
+                                setGradosError("");
+                            }}/>
+                            <button type="button" onClick={() => {
+                                if(grado.trim() !== ""){
+                                    const grado_exists = grados.find((gradito) => {
+                                        if(gradito === grado.trim()){
+                                            return gradito;
+                                        }
+                                    });
 
-                        if(curso_asig > Math.trunc(Number(e.currentTarget.value))){
-                            setCursoAsig(Math.trunc(Number(e.currentTarget.value)));
-                        }
-
-                        handleCursoVar(Math.trunc(Number(e.currentTarget.value)));
-                    }}/>
-                </div>
-                <div className="column">
-                    <label>Convocatorias por asignatura:</label>
-                    <input type="number" value={convocatorias} min="1" max="7" onChange={(e) => setConvocatorias(Math.trunc(Number(e.currentTarget.value)))}/>
-                </div>
-                <div className="column">
-                    <label>Asignaturas:</label>
-                    <div className="intra_div">
-                        <label>Nombre:</label>
-                        <input placeholder="Nombre de la asignatura" value={nombre_asig} onChange={(e) => {
-                            setNombreAsig(e.currentTarget.value);
-                            setAsignaturaError("");
-                        }}/>
-                    </div>
-                    <div className="intra_div">
-                        <label>Curso:</label>
-                        <input type="number" placeholder="Curso de la asignatura" value={curso_asig} min="1" max={cursos} onChange={(e) => {
-                            setCursoAsig(Math.trunc(Number(e.currentTarget.value)));
-                            setAsignaturaError("");
-                        }}/>
-                    </div>
-                    <div className="intra_div">
-                        <label>Creditos:</label>
-                        <input type="number" placeholder="Creditos de la asigntura" value={creditos_asig} min="1" max="10"  onChange={(e) => {
-                            setCreditosAsig(Math.trunc(Number(e.currentTarget.value)));
-                            setAsignaturaError("");
-                        }}/>
-                    </div>
-                    <div className="intra_div">
-                        <label>Optatividad:</label>
-                        <select value={optatividad_asig} onChange={(e) => setOptatividadAsig(e.currentTarget.value)}>
-                            <option value="Obligatoria">Obligatoria</option>
-                            <option value="Optativa">Optativa</option>
-                        </select>
-                    </div>
-                    <div className="buttons"> 
-                        <button type="button" onClick={(_e) => {
-                            if(nombre_asig.trim() !== ""){
-                                const asig_exists = asignaturas.find((asig) => {
-                                    if(asig.nombre === nombre_asig.trim()){
-                                        return asig;
+                                    if(grado_exists === undefined){
+                                        const new_grados = grados;
+                                        new_grados.push(grado);
+                                        setGrados(new_grados);
+                                        setGradosError("");
                                     }
-                                });
-
-                                if(asig_exists === undefined){
-                                    const new_asig: Asignatura_titulacion_ins = {
-                                        nombre: nombre_asig,
-                                        curso: `${curso_asig}º`,
-                                        creditos: creditos_asig,
-                                        optatividad: optatividad_asig,
+                                    else{
+                                        setGradosError(`${grado.trim()} ya existe en la lista`);
                                     }
-                                
-                                    const upd_asignaturas = asignaturas;
-                                    upd_asignaturas.push(new_asig);
-                                
-                                    setAsignaturas(upd_asignaturas);
-                                    setAsignaturaError("");
                                 }
-                                else{
-                                    setGradosError(`${universidad.trim()} ya existe en la lista`);
-                                }
+                                setGrado("");
+                            }}>Insertar a la lista</button>
+                            <button type="button" onClick={(_e) => setGrados([])}>Reiniciar lista</button>
+                        </div>
+                        <div className="error">{gradosError}</div>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="cursos">Cursos:</label>
+                        <input name="cursos" type="number" defaultValue={cursos} min="1" max="4" onChange={(e) => {
+                            setCursos(Math.trunc(Number(e.currentTarget.value)));
+
+                            if(curso_asig > Math.trunc(Number(e.currentTarget.value))){
+                                setCursoAsig(Math.trunc(Number(e.currentTarget.value)));
                             }
 
-                            setNombreAsig("");
-                            setCreditosAsig(4);
-                            setCursoAsig(1);
-                            setOptatividadAsig("Obligatoria")
-                        }}>Insertar asignatura</button>
-                        <button type="button" onClick={(_e) => {
-                            setAsignaturas([]);
-                            setNombreAsig("");
-                            setCursoAsig(1);
-                            setCreditosAsig(4);
-                        }}>Reiniciar asignaturas</button>
+                            handleCursoVar(Math.trunc(Number(e.currentTarget.value)));
+                        }}/>
                     </div>
-                    <div className="error">{asignaturaError}</div>
-                </div>
-                <div className="column">
-                    <label>Creditos obligatorios para presentar el TFM:</label>
-                    <input type="number" defaultValue={creditos_asig_oblig} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
-                </div>
-                <div className="column">
-                    <label>Creditos optativos para presentar el TFM:</label>
-                    <input type="number" defaultValue={creditos_asig_opt} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
-                </div>
-                <div className="column">
-                    <label htmlFor="creditos">Creditos TFM:</label>
-                    <input name="creditos" type="number" defaultValue={creditosTFM} min="1" max="30" onChange={(e) => setCreditos(Math.trunc(Number(e.currentTarget.value)))}/>
-                </div>
-                <div className="buttons">
-                    <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
-                    <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
-                </div>
-            </form>
-            <div>
-                <h3>Datos de la titulación:</h3>
+                    <div className="column">
+                        <label>Convocatorias por asignatura:</label>
+                        <input type="number" value={convocatorias} min="1" max="7" onChange={(e) => setConvocatorias(Math.trunc(Number(e.currentTarget.value)))}/>
+                    </div>
+                    <div className="column">
+                        <label>Asignaturas:</label>
+                        <div className="intra_div">
+                            <label>Nombre:</label>
+                            <input placeholder="Nombre de la asignatura" value={nombre_asig} onChange={(e) => {
+                                setNombreAsig(e.currentTarget.value);
+                                setAsignaturaError("");
+                            }}/>
+                        </div>
+                        <div className="intra_div">
+                            <label>Curso:</label>
+                            <input type="number" placeholder="Curso de la asignatura" value={curso_asig} min="1" max={cursos} onChange={(e) => {
+                                setCursoAsig(Math.trunc(Number(e.currentTarget.value)));
+                                setAsignaturaError("");
+                            }}/>
+                        </div>
+                        <div className="intra_div">
+                            <label>Creditos:</label>
+                            <input type="number" placeholder="Creditos de la asigntura" value={creditos_asig} min="1" max="10"  onChange={(e) => {
+                                setCreditosAsig(Math.trunc(Number(e.currentTarget.value)));
+                                setAsignaturaError("");
+                            }}/>
+                        </div>
+                        <div className="intra_div">
+                            <label>Optatividad:</label>
+                            <select value={optatividad_asig} onChange={(e) => setOptatividadAsig(e.currentTarget.value)}>
+                                <option value="Obligatoria">Obligatoria</option>
+                                <option value="Optativa">Optativa</option>
+                            </select>
+                        </div>
+                        <div className="buttons"> 
+                            <button type="button" onClick={(_e) => {
+                                if(nombre_asig.trim() !== ""){
+                                    const asig_exists = asignaturas.find((asig) => {
+                                        if(asig.nombre === nombre_asig.trim()){
+                                            return asig;
+                                        }
+                                    });
+
+                                    if(asig_exists === undefined){
+                                        const new_asig: Asignatura_titulacion_ins = {
+                                            nombre: nombre_asig,
+                                            curso: `${curso_asig}º`,
+                                            creditos: creditos_asig,
+                                            optatividad: optatividad_asig,
+                                        }
+                                    
+                                        const upd_asignaturas = asignaturas;
+                                        upd_asignaturas.push(new_asig);
+                                    
+                                        setAsignaturas(upd_asignaturas);
+                                        setAsignaturaError("");
+                                    }
+                                    else{
+                                        setGradosError(`${universidad.trim()} ya existe en la lista`);
+                                    }
+                                }
+
+                                setNombreAsig("");
+                                setCreditosAsig(4);
+                                setCursoAsig(1);
+                                setOptatividadAsig("Obligatoria")
+                            }}>Insertar asignatura</button>
+                            <button type="button" onClick={(_e) => {
+                                setAsignaturas([]);
+                                setNombreAsig("");
+                                setCursoAsig(1);
+                                setCreditosAsig(4);
+                            }}>Reiniciar asignaturas</button>
+                        </div>
+                        <div className="error">{asignaturaError}</div>
+                    </div>
+                    <div className="column">
+                        <label>Creditos obligatorios para presentar el TFM:</label>
+                        <input type="number" defaultValue={creditos_asig_oblig} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
+                    </div>
+                    <div className="column">
+                        <label>Creditos optativos para presentar el TFM:</label>
+                        <input type="number" defaultValue={creditos_asig_opt} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
+                    </div>
+                    <div className="column">
+                        <label htmlFor="creditos">Creditos TFM:</label>
+                        <input name="creditos" type="number" defaultValue={creditosTFM} min="1" max="30" onChange={(e) => setCreditos(Math.trunc(Number(e.currentTarget.value)))}/>
+                    </div>
+                    <div className="buttons">
+                        <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
+                        <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
+                    </div>
+                </form>
                 <div>
-                    <p>Nombre de la titulación: {nombre}</p>
-                </div>
-                {
-                    universidades.length !== 0 &&
+                    <h3>Datos de la titulación:</h3>
                     <div>
-                        <span>Universidades insertadas:</span>
-                        <ul>
+                        <p>Nombre de la titulación: {nombre}</p>
+                    </div>
+                    {
+                        universidades.length !== 0 &&
+                        <div>
+                            <span>Universidades insertadas:</span>
+                            <ul>
+                                {
+                                    universidades.map((uni) => {
+                                        return(
+                                            <li key={uni}>{uni}</li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    }
+                    {
+                        grados.length !== 0 &&
+                        <div>
+                            <span>Grados insertados:</span>
+                            <ul>
                             {
-                                universidades.map((uni) => {
+                                grados.map((grado) => {
                                     return(
-                                        <li key={uni}>{uni}</li>
+                                        <li key={grado}>{grado}</li>
                                     )
                                 })
                             }
-                        </ul>
-                    </div>
-                }
-                {
-                    grados.length !== 0 &&
+                            </ul>
+                        </div>
+                    }
                     <div>
-                        <span>Grados insertados:</span>
-                        <ul>
-                        {
-                            grados.map((grado) => {
-                                return(
-                                    <li key={grado}>{grado}</li>
-                                )
-                            })
-                        }
-                        </ul>
+                        <p>Cursos en los que se desarrolla la titulación: {cursos}</p>
                     </div>
-                }
-                <div>
-                    <p>Cursos en los que se desarrolla la titulación: {cursos}</p>
-                </div>
-                <div>
-                    <p>Convocatorias posibles de los alumnos en cada asignatura: {convocatorias}</p>
-                </div>
-                {
-                    asignaturas.length !== 0 &&
                     <div>
-                        <span>Asignaturas:</span>
-                        <ul>
-                            {
-                                asignaturas.map((asig) => {
-                                    return(
-                                        <li key={asig.nombre}>{asig.nombre} ({asig.curso}, {asig.creditos} ECTS, {asig.optatividad})</li>
-                                    )
-                                })
-                            }
-                        </ul>
+                        <p>Convocatorias posibles de los alumnos en cada asignatura: {convocatorias}</p>
                     </div>
-                }
-                <div>
-                    <p>Creditos del TFM: {creditosTFM}</p>
+                    {
+                        asignaturas.length !== 0 &&
+                        <div>
+                            <span>Asignaturas:</span>
+                            <ul>
+                                {
+                                    asignaturas.map((asig) => {
+                                        return(
+                                            <li key={asig.nombre}>{asig.nombre} ({asig.curso}, {asig.creditos} ECTS, {asig.optatividad})</li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    }
+                    <div>
+                        <p>Creditos del TFM: {creditosTFM}</p>
+                    </div>
                 </div>
             </div>
         </div>

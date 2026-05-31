@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import type { Alumno, Asignatura_curso_short, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
 import { Decrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
+import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
+import SidebarProfesor from "../Sidebar/SidebarProfesor.tsx";
+import Header from "../Header/Header.tsx";
 
 function NewNotas() {
     const [estudiantes, setEstudiantes] =useState<
@@ -18,6 +21,7 @@ function NewNotas() {
     const [convocatoria, setConvocatoria] = useState("");
 
     const [buttonAction, setButtonAction] = useState(false);
+    const [userRol, setRol] = useState("");
 
     useEffect(() => {
         const getAlumnos = async () => {
@@ -45,6 +49,8 @@ function NewNotas() {
                 alert("Tienes que ser un docente para poder calificar una asignatura");
                 globalThis.location.href = "/paginaPersonal";
             }
+
+            setRol(data_user.rol);
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
 
@@ -376,84 +382,97 @@ function NewNotas() {
     }
 
     return(
-        <div className="newNotas">
-            <h1>Calificación de la convocatoria {convocatoria.toLowerCase()}</h1>
-            {
-                alumnos !== undefined && alumnos.length > 0 &&
-                <>
-                    <table className="tablaNotas">
-                        <thead>
-                            <tr>
-                                <th>Nombre completo</th>
-                                <th>Email</th>
-                                <th>DNI</th>
-                                <th>Presentado</th>
-                                <th>Calificacion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                alumnos.map((alumno) => {
-                                    const estudiante = estudiantes.find((estudiante) => {
-                                        if(alumno.estudiante.id === estudiante.alumno){
-                                            return estudiante;
-                                        }
-                                    })
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                {
+                    userRol === "Coordinador" &&
+                    <SidebarCoordinador/>
+                }
+                {
+                    userRol === "Profesor" &&
+                    <SidebarProfesor/>
+                }
+                <div className="newNotas">
+                    {
+                        alumnos !== undefined && alumnos.length > 0 &&
+                        <>
+                            <h1>Calificación de la convocatoria {convocatoria.toLowerCase()}</h1>
+                            <table className="tablaNotas">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre completo</th>
+                                        <th>Email</th>
+                                        <th>DNI</th>
+                                        <th>Presentado</th>
+                                        <th>Calificacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        alumnos.map((alumno) => {
+                                            const estudiante = estudiantes.find((estudiante) => {
+                                                if(alumno.estudiante.id === estudiante.alumno){
+                                                    return estudiante;
+                                                }
+                                            })
 
-                                    if(estudiante === undefined){
-                                        alert("Estudiante no encontrado");
+                                            if(estudiante === undefined){
+                                                alert("Estudiante no encontrado");
 
-                                        globalThis.location.href = "/paginaAsignatura";
+                                                globalThis.location.href = "/paginaAsignatura";
+                                            }
+
+                                            return(
+                                                <tr key={alumno.estudiante.id}>
+                                                    <td>
+                                                        {
+                                                            alumno.estudiante.apellido_2 !== undefined && alumno.estudiante.apellido_2 !== null && alumno.estudiante.apellido_2.trim() !== "" && 
+                                                            <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1} {alumno.estudiante.apellido_2}</>
+                                                        }
+                                                        {
+                                                            (alumno.estudiante.apellido_2 === undefined || alumno.estudiante.apellido_2 === null || alumno.estudiante.apellido_2.trim() === "") && 
+                                                            <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1}</>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {alumno.estudiante.email}
+                                                    </td>
+                                                    <td>
+                                                        {alumno.estudiante.DNI}
+                                                    </td>
+                                                    <td>
+                                                        <select defaultValue={estudiante!.presentado === true ? "Si" : "No"} onChange={(e) => {
+                                                            handlePresentado(e, estudiante!.alumno);
+                                                        }}>
+                                                            <option value="No">No</option>
+                                                            <option value="Si">Si</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            estudiante!.presentado === false &&
+                                                            <p>No presentado</p>
+                                                        }
+                                                        {
+                                                            estudiante!.presentado === true &&
+                                                            <input type="number" min={0} defaultValue={estudiante!.nota} max={10} step="0.1" onChange={(e) => handleCalificar(e, estudiante!.alumno)}/>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
                                     }
-
-                                    return(
-                                        <tr key={alumno.estudiante.id}>
-                                            <td>
-                                                {
-                                                    alumno.estudiante.apellido_2 !== undefined && alumno.estudiante.apellido_2 !== null && alumno.estudiante.apellido_2.trim() !== "" && 
-                                                    <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1} {alumno.estudiante.apellido_2}</>
-                                                }
-                                                {
-                                                    (alumno.estudiante.apellido_2 === undefined || alumno.estudiante.apellido_2 === null || alumno.estudiante.apellido_2.trim() === "") && 
-                                                    <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1}</>
-                                                }
-                                            </td>
-                                            <td>
-                                                {alumno.estudiante.email}
-                                            </td>
-                                            <td>
-                                                {alumno.estudiante.DNI}
-                                            </td>
-                                            <td>
-                                                <select defaultValue={estudiante!.presentado === true ? "Si" : "No"} onChange={(e) => {
-                                                    handlePresentado(e, estudiante!.alumno);
-                                                }}>
-                                                    <option value="No">No</option>
-                                                    <option value="Si">Si</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                {
-                                                    estudiante!.presentado === false &&
-                                                    <p>No presentado</p>
-                                                }
-                                                {
-                                                    estudiante!.presentado === true &&
-                                                    <input type="number" min={0} defaultValue={estudiante!.nota} max={10} step="0.1" onChange={(e) => handleCalificar(e, estudiante!.alumno)}/>
-                                                }
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                    <br/>
-                </>
-            }
-            <div className="buttonsNotas">
-                <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Volver</button>
-                <button type="button" disabled={buttonAction} onClick={handleSend}>Enviar</button>
+                                </tbody>
+                            </table>
+                            <br/>
+                        </>
+                    }
+                    <div className="buttonsNotas">
+                        <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Volver</button>
+                        <button type="button" disabled={buttonAction} onClick={handleSend}>Enviar</button>
+                    </div>
+                </div>
             </div>
         </div>
     );

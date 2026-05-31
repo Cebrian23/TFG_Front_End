@@ -4,6 +4,7 @@ import type { Administrativo } from "../types/Personas/Administrativo.ts";
 import type { Coordinador } from "../types/Personas/Coordinador.ts";
 import type { Estudiante } from "../types/Personas/Estudiante.ts";
 import type { Profesor } from "../types/Personas/Profesor.ts";
+import Header from "../Header/Header.tsx";
 
 function UserPage() {
     const [user, setUser] = useState<(Coordinador | Estudiante | Profesor | Administrativo)>();
@@ -20,14 +21,6 @@ function UserPage() {
             if(auth === undefined){
                 globalThis.location.href = "/login";
             }
-
-            const url_num =  `https://tfg-back-end.onrender.com/titulaciones/num`;
-            const response_num = await fetch(url_num, {
-                method: "GET"
-            });
-
-            const data = await response_num.json();
-            const num_titulaciones = data.titulaciones_number;
 
             const url_user = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_user = await fetch(url_user, {
@@ -57,10 +50,10 @@ function UserPage() {
 
                 const data = await response_titulacion.json();
 
-                if(data.length === 0 && num_titulaciones === 0){
+                if(data.length === 0){
                     globalThis.location.href = "/nuevaTitulacion";
                 }
-                else if(data.length === 0 && num_titulaciones !== 0){
+                else if(data.length != 0){
                     setNoAdmin(true);
                 }
                 else if(data.length !== 0){
@@ -81,14 +74,12 @@ function UserPage() {
 
                 const data = await response_titulacion.json();
 
-                if(data.length === 0 && num_titulaciones === 0){
+                if(data.length === 0){
                     globalThis.location.href = "/nuevaTitulacion";
-                }
-                else if(data.length === 0 && num_titulaciones !== 0){
-                    setNoAsig(true);
                 }
                 else if(data.length !== 0){
                     Cookie.set("TFG_titulacion", data[0].id, {expires: 7});
+                    setNoAsig(true);
                 }
             }
 
@@ -109,49 +100,52 @@ function UserPage() {
     }
 
     return(
-        <div className="userPageShow">
-            {
-                user !== undefined &&
-                <div className="userPage">
-                    {
-                        (user.apellido_2 !== undefined && user.apellido_2 !== null && user.apellido_2 !== "") &&
-                        <h1>Bienvenido, {user.nombre} {user.apellido_1} {user.apellido_2}</h1>
-                    }
-                    {
-                        (user.apellido_2 === undefined || user.apellido_2 === null || user.apellido_2 === "") &&
-                        <h1>Bienvenido, {user.nombre} {user.apellido_1}</h1>
-                    }
-                    <form>
-                        <h2>¿Que deseas hacer?</h2>
-                        <div className="columns">
-                            {
-                               user.rol === "Administrativo" && noAdmin === false &&
-                                <>
-                                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Ver titulaciones administradas</button>
-                                    <br/>
-                                </>
-                            }
-                            {
-                                (user.rol === "Coordinador" || user.rol === "Profesor") && noAsig === false &&
-                                <>
-                                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Ver asignaturas impartidas</button>
-                                    <br/>
-                                </>
-                            }
-                            {
-                                user.rol === "Coordinador" &&
-                                <>
-                                    <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Insertar TFM de un alumno</button>
-                                    <br/>
-                                </>
-                            }
-                            <button type="button" onClick={() => globalThis.location.href = "/actualizarDatosPersonales"}>Modificar información personal</button>
-                            <br/>
-                            <button type="button" onClick={handleLogout}>Cerrar sesion</button>
-                        </div>
-                    </form>
-                </div>
-            }
+        <div className="finalPage">
+            <Header/>
+            <div className="userPageShow">
+                {
+                    user !== undefined &&
+                    <div className="userPage">
+                        {
+                            (user.apellido_2 !== undefined && user.apellido_2 !== null && user.apellido_2 !== "") &&
+                            <h1>Bienvenido, {user.nombre} {user.apellido_1} {user.apellido_2}</h1>
+                        }
+                        {
+                            (user.apellido_2 === undefined || user.apellido_2 === null || user.apellido_2 === "") &&
+                            <h1>Bienvenido, {user.nombre} {user.apellido_1}</h1>
+                        }
+                        <form>
+                            <h2>¿Que deseas hacer?</h2>
+                            <div className="columns">
+                                {
+                                user.rol === "Administrativo" && noAdmin === false &&
+                                    <>
+                                        <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Ver titulaciones administradas</button>
+                                        <br/>
+                                    </>
+                                }
+                                {
+                                    (user.rol === "Coordinador" || user.rol === "Profesor") && noAsig === true &&
+                                    <>
+                                        <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Ver asignaturas impartidas</button>
+                                        <br/>
+                                    </>
+                                }
+                                {
+                                    user.rol === "Coordinador" &&
+                                    <>
+                                        <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Insertar TFM de un alumno</button>
+                                        <br/>
+                                    </>
+                                }
+                                <button type="button" onClick={() => globalThis.location.href = "/actualizarDatosPersonales"}>Actualizar información personal</button>
+                                <br/>
+                                <button type="button" onClick={handleLogout}>Cerrar sesion</button>
+                            </div>
+                        </form>
+                    </div>
+                }
+            </div>
         </div>
     );
 }

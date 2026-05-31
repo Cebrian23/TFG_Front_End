@@ -4,6 +4,8 @@ import type { TFM_ins } from "../types/Asignaturas/TFM.ts";
 import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
 import type { Estudiante_Short } from "../types/Personas/Estudiante.ts";
 import type { Profesor_Short } from "../types/Personas/Profesor.ts";
+import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
+import Header from "../Header/Header.tsx";
 
 function NewTFM() {
     const [nombre, setNombre] = useState("");
@@ -282,344 +284,350 @@ function NewTFM() {
     }
 
     return(
-        <div className="grid_group_TFM">
-            <form className="newTFM">
-                <h1>Registro de TFM</h1>
-                {
-                    /*<div>
-                        <p className="message_auto">Autocompletar los campos con un PDF/Excel</p>
-                        <input type="file" accept=".pdf, .xlsx"/>
-                    </div>*/
-                }
-                <div className="column">
-                    <label htmlFor="titulo">Título:</label>
-                    <input type="text" placeholder="Titulo" onChange={(e) => {
-                        setNombre(e.currentTarget.value);
-                        setNombreError("");
-                    }}/>
-                    <div className="error">{nombreError}</div>
-                </div>
-                <div className="column">
-                    <label>Alumno:</label>
-                    <div className="add_data">
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                <SidebarCoordinador/>
+                <div className="grid_group_TFM">
+                    <form className="newTFM">
+                        <h1>Registro de TFM</h1>
                         {
-                            alumnos.length > 0 &&
-                            <select defaultValue="" onChange={(e) => {
-                                handleStudentChange(e);
-                            }}>
-                                <option key="" value="">Seleccionar Estudiante</option>
+                            /*<div>
+                                <p className="message_auto">Autocompletar los campos con un PDF/Excel</p>
+                                <input type="file" accept=".pdf, .xlsx"/>
+                            </div>*/
+                        }
+                        <div className="column">
+                            <label htmlFor="titulo">Título:</label>
+                            <input type="text" placeholder="Titulo" onChange={(e) => {
+                                setNombre(e.currentTarget.value);
+                                setNombreError("");
+                            }}/>
+                            <div className="error">{nombreError}</div>
+                        </div>
+                        <div className="column">
+                            <label>Alumno:</label>
+                            <div className="add_data">
                                 {
-                                    alumnos.map((alumno) => {
-                                        return(
-                                            <option key={alumno.id} value={alumno.DNI}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</option>
-                                        )
-                                    })
+                                    alumnos.length > 0 &&
+                                    <select defaultValue="" onChange={(e) => {
+                                        handleStudentChange(e);
+                                    }}>
+                                        <option key="" value="">Seleccionar Estudiante</option>
+                                        {
+                                            alumnos.map((alumno) => {
+                                                return(
+                                                    <option key={alumno.id} value={alumno.DNI}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 }
+                            </div>
+                            <div className="error">{estudianteError}</div>
+                        </div>
+                        <div className="column">
+                            <label>Director/es:</label>
+                            <div className="add_data">
+                                {
+                                    docentes.length > 0 &&
+                                    <>
+                                        <select defaultValue="" onChange={(e) => setDirector(e.currentTarget.value)}>
+                                            <option key="" value="">Seleccionar Director</option>
+                                            {
+                                                docentes.map((docente) => {
+                                                    return(
+                                                        <option key={docente.id} value={docente.id}>{docente.nombre} {docente.apellido_1} ({docente.email})</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                        <button type="button" onClick={() => {
+                                            if(director.trim() !== ""){
+                                                const docente_exists = directores.find((docente) => {
+                                                    if(docente === director){
+                                                        return docente;
+                                                    }
+                                                })
+
+                                                if(docente_exists === undefined){
+                                                    const directores_aux = directores;
+                                                    directores_aux.push(director);
+                                                    setDirectores(directores_aux);
+                                                    setDirector("");
+                                                }
+                                                else{
+                                                    alert("Director ya insertado");
+                                                }
+                                            }
+
+                                            setDirectoresError("");
+                                        }}>Insertar a la lista</button>
+                                    </>   
+                                }
+                                <button type="button" disabled={directores.length === 0 ? true : false} onClick={() => setDirectores([])}>Reiniciar lista</button>
+                            </div>
+                            <div className="error">{directoresError}</div>
+                        </div>
+                        <div className="column">
+                            <label>Miembros del tribunal:</label>
+                            <div className="add_data">
+                                {
+                                    docentes.length > 0 &&
+                                    <>
+                                        <select defaultValue="" onChange={(e) => setMiembro(e.currentTarget.value)}>
+                                            <option key="" value="">Seleccionar Miembro</option>
+                                            {
+                                                docentes.map((docente) => {
+                                                    return(
+                                                        <option key={docente.id} value={docente.id}>{docente.nombre} {docente.apellido_1} ({docente.email})</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                        <button type="button" onClick={() => {
+                                            if(miembro.trim() !== ""){
+                                                const miembro_exists = miembrosTribunal.find((docente) => {
+                                                    if(docente === miembro){
+                                                        return docente;
+                                                    }
+                                                })
+
+                                                if(miembro_exists === undefined){
+                                                    const miembros_aux = miembrosTribunal;
+                                                    miembros_aux.push(miembro);
+                                                    setTribunal(miembros_aux);
+                                                    setMiembro("");
+                                                }
+                                                else{
+                                                    alert("Miembro del tribunal ya insertado");
+                                                }
+                                            }
+                                            
+                                            setTribunalError("");
+                                        }}>Insertar a la lista</button>
+                                    </>
+                                }
+                            <button type="button" disabled={miembrosTribunal.length === 0 ? true : false} onClick={() => setTribunal([])}>Reiniciar lista</button>
+                            </div>
+                            <div className="error">{tribunalError}</div>
+                        </div>
+                        <div className="column">
+                            <label>Curso:</label>
+                            <input type="number" min={year} max={year+1} value={curso} onChange={(e) => setCurso(Math.trunc(Number(e.currentTarget.value)))}/>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="convocatoria">Convocatoria</label>
+                            <select id="convocatoria" defaultValue="Ordinaria" onChange={(e) => setConvocatoria(e.currentTarget.value)}>
+                                <option value="Ordinaria">Ordinaria</option>
+                                <option value="Extraordinaria">Extraordinaria</option>
                             </select>
-                        }
-                    </div>
-                    <div className="error">{estudianteError}</div>
-                </div>
-                <div className="column">
-                    <label>Director/es:</label>
-                    <div className="add_data">
-                        {
-                            docentes.length > 0 &&
-                            <>
-                                <select defaultValue="" onChange={(e) => setDirector(e.currentTarget.value)}>
-                                    <option key="" value="">Seleccionar Director</option>
-                                    {
-                                        docentes.map((docente) => {
-                                            return(
-                                                <option key={docente.id} value={docente.id}>{docente.nombre} {docente.apellido_1} ({docente.email})</option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                                <button type="button" onClick={() => {
-                                    if(director.trim() !== ""){
-                                        const docente_exists = directores.find((docente) => {
-                                            if(docente === director){
-                                                return docente;
-                                            }
-                                        })
-
-                                        if(docente_exists === undefined){
-                                            const directores_aux = directores;
-                                            directores_aux.push(director);
-                                            setDirectores(directores_aux);
-                                            setDirector("");
-                                        }
-                                        else{
-                                            alert("Director ya insertado");
-                                        }
-                                    }
-
-                                    setDirectoresError("");
-                                }}>Insertar a la lista</button>
-                            </>   
-                        }
-                        <button type="button" disabled={directores.length === 0 ? true : false} onClick={() => setDirectores([])}>Reiniciar lista</button>
-                    </div>
-                    <div className="error">{directoresError}</div>
-                </div>
-                <div className="column">
-                    <label>Miembros del tribunal:</label>
-                    <div className="add_data">
-                        {
-                            docentes.length > 0 &&
-                            <>
-                                <select defaultValue="" onChange={(e) => setMiembro(e.currentTarget.value)}>
-                                    <option key="" value="">Seleccionar Miembro</option>
-                                    {
-                                        docentes.map((docente) => {
-                                            return(
-                                                <option key={docente.id} value={docente.id}>{docente.nombre} {docente.apellido_1} ({docente.email})</option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                                <button type="button" onClick={() => {
-                                    if(miembro.trim() !== ""){
-                                        const miembro_exists = miembrosTribunal.find((docente) => {
-                                            if(docente === miembro){
-                                                return docente;
-                                            }
-                                        })
-
-                                        if(miembro_exists === undefined){
-                                            const miembros_aux = miembrosTribunal;
-                                            miembros_aux.push(miembro);
-                                            setTribunal(miembros_aux);
-                                            setMiembro("");
-                                        }
-                                        else{
-                                            alert("Miembro del tribunal ya insertado");
-                                        }
-                                    }
-                                    
-                                    setTribunalError("");
-                                }}>Insertar a la lista</button>
-                            </>
-                        }
-                    <button type="button" disabled={miembrosTribunal.length === 0 ? true : false} onClick={() => setTribunal([])}>Reiniciar lista</button>
-                    </div>
-                    <div className="error">{tribunalError}</div>
-                </div>
-                <div className="column">
-                    <label>Curso:</label>
-                    <input type="number" min={year} max={year+1} value={curso} onChange={(e) => setCurso(Math.trunc(Number(e.currentTarget.value)))}/>
-                </div>
-                <div className="column">
-                    <label htmlFor="convocatoria">Convocatoria</label>
-                    <select id="convocatoria" defaultValue="Ordinaria" onChange={(e) => setConvocatoria(e.currentTarget.value)}>
-                        <option value="Ordinaria">Ordinaria</option>
-                        <option value="Extraordinaria">Extraordinaria</option>
-                    </select>
-                </div>
-                <div className="column">
-                    <label htmlFor="fecha">Fecha de la defensa:</label>
-                    <input type="date" value={fecha} onChange={(e) => {
-                        setFecha(e.currentTarget.value);
-                    }}/>
-                </div>
-                <div className="column">
-                    <label htmlFor="hora">Hora de la defensa:</label>
-                    <input type="time" name="hora" defaultValue={hora} onChange={(e) => setHora(e.currentTarget.value)}/>
-                </div>
-                <div className="column">
-                    <label htmlFor="calificacion">Nota:</label>
-                    <select defaultValue="Sin calificar" onChange={(e) => {
-                        if(e.currentTarget.value !== "Calificar con valor numerico"){
-                            setNota(e.currentTarget.value);
-                            setShow(false);
-                        }
-                        else{
-                            setNota(5);
-                            setShow(true);
-                        }
-
-                        setCalificacionError("");
-                    }}>
-                        <option value="No presentado">No presentado</option>
-                        <option value="Sin calificar">Sin calificar</option>
-                        <option value="Calificar con valor numerico">Calificar</option>
-                    </select>
-                    {
-                        showNota === true &&
-                        <>
-                            <input name="nota" type="number" defaultValue="5" min="0" max="10" step="0.1" onChange={(e) => {
-                                setNota(e.currentTarget.value);
+                        </div>
+                        <div className="column">
+                            <label htmlFor="fecha">Fecha de la defensa:</label>
+                            <input type="date" value={fecha} onChange={(e) => {
+                                setFecha(e.currentTarget.value);
+                            }}/>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="hora">Hora de la defensa:</label>
+                            <input type="time" name="hora" defaultValue={hora} onChange={(e) => setHora(e.currentTarget.value)}/>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="calificacion">Nota:</label>
+                            <select defaultValue="Sin calificar" onChange={(e) => {
+                                if(e.currentTarget.value !== "Calificar con valor numerico"){
+                                    setNota(e.currentTarget.value);
+                                    setShow(false);
+                                }
+                                else{
+                                    setNota(5);
+                                    setShow(true);
+                                }
 
                                 setCalificacionError("");
-                            }}/>
-                        </>
-                    }
-                    <div className="error">{calificacionError}</div>
-                </div>
-                <div className="buttons">
-                    <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
-                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
-                </div>
-            </form>
-            <div>
-                <h3>Datos del TFM:</h3>
-                <div>
-                    <p><b>Título del TFM: </b>{nombre}</p>
-                </div>
-                <div>
-                    <p>
+                            }}>
+                                <option value="No presentado">No presentado</option>
+                                <option value="Sin calificar">Sin calificar</option>
+                                <option value="Calificar con valor numerico">Calificar</option>
+                            </select>
+                            {
+                                showNota === true &&
+                                <>
+                                    <input name="nota" type="number" defaultValue="5" min="0" max="10" step="0.1" onChange={(e) => {
+                                        setNota(e.currentTarget.value);
+
+                                        setCalificacionError("");
+                                    }}/>
+                                </>
+                            }
+                            <div className="error">{calificacionError}</div>
+                        </div>
+                        <div className="buttons">
+                            <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+                            <button type="reset" onClick={handleReset}>Vaciar campos</button>
+                            <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
+                        </div>
+                    </form>
+                    <div>
+                        <h3>Datos del TFM:</h3>
+                        <div>
+                            <p><b>Título del TFM: </b>{nombre}</p>
+                        </div>
+                        <div>
+                            <p>
+                                {
+                                    estudiante !== "" &&
+                                    <>
+                                        <b>Alumno: </b> {estudianteData}
+                                    </>
+                                }
+                            </p>
+                        </div>
                         {
-                            estudiante !== "" &&
-                            <>
-                                <b>Alumno: </b> {estudianteData}
-                            </>
+                            directores.length === 1 &&
+                            <div>
+                                <p>
+                                    <b>Director: </b>
+                                    {
+                                        directores.map((director) => {
+                                            const persona = docentes.find((persona) => {
+                                                if(persona.id === director){
+                                                    return persona;
+                                                }
+                                            });
+
+                                            if(persona === undefined){
+                                                return;
+                                            }
+                                            
+                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
+                                                )
+                                            }
+                                            else{
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
+                                                )
+                                            }
+                                        })
+                                    }
+                                </p>
+                            </div>
                         }
-                    </p>
-                </div>
-                {
-                    directores.length === 1 &&
-                    <div>
-                        <p>
-                            <b>Director: </b>
-                            {
-                                directores.map((director) => {
-                                    const persona = docentes.find((persona) => {
-                                        if(persona.id === director){
-                                            return persona;
-                                        }
-                                    });
+                        {
+                            directores.length > 1 &&
+                            <div>
+                                <p>
+                                    <b>Directores:</b>
+                                </p>
+                                <ul>
+                                    {
+                                        directores.map((director) => {
+                                            const persona = docentes.find((persona) => {
+                                                if(persona.id === director){
+                                                    return persona;
+                                                }
+                                            });
 
-                                    if(persona === undefined){
-                                        return;
+                                            if(persona === undefined){
+                                                return;
+                                            }
+                                            
+                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                return(
+                                                    <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</li>
+                                                )
+                                            }
+                                            else{
+                                                return(
+                                                    <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</li>
+                                                )
+                                            }
+                                        })
                                     }
-                                    
-                                    if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
-                                        return(
-                                            <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
-                                        )
-                                    }
-                                    else{
-                                        return(
-                                            <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
-                                        )
-                                    }
-                                })
-                            }
-                        </p>
-                    </div>
-                }
-                {
-                    directores.length > 1 &&
-                    <div>
-                        <p>
-                            <b>Directores:</b>
-                        </p>
-                        <ul>
-                            {
-                                directores.map((director) => {
-                                    const persona = docentes.find((persona) => {
-                                        if(persona.id === director){
-                                            return persona;
-                                        }
-                                    });
+                                </ul>
+                            </div>
+                        }
+                        {
+                            miembrosTribunal.length === 1 &&
+                            <div>
+                                <p>
+                                    <b>Miembro del tribunal: </b>
+                                    {
+                                        miembrosTribunal.map((miembro) => {
+                                            const persona = docentes.find((persona) => {
+                                                if(persona.id === miembro){
+                                                    return persona;
+                                                }
+                                            });
 
-                                    if(persona === undefined){
-                                        return;
+                                            if(persona === undefined){
+                                                return;
+                                            }
+                                            
+                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
+                                                )
+                                            }
+                                            else{
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
+                                                )
+                                            }
+                                        })
                                     }
-                                    
-                                    if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
-                                        return(
-                                            <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</li>
-                                        )
-                                    }
-                                    else{
-                                        return(
-                                            <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</li>
-                                        )
-                                    }
-                                })
-                            }
-                        </ul>
-                    </div>
-                }
-                {
-                    miembrosTribunal.length === 1 &&
-                    <div>
-                        <p>
-                            <b>Miembro del tribunal: </b>
-                            {
-                                miembrosTribunal.map((miembro) => {
-                                    const persona = docentes.find((persona) => {
-                                        if(persona.id === miembro){
-                                            return persona;
-                                        }
-                                    });
+                                </p>
+                            </div>
+                        }
+                        {
+                            miembrosTribunal.length > 1 &&
+                            <div>
+                                <p><b>Miembros del tribunal:</b></p>
+                                <ul>
+                                    {
+                                        miembrosTribunal.map((miembro) => {
+                                            const persona = docentes.find((persona) => {
+                                                if(persona.id === miembro){
+                                                    return persona;
+                                                }
+                                            });
 
-                                    if(persona === undefined){
-                                        return;
+                                            if(persona === undefined){
+                                                return;
+                                            }
+                                            
+                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                return(
+                                                    <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</li>
+                                                )
+                                            }
+                                            else{
+                                                return(
+                                                    <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</li>
+                                                )
+                                            }
+                                        })
                                     }
-                                    
-                                    if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
-                                        return(
-                                            <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
-                                        )
-                                    }
-                                    else{
-                                        return(
-                                            <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
-                                        )
-                                    }
-                                })
-                            }
-                        </p>
+                                </ul>
+                            </div>
+                        }
+                            
+                        <div>
+                            <p><b>Curso: </b>Curso {curso}-{curso+1}</p>
+                        </div>
+                        <div>
+                            <p><b>Convocatoria: </b>{convocatoria}</p>
+                        </div>
+                        <div>
+                            <p><b>Fecha y hora de la defensa: </b>{hora} {fecha.split("-")[2]}-{fecha.split("-")[1]}-{fecha.split("-")[0]}</p>
+                        </div>
+                        <div>
+                            <p><b>Nota: </b>{nota}</p>
+                        </div>
                     </div>
-                }
-                {
-                    miembrosTribunal.length > 1 &&
-                    <div>
-                        <p><b>Miembros del tribunal:</b></p>
-                        <ul>
-                            {
-                                miembrosTribunal.map((miembro) => {
-                                    const persona = docentes.find((persona) => {
-                                        if(persona.id === miembro){
-                                            return persona;
-                                        }
-                                    });
-
-                                    if(persona === undefined){
-                                        return;
-                                    }
-                                    
-                                    if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
-                                        return(
-                                            <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</li>
-                                        )
-                                    }
-                                    else{
-                                        return(
-                                            <li key={persona.id} value={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</li>
-                                        )
-                                    }
-                                })
-                            }
-                        </ul>
-                    </div>
-                }
-                    
-                <div>
-                    <p><b>Curso: </b>Curso {curso}-{curso+1}</p>
-                </div>
-                <div>
-                    <p><b>Convocatoria: </b>{convocatoria}</p>
-                </div>
-                <div>
-                    <p><b>Fecha y hora de la defensa: </b>{hora} {fecha}</p>
-                </div>
-                <div>
-                    <p><b>Nota: </b>{nota}</p>
                 </div>
             </div>
         </div>

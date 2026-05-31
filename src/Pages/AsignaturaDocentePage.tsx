@@ -7,11 +7,16 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'
 import type { Estudiante_Short } from "../types/Personas/Estudiante.ts";
 import { Decrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
+import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
+import SidebarProfesor from "../Sidebar/SidebarProfesor.tsx";
+import Header from "../Header/Header.tsx";
 
 function AsignaturaDocentePage() {
     const [asignatura, setAsignatura] = useState<Asignatura_curso>();
     const [showAlumnos, setShowAlumnos] = useState(false);
     const [urlAlumnos, setUrlAlumnos] = useState("");
+
+    const [userRol, setRol] = useState("");
 
     useEffect(() => {
         const getData = async () => {
@@ -40,6 +45,8 @@ function AsignaturaDocentePage() {
             if(data_user.rol !== "Coordinador" && data_user.rol !== "Profesor"){
                 globalThis.location.href = "/paginaPersonal";
             }
+
+            setRol(data_user.rol);
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
 
@@ -199,67 +206,80 @@ function AsignaturaDocentePage() {
     }, []);
 
     return(
-        <>
-            {
-                asignatura !== undefined &&
-                <div className="AsignaturaImpPage">
-                    <h1>{asignatura.nombre} ({asignatura.curso_academico})</h1>
-                    <div className="AsignaturaImpPageMenu">
-                        <h2>¿Que deseas hacer?</h2>
-                        <div className="column">
-                            <button type="button" onClick={() => setShowAlumnos(!showAlumnos)}>
-                                {
-                                    showAlumnos === false ? <>Mostrar alumnos</> : <>Ocultar alumnos</>
-                                }
-                            </button>
-                            <button type="button" onClick={() => {
-                                const curso_aux = asignatura.curso_academico.split(" ")[1].split("-")[1];
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                {
+                    userRol === "Coordinador" &&
+                    <SidebarCoordinador/>
+                }
+                {
+                    userRol === "Profesor" &&
+                    <SidebarProfesor/>
+                }
+                <div>
+                {
+                    asignatura !== undefined &&
+                    <div className="AsignaturaImpPage">
+                        <h1>{asignatura.nombre} ({asignatura.curso_academico})</h1>
+                        <div className="AsignaturaImpPageMenu">
+                            <h2>¿Que deseas hacer?</h2>
+                            <div className="column">
+                                <button type="button" onClick={() => setShowAlumnos(!showAlumnos)}>
+                                    {
+                                        showAlumnos === false ? <>Mostrar alumnos</> : <>Ocultar alumnos</>
+                                    }
+                                </button>
+                                <button type="button" onClick={() => {
+                                    const curso_aux = asignatura.curso_academico.split(" ")[1].split("-")[1];
 
-                                const date = new Date();
+                                    const date = new Date();
 
-                                if((date.getFullYear() > Number(curso_aux)) || date.getMonth() >= 8){
-                                    alert("No se puede evaluar una asignatura fuera de fecha");
+                                    if((date.getFullYear() > Number(curso_aux)) || date.getMonth() >= 8){
+                                        alert("No se puede evaluar una asignatura fuera de fecha");
 
-                                    globalThis.location.href = "/mostrarAsignaturas";
-                                }
+                                        globalThis.location.href = "/mostrarAsignaturas";
+                                    }
 
-                                if(asignatura.ordinaria_firmada === false){
-                                    Cookie.set("TFG_conv", "Ordinaria", {expires: 7});
+                                    if(asignatura.ordinaria_firmada === false){
+                                        Cookie.set("TFG_conv", "Ordinaria", {expires: 7});
 
-                                    globalThis.location.href = "/calificarAsignatura";
-                                }
-                                else if(asignatura.extraordinaria_firmada === false){
-                                    Cookie.set("TFG_conv", "Extraordinaria", {expires: 7});
+                                        globalThis.location.href = "/calificarAsignatura";
+                                    }
+                                    else if(asignatura.extraordinaria_firmada === false){
+                                        Cookie.set("TFG_conv", "Extraordinaria", {expires: 7});
 
-                                    globalThis.location.href = "/calificarAsignatura";
-                                }
-                                else{
-                                    alert("Ambas convocatorias ya estan evaluadas y firmadas");
+                                        globalThis.location.href = "/calificarAsignatura";
+                                    }
+                                    else{
+                                        alert("Ambas convocatorias ya estan evaluadas y firmadas");
 
-                                    globalThis.location.href = "/mostrarAsignaturas";
-                                }
-                            }}>
-                                {
-                                    asignatura.ordinaria_firmada === false ? <>Calificar convocatoria ordinaria</> : <>Calificar convocatoria extraordinaria</>
-                                }
-                            </button>
-                            <button type="button" onClick={() => {
-                                Cookie.remove("TFG_conv");
+                                        globalThis.location.href = "/mostrarAsignaturas";
+                                    }
+                                }}>
+                                    {
+                                        asignatura.ordinaria_firmada === false ? <>Calificar convocatoria ordinaria</> : <>Calificar convocatoria extraordinaria</>
+                                    }
+                                </button>
+                                <button type="button" onClick={() => {
+                                    Cookie.remove("TFG_conv");
 
-                                globalThis.location.href =  "/mostrarAsignaturas";
-                            }}>Volver</button>
+                                    globalThis.location.href =  "/mostrarAsignaturas";
+                                }}>Volver</button>
+                            </div>
                         </div>
                     </div>
+                }
+                {
+                    showAlumnos === true &&
+                    <div className="AsignaturaImp">
+                        <br/>
+                        <embed src={urlAlumnos} width="100%" height="350px"/>
+                    </div>
+                }
                 </div>
-            }
-            {
-                showAlumnos === true &&
-                <div className="AsignaturaImp">
-                    <br/>
-                    <embed src={urlAlumnos} width="100%" height="350px"/>
-                </div>
-            }
-        </>
+            </div>
+        </div>
     );
 }
 

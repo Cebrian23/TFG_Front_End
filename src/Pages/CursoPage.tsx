@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import type { Asignatura_curso, Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
 import type { Administrativo_Short } from "../types/Personas/Administrativo.ts";
+import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
+import Header from "../Header/Header.tsx";
 
 function CursoPage() {
     const [curso, setCurso] = useState<Asignatura_curso>();
@@ -117,110 +119,114 @@ function CursoPage() {
     }, []);
 
     return(
-        <>    
-            {
-                curso !== undefined &&
-                <div className="CursoPage">
-                    <h1>Página de {curso.nombre} ({curso.curso_academico})</h1>
-                    <div className="CursoPageMenu">
-                        <h2>¿Que deseas hacer?</h2>
-                        <div className="column">
-                            <button type="button" onClick={() => setShowProfesores(!showProfesores)}>{showProfesores === false ? "Mostrar profesores" : "Ocultar profesores"}</button>
-                            <button type="button" onClick={() => setShowEstudiantes(!showEstudiantes)}>{showEstudiantes === false ? "Mostrar estudiantes" : "Ocultar estudiantes"}</button>
-                            <button type="button" onClick={() => globalThis.location.href = "/mostrarCursos"}>Volver</button>
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">    
+                <SidebarAdministrativo/>
+                {
+                    curso !== undefined &&
+                    <div className="CursoPage">
+                        <h1>Página de {curso.nombre} ({curso.curso_academico})</h1>
+                        <div className="CursoPageMenu">
+                            <h2>¿Que deseas hacer?</h2>
+                            <div className="column">
+                                <button type="button" onClick={() => setShowProfesores(!showProfesores)}>{showProfesores === false ? "Mostrar profesores" : "Ocultar profesores"}</button>
+                                <button type="button" onClick={() => setShowEstudiantes(!showEstudiantes)}>{showEstudiantes === false ? "Mostrar estudiantes" : "Ocultar estudiantes"}</button>
+                                <button type="button" onClick={() => globalThis.location.href = "/mostrarCursos"}>Volver</button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="infoPage">
-                        <p><b>Nombre: </b>{curso.nombre}</p>
-                        <p><b>Curso académico: </b>{curso.curso_academico}</p>
-                        {
-                            showProfesores === true && curso.profesores.length === 1 &&
-                            <p>
-                                <b>Profesor: </b>
-                                {
-                                    curso.profesores.map((docente) => {
-                                        if(docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== ""){
-                                            return(
-                                                <span key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2}</span>
-                                            )
-                                        }
-                                        else{
-                                            return(
-                                                <span key={docente.id}>{docente.nombre} {docente.apellido_1}</span>
-                                            )
-                                        }
-                                    })
-                                }
-                            </p>
-                        }
-                        {
-                            showProfesores === true && curso.profesores.length > 1 &&
-                            <>
-                                <p><b>Profesores:</b></p>
-                                <ul>
+                        <div className="infoPage">
+                            <p><b>Nombre: </b>{curso.nombre}</p>
+                            <p><b>Curso académico: </b>{curso.curso_academico}</p>
+                            {
+                                showProfesores === true && curso.profesores.length === 1 &&
+                                <p>
+                                    <b>Profesor: </b>
                                     {
                                         curso.profesores.map((docente) => {
                                             if(docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== ""){
                                                 return(
-                                                    <li key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2}</li>
+                                                    <span key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2}</span>
                                                 )
                                             }
                                             else{
                                                 return(
-                                                    <li key={docente.id}>{docente.nombre} {docente.apellido_1}</li>
+                                                    <span key={docente.id}>{docente.nombre} {docente.apellido_1}</span>
                                                 )
                                             }
                                         })
                                     }
-                                </ul>
-                            </>
-                        }
-                        {
-                            showEstudiantes === true && curso.estudiantes.length === 1 &&
-                            <p>
-                                <b>Estudiante: </b>
-                                {
-                                    curso.estudiantes.map((alumno) => {
-                                        if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
-                                            return(
-                                                <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2}</span>
-                                            )
+                                </p>
+                            }
+                            {
+                                showProfesores === true && curso.profesores.length > 1 &&
+                                <>
+                                    <p><b>Profesores:</b></p>
+                                    <ul>
+                                        {
+                                            curso.profesores.map((docente) => {
+                                                if(docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== ""){
+                                                    return(
+                                                        <li key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2}</li>
+                                                    )
+                                                }
+                                                else{
+                                                    return(
+                                                        <li key={docente.id}>{docente.nombre} {docente.apellido_1}</li>
+                                                    )
+                                                }
+                                            })
                                         }
-                                        else{
-                                            return(
-                                                <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1}</span>
-                                            )
-                                        }
-                                    })
-                                }
-                            </p>
-                        }
-                        {
-                            showEstudiantes === true && curso.estudiantes.length > 1 &&
-                            <>
-                                <p><b>Estudiantes:</b></p>
-                                <ul>
+                                    </ul>
+                                </>
+                            }
+                            {
+                                showEstudiantes === true && curso.estudiantes.length === 1 &&
+                                <p>
+                                    <b>Estudiante: </b>
                                     {
                                         curso.estudiantes.map((alumno) => {
                                             if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
                                                 return(
-                                                    <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2}</li>
+                                                    <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2}</span>
                                                 )
                                             }
                                             else{
                                                 return(
-                                                    <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1}</li>
+                                                    <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1}</span>
                                                 )
                                             }
                                         })
                                     }
-                                </ul>
-                            </>
-                        }
+                                </p>
+                            }
+                            {
+                                showEstudiantes === true && curso.estudiantes.length > 1 &&
+                                <>
+                                    <p><b>Estudiantes:</b></p>
+                                    <ul>
+                                        {
+                                            curso.estudiantes.map((alumno) => {
+                                                if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
+                                                    return(
+                                                        <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2}</li>
+                                                    )
+                                                }
+                                                else{
+                                                    return(
+                                                        <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1}</li>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </ul>
+                                </>
+                            }
+                        </div>
                     </div>
-                </div>
-            }
-        </>
+                }
+            </div>
+        </div>
     );
 }
 

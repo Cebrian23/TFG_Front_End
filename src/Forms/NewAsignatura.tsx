@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import type { Asignatura_ins } from "../types/Asignaturas/Asignatura.ts";
+import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
+import Header from "../Header/Header.tsx";
 
 function NewAsignatura() {
     const [nombre, setNombre] = useState("");
@@ -133,47 +135,53 @@ function NewAsignatura() {
     }
     
     return(
-        <div className="new">
-            <form className="newAsignatura">
-                <h1>Registro de asignatura</h1>
-                <div className="column">
-                    <label htmlFor="nombre">Nombre:</label>
-                    <input id="nombre" name="nombre" value={nombre} placeholder="Nombre" onChange={(e) => {
-                        setNombre(e.currentTarget.value);
-                        setNombreError("");
-                    }}/>
-                    <div className="error">{nombreError}</div>
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                <SidebarAdministrativo/>
+                <div className="newAsig">
+                    <form className="newAsignatura">
+                        <h1>Registro de asignatura</h1>
+                        <div className="column">
+                            <label htmlFor="nombre">Nombre:</label>
+                            <input id="nombre" name="nombre" value={nombre} placeholder="Nombre" onChange={(e) => {
+                                setNombre(e.currentTarget.value);
+                                setNombreError("");
+                            }}/>
+                            <div className="error">{nombreError}</div>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="creditos">Créditos:</label>
+                            <input id="creditos" name="creditos" type="number" value={creditos} min="1" max="10" onChange={(e) => setCreditos(Math.trunc(Number(e.currentTarget.value)))}/>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="curso">Curso:</label>
+                            <select id="curso" name="curso" defaultValue="1º" onChange={(e) => {setCurso(e.currentTarget.value)}}>
+                                {
+                                    cursos_str.length !== 0 &&
+                                    cursos_str.map((curso) => {
+                                        return(
+                                            <option key={curso} value={curso}>{curso}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="column">
+                            <label>Optatividad:</label>
+                            <select value={optatividad} onChange={(e) => setOptatividad(e.currentTarget.value)}>
+                                <option value="Obligatoria">Obligatoria</option>
+                                <option value="Optativa">Optativa</option>
+                            </select>
+                        </div>
+                        <div className="buttons">
+                            <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
+                            <button type="reset" onClick={handleReset}>Vaciar campos</button>
+                            <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
+                        </div>
+                    </form>
                 </div>
-                <div className="column">
-                    <label htmlFor="creditos">Créditos:</label>
-                    <input id="creditos" name="creditos" type="number" value={creditos} min="1" max="10" onChange={(e) => setCreditos(Math.trunc(Number(e.currentTarget.value)))}/>
-                </div>
-                <div className="column">
-                    <label htmlFor="curso">Curso:</label>
-                    <select id="curso" name="curso" defaultValue="1º" onChange={(e) => {setCurso(e.currentTarget.value)}}>
-                        {
-                            cursos_str.length !== 0 &&
-                            cursos_str.map((curso) => {
-                                return(
-                                    <option key={curso} value={curso}>{curso}</option>
-                                )
-                            })
-                        }
-                    </select>
-                </div>
-                <div className="column">
-                    <label>Optatividad:</label>
-                    <select value={optatividad} onChange={(e) => setOptatividad(e.currentTarget.value)}>
-                        <option value="Obligatoria">Obligatoria</option>
-                        <option value="Optativa">Optativa</option>
-                    </select>
-                </div>
-                <div className="buttons">
-                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver atras</button>
-                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                    <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
-                </div>
-            </form>
+            </div>
         </div>
     );
 }
