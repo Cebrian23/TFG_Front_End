@@ -17,6 +17,7 @@ import ShowCursos from './Pages/ShowCursos.tsx';
 import ShowTitulaciones from './Pages/ShowTitulaciones.tsx';
 import TitulacionPage from './Pages/TitulacionPage.tsx';
 import UserPage from './Pages/UserPage.tsx';
+//import Register from './Forms/Register.tsx';
 
 function App() {
   return (
@@ -38,9 +39,7 @@ function App() {
           <Route path="paginaCurso" element={<CursoPage/>}/>
           <Route path="actualizarDatosPersonales" element={<UpdateUser/>}/>
           {
-            /*
-              <Route path="registroAdmin" element={<Register/>}/>
-            */
+            /*<Route path="registroAdmin" element={<Register/>}/>*/
           }
           <Route path="mostrarTitulaciones" element={<ShowTitulaciones/>}/>
           <Route path="mostrarAsignaturasTitulacion" element={<ShowAsignaturasTitulacion/>}/>
