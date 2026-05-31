@@ -2,15 +2,20 @@
     border: 1px black solid;
     justify-content: center;
     width: 25%;
-    margin: 1%;
 }
 
-.showAsigs_Titulacion, .showCursos, .showTitulaciones{
+.showTitulaciones{
     margin-left: auto;
     margin-right: auto;
     place-items: center;
     display: grid;
-    grid-template-rows: 1fr 9fr 1fr;
+    grid-template-rows: 10dvh 70dvh 10dvh;
+    width: 100%;
+    div{
+        width: 100%;
+        place-items: center;
+        place-content: center;
+    }
 }
 
 .grid_titulaciones1{
@@ -19,12 +24,15 @@
     place-items: center;
     .cards{
         border: 1px black solid;
-        width: 80%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 30%;
+        padding: 1%;
         text-align: center;
-        margin: 2%;
+        margin: 5%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
     }
 }
 
@@ -34,12 +42,15 @@
     place-items: center;
     .cards{
         border: 1px black solid;
-        width: 80%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 30%;
+        padding: 1%;
         text-align: center;
-        margin: 2%;
+        margin: 5%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
     }
 }
 
@@ -49,12 +60,29 @@
     place-items: center;    
     .cards{
         border: 1px black solid;
-        width: 80%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 30%;
+        padding: 1%;
         text-align: center;
-        margin: 2%;
+        margin: 5%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
+    }
+}
+
+.showAsigsTitulacion{
+    margin-left: auto;
+    margin-right: auto;
+    place-items: center;
+    display: grid;
+    grid-template-rows: 10dvh 70.95dvh 10dvh;
+    width: 100%;
+    div{
+        width: 100%;
+        place-items: center;
+        place-content: center;
     }
 }
 
@@ -64,27 +92,33 @@
     place-items: center;
     .cards{
         border: 1px black solid;
-        width: 80%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 90%;
         text-align: center;
         margin: 2%;
+        padding: 3%
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
     }
 }
 
 .grid_asigs_titulacion2{
     display: grid;
+    width: 100dvh;
     grid-template-columns: 1fr 1fr;
     place-items: center;
     .cards{
         border: 1px black solid;
-        width: 80%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 60%;
         text-align: center;
         margin: 2%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
     }
 }
 
@@ -94,12 +128,97 @@
     place-items: center;    
     .cards{
         border: 1px black solid;
-        width: 80%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 90%;
+        text-align: center;
+        margin: 2%;
+        padding: 3%
+    }
+    button{
+        margin-bottom: 2%;
+    }
+}
+
+.showAsigsDocente{
+    margin-left: auto;
+    margin-right: auto;
+    place-items: center;
+    display: grid;
+    grid-template-rows: 10dvh 70.95dvh 10dvh;
+    width: 100%;
+    div{
+        width: 100%;
+        place-items: center;
+        place-content: center;
+    }
+}
+
+.grid_asigs_docente1{
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 90%;
+        text-align: center;
+        margin: 2%;
+        padding: 3%
+    }
+    button{
+        margin-bottom: 2%;
+    }
+}
+
+.grid_asigs_docente2{
+    display: grid;
+    width: 100dvh;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 60%;
         text-align: center;
         margin: 2%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
+    }
+}
+
+.grid_asigs_docente3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;    
+    .cards{
+        border: 1px black solid;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 90%;
+        text-align: center;
+        margin: 2%;
+        padding: 3%
+    }
+    button{
+        margin-bottom: 2%;
+    }
+}
+
+.showCursos{
+    margin-left: auto;
+    margin-right: auto;
+    place-items: center;
+    display: grid;
+    grid-template-rows: 10dvh 70.9dvh 10dvh;
+    width: 100%;
+    div{
+        width: 100%;
+        place-items: center;
+        place-content: center;
     }
 }
 
@@ -109,12 +228,14 @@
     place-items: center;
     .cards{
         border: 1px black solid;
-        width: 125%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 30%;
         text-align: center;
         margin: 2%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
     }
 }
 
@@ -122,14 +243,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     place-items: center;
+    margin: 3%;
     .cards{
         border: 1px black solid;
-        width: 125%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 30%;
         text-align: center;
         margin: 2%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
     }
 }
 
@@ -139,12 +263,14 @@
     place-items: center;    
     .cards{
         border: 1px black solid;
-        width: 125%;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 30%;
         text-align: center;
         margin: 2%;
     }
     button{
-        margin-bottom: 4%;
+        margin-bottom: 2%;
     }
 }
 
@@ -161,12 +287,14 @@
 
 .tablaNotas{
     border-collapse: collapse;
+    background-color: #f8fafc;
     td{
-        padding: 3px;
+        text-align: center;
+        padding: 5px;
         border: 1px solid black;
     }
     th{
-        padding: 3px;
+        padding: 5px;
         border: 1px solid black;
     }
     tr{
@@ -175,6 +303,14 @@
     select{
         width: 100%;
         border: white;
+        background-color: #f8fafc;
+    }
+    input{
+        margin-block-start: 16.5px;
+        margin-block-end: 16.5px;
+        text-align: center;
+        border: white;
+        background-color: #f8fafc;
     }
 }
 
@@ -183,6 +319,7 @@
     margin-right: auto;
     margin-top: 25dvb;
     place-items: center;
+    width: 100%;
 }
 
 .Titulaciones_Pages{
@@ -190,6 +327,7 @@
     margin-right: auto;
     margin-top: 25dvb;
     place-items: center;
+    width: 100%;
 }
 
 .TitulacionPage, .AsignaturaTitulacionPage, .AsignaturaImpPage, .CursoPage{
@@ -197,12 +335,34 @@
     margin-right: auto;
     margin-top: 5dvb;
     place-items: center;
+    width: 100%;
 }
 
-.TitulacionPageMenu, .AsignaturaTitulacionPageMenu, .AsignaturaImpPageMenu, .CursoPageMenu{
+.AsignaturaTitulacionPageMenu, .AsignaturaImpPageMenu{
     border: 1px black solid;
     margin-top: 5dvb;
+    background-color: #f8fafc;
     width: 20%;
+    h1, h2, h3{
+        text-align: center;
+    }
+}
+
+.TitulacionPageMenu{
+    border: 1px black solid;
+    margin-top: 5dvb;
+    background-color: #f8fafc;
+    width: 25%;
+    h1, h2, h3{
+        text-align: center;
+    }
+}
+
+.CursoPageMenu{
+    border: 1px black solid;
+    margin-top: 5dvb;
+    background-color: #f8fafc;
+    width: 25%;
     h1, h2, h3{
         text-align: center;
     }
@@ -239,9 +399,10 @@
 
 .userPage{
     border: 1px black solid;
-    border-radius: 5%;
-    padding: 1%;
-    width: 20%;
+    border-radius: 5dvh;
+    background-color: #f8fafc;
+    padding: 3%;
+    width: 45dvh;
     h1, h2, h3{
         text-align: center;
     }
