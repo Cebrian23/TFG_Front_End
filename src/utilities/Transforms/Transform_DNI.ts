@@ -18,7 +18,6 @@ export const Decrypt_DNI = (dni: string) => {
     }
 
     const bytes = CryptoJS.AES.decrypt(dni.trim(), DNI_KEY);
-    console.log("Decode: "+ bytes.toString(CryptoJS.enc.Utf8));
 
     return bytes.toString(CryptoJS.enc.Utf8);
 }
