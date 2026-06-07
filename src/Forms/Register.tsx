@@ -5,6 +5,7 @@ import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
 import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 import { Encrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 import Header from "../Header/Header.tsx";
+import { Validate_DNI } from "../utilities/Validations/Validate_DNI.ts";
 
 function Register() {
     const [nombre, setNombre] = useState("");
@@ -91,6 +92,16 @@ function Register() {
             setDNIError("Hay que rellenar este campo");
             error_exists = true;
         }
+        else{
+            const dni_data = Validate_DNI(dni);
+    
+            if(dni_data.status !== 200){
+                const error = await dni_data.json();
+    
+                setDNIError(error.error);
+                error_exists = true;
+            }
+        }
 
         if(phone !== ""){
             const phone_data = await Validate_Phone(prefix, phone);
@@ -172,7 +183,7 @@ function Register() {
         }
 
         if(error_exists === false){
-                const body: Persona_ins = {
+            const body: Persona_ins = {
                 nombre: nombre,
                 apellido_1: apellido1,
                 email: email,
