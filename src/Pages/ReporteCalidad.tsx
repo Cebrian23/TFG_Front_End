@@ -42,7 +42,11 @@ function ReporteCalidad() {
             <Header/>
             <div className="totalPage">
                 <SidebarAdministrativo/>
-                <div></div>
+                <div className="">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </div>
     );
