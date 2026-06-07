@@ -4,7 +4,7 @@ import type { Asignatura_curso, Asignatura_Short } from "../types/Asignaturas/As
 import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
 import type { Profesor_Short } from "../types/Personas/Profesor.ts";
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable'
+import autoTable from 'jspdf-autotable';
 import type { Estudiante_Short } from "../types/Personas/Estudiante.ts";
 import { Decrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
@@ -152,7 +152,7 @@ function AsignaturaDocentePage() {
 
             const doc = new jsPDF();
 
-            const headers = [["Nombre completo", "DNI", "Email"]];
+            const headers = [["Nombre completo", "DNI", "Email"/*, "Universidad", "Curso de admisión"*/]];
             const data: string[][] = [];
 
             data_curso!.estudiantes.forEach((estudiante: Estudiante_Short) => {
@@ -176,6 +176,7 @@ function AsignaturaDocentePage() {
                 alumno.push(nombreAlumno);
                 alumno.push(dni!);
                 alumno.push(estudiante.email);
+                //alumno.push(estudiante.)
 
                 data.push(alumno);
             });
@@ -230,37 +231,40 @@ function AsignaturaDocentePage() {
                                         showAlumnos === false ? <>Mostrar alumnos</> : <>Ocultar alumnos</>
                                     }
                                 </button>
-                                <button type="button" onClick={() => {
-                                    const curso_aux = asignatura.curso_academico.split(" ")[1].split("-")[1];
+                                {
+                                    asignatura.extraordinaria_firmada === false &&
+                                        <button type="button" onClick={() => {
+                                        const curso_aux = asignatura.curso_academico.split(" ")[1].split("-")[1];
 
-                                    const date = new Date();
+                                        const date = new Date();
 
-                                    if((date.getFullYear() > Number(curso_aux)) || date.getMonth() >= 8){
-                                        alert("No se puede evaluar una asignatura fuera de fecha");
+                                        if((date.getFullYear() > Number(curso_aux)) || date.getMonth() >= 8){
+                                            alert("No se puede evaluar una asignatura fuera de fecha");
 
-                                        globalThis.location.href = "/mostrarAsignaturas";
-                                    }
+                                            globalThis.location.href = "/mostrarAsignaturas";
+                                        }
 
-                                    if(asignatura.ordinaria_firmada === false){
-                                        Cookie.set("TFG_conv", "Ordinaria", {expires: 7});
+                                        if(asignatura.ordinaria_firmada === false){
+                                            Cookie.set("TFG_conv", "Ordinaria", {expires: 7});
 
-                                        globalThis.location.href = "/calificarAsignatura";
-                                    }
-                                    else if(asignatura.extraordinaria_firmada === false){
-                                        Cookie.set("TFG_conv", "Extraordinaria", {expires: 7});
+                                            globalThis.location.href = "/calificarAsignatura";
+                                        }
+                                        else if(asignatura.extraordinaria_firmada === false){
+                                            Cookie.set("TFG_conv", "Extraordinaria", {expires: 7});
 
-                                        globalThis.location.href = "/calificarAsignatura";
-                                    }
-                                    else{
-                                        alert("Ambas convocatorias ya estan evaluadas y firmadas");
+                                            globalThis.location.href = "/calificarAsignatura";
+                                        }
+                                        else{
+                                            alert("Ambas convocatorias ya estan evaluadas y firmadas");
 
-                                        globalThis.location.href = "/mostrarAsignaturas";
-                                    }
-                                }}>
-                                    {
-                                        asignatura.ordinaria_firmada === false ? <>Calificar convocatoria ordinaria</> : <>Calificar convocatoria extraordinaria</>
-                                    }
-                                </button>
+                                            globalThis.location.href = "/mostrarAsignaturas";
+                                        }
+                                    }}>
+                                        {
+                                            asignatura.ordinaria_firmada === false ? <>Calificar convocatoria ordinaria</> : <>Calificar convocatoria extraordinaria</>
+                                        }
+                                    </button>
+                                }
                                 <button type="button" onClick={() => {
                                     Cookie.remove("TFG_conv");
 
