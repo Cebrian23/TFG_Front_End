@@ -5,7 +5,6 @@ import type { Coordinador } from "../types/Personas/Coordinador.ts";
 import type { Estudiante } from "../types/Personas/Estudiante.ts";
 import type { Persona_upt } from "../types/Personas/Persona.ts";
 import type { Profesor } from "../types/Personas/Profesor.ts";
-import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
 import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
@@ -20,7 +19,6 @@ function UpdateUser() {
     const [nombre, setNombre] = useState("");
     const [apellido1, setApellido1] = useState("");
     const [apellido2, setApellido2] = useState("");
-    const [email, setEmail] = useState("");
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const [prefix, setPrefix] = useState("+34");
@@ -28,7 +26,6 @@ function UpdateUser() {
 
     const [nombreError, setNombreError] = useState("");
     const [apellido1Error, setApellido1Error] = useState("");
-    const [emailError, setEmailError] = useState("");
     const [phoneError, setPhoneError] = useState("");
     const [password1Error, setPassword1Error] = useState("");
     const [password2Error, setPassword2Error] = useState("");
@@ -57,24 +54,27 @@ function UpdateUser() {
             }
             
             const data = await response.json();
+
             setUser(data);
             setId(data.id);
             setRol(data.rol);
             setNombre(data.nombre);
             setApellido1(data.apellido_1);
+
             if(data.apellido_2 !== null && data.apellido_2 !== undefined && data.apellido_2 !== ""){
                 setApellido2(data.apellido_2);
             }
             else{
                 setApellido2("");
             }
-            setEmail(data.email);
+
             if(data.prefijo_movil !== null && data.prefijo_movil !== undefined && data.prefijo_movil !== ""){
                 setPrefix(data.prefijo_movil);
             }
             else{
                 setPrefix("+34");
             }
+
             if(data.numero_movil !== null && data.numero_movil !== undefined && data.numero_movil !== ""){
                 setPhone(data.numero_movil);
             }
@@ -90,7 +90,6 @@ function UpdateUser() {
         if(user !== undefined){
             setNombre(user.nombre);
             setApellido1(user.apellido_1);
-            setEmail(user.email);
             setApellido1(user.apellido_1);
 
             if(user.apellido_2 !== null && user.apellido_2 !== undefined && user.apellido_2 !== ""){
@@ -116,7 +115,6 @@ function UpdateUser() {
 
             setNombreError("");
             setApellido1Error("");
-            setEmailError("");
             setPhoneError("");
             setPassword1Error("");
             setPassword2Error("");
@@ -124,6 +122,8 @@ function UpdateUser() {
             setPassCharError("");
             setPassNumError("");
             setPassSpaceError("");
+        
+            setButtonAction(false);
         }
     }
 
@@ -140,21 +140,6 @@ function UpdateUser() {
         if(apellido1.trim() === ""){
             setApellido1Error("Hay que rellenar este campo");
             error_exists = true;
-        }
-    
-        if(email.trim() === ""){
-            setEmailError("Hay que rellenar este campo");
-            error_exists = true;
-        }
-        else{
-            const email_data = await Validate_Email(email);
-    
-            if(email_data.status !== 200){
-                const error = await email_data.json();
-    
-                setEmailError(error.error);
-                error_exists = true;
-            }
         }
     
         if(user !== undefined && user.rol !== "Estudiante"){
@@ -233,7 +218,6 @@ function UpdateUser() {
                 rol: rol,
                 nombre: nombre,
                 apellido_1: apellido1,
-                email: email,
             }
 
             if(apellido2.trim() !== ""){
@@ -333,14 +317,6 @@ function UpdateUser() {
                                 }}/>
                             </div>
                             <div className="">{phoneError}</div>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="email">Email:</label>
-                            <input id="email" name="email" type="text" value={email} placeholder="Email" onChange={(e) => {
-                                setEmail(e.currentTarget.value);
-                                setEmailError("");
-                            }} required/>
-                            <div className="error">{emailError}</div>
                         </div>
                         {
                             rol !== "Estudiante" &&
