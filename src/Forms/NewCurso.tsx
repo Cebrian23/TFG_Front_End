@@ -160,6 +160,8 @@ function NewCurso() {
 
         setAlumnosError("");
         setDocentesError("");
+        
+        setButtonAction(false);
     }
 
     const handleCreation = async () => {

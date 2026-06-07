@@ -212,6 +212,8 @@ function NewTFM() {
         setDirectoresError("");
         setTribunalError("");
         setCalificacionError("");
+        
+        setButtonAction(false);
     }
 
     const handleCreation = async () => {

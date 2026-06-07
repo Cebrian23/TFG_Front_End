@@ -88,6 +88,8 @@ function NewAsignatura() {
         setCurso("1º");
 
         setNombreError("");
+        
+        setButtonAction(false);
     }
 
     const handleCreation = async () => {

@@ -83,6 +83,8 @@ function NewTitulacion() {
         setUniversidadesError("");
         setGradosError("");
         setAsignaturaError("");
+        
+        setButtonAction(false);
     }
 
     const handleCreation = async () => {
