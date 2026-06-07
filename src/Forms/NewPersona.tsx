@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import './Forms.css'
+import './Forms.css';
 import Cookie from "js-cookie";
 import type { Persona_ins } from "../types/Personas/Persona.ts";
 import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
@@ -7,6 +7,8 @@ import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
 import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 import { Encrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
+import { Validate_DNI } from "../utilities/Validations/Validate_DNI.ts";
+import Header from "../Header/Header.tsx";
 
 function NewPersona() {
     const [nombre, setNombre] = useState("");
@@ -152,6 +154,16 @@ function NewPersona() {
             setDNIError("Hay que rellenar este campo");
             error_exists = true;
         }
+        else{
+            const dni_data = Validate_DNI(dni);
+
+            if(dni_data.status !== 200){
+                const error = await dni_data.json();
+
+                setDNIError(error.error);
+                error_exists = true;
+            }
+        }
 
         if(email.trim() === ""){
             setEmailError("Hay que rellenar este campo");
@@ -296,144 +308,147 @@ function NewPersona() {
     }
 
     return (
-        <div className="totalPage">
-            <SidebarAdministrativo/>
-            <div className="newPersona">
-                <form className="registerForm">
-                    <h2>Registro de usuario</h2>
-                    <div className="column">
-                        <label htmlFor="nombre">Nombre:</label>
-                        <input id="nombre" name="nombre" type="text" placeholder="Nombre" onChange={(e) => {
-                            setNombre(e.currentTarget.value);
-                            setNombreError("");
-                        }} required/>
-                        <div className="error">{nombreError}</div>
-                    </div>
-                    <div className="column">
-                        <label htmlFor="1er_apellido">1er Apellido:</label>
-                        <input id="1er_apellido" name="1er_apellido" type="text" placeholder="1er Apellido" onChange={(e) => {
-                            setApellido1(e.currentTarget.value);
-                            setApellido1Error("");
-                        }} required/>
-                        <div className="error">{apellido1Error}</div>
-                    </div>
-                    <div className="column">
-                        <label htmlFor="2do_apellido">2do Apellido:</label>
-                        <input id="2do_apellido" name="2do_apellido" type="text" placeholder="2do Apellido" onChange={(e) => setApellido2(e.currentTarget.value)}/>
-                    </div>
-                    <div className="column">
-                        <label htmlFor="dni">DNI:</label>
-                        <input id="dni" name="dni" type="text" placeholder="DNI" onChange={(e) => {
-                            setDNI(e.currentTarget.value);
-                            setDNIError("");
-                        }} required/>
-                        <div className="error">{dniError}</div>
-                    </div>
-                    <div className="column">
-                        <label htmlFor="phone_number">Numero telefónico:</label>
-                        <div id="phone_number" className="combo_data">
-                            <select id="prefix" name="prefix" defaultValue="+34" className="registerPhoneInput" onChange={(e) => setPrefix(e.currentTarget.value)}>
-                                <option value="+30">+30</option>
-                                <option value="+31">+31</option>
-                                <option value="+32">+32</option>
-                                <option value="+33">+33</option>
-                                <option value="+34">+34</option>
-                                <option value="+39">+39</option>
-                                <option value="+49">+49</option>
-                                <option value="+351">+351</option>
-                            </select>
-                            <input id="phone" name="phone" type="text" placeholder="Número telefónico" className="registerPhoneSelect" onChange={(e) => {
-                                setPhone(e.currentTarget.value);
-                                setPhoneError("");
-                            }}/>
-                        </div>
-                        <div className="">{phoneError}</div>
-                    </div>
-                    <div className="column">
-                        <label htmlFor="email">Email:</label>
-                        <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
-                            setEmail(e.currentTarget.value);
-                            setEmailError("");
-                        }} required/>
-                        <div className="error">{emailError}</div>
-                    </div>
-                    {
-                        rol !== "Estudiante" &&
+        <div className="finalPage">
+            <Header/>
+            <div className="totalPage">
+                <SidebarAdministrativo/>
+                <div className={rol === "Administrativo" ? "newAdministrativo" : "newCoordinadorProfesorEstudiante"}>
+                    <form className="registerForm">
+                        <h2>Registro de usuario</h2>
                         <div className="column">
-                            <label htmlFor="password">Password:</label>
-                            <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
-                                setPassword(e.currentTarget.value);
-                                setPasswordError("");
-                                setPassCharError("");
-                                setPassLengthError("");
-                                setPassNumError("");
-                                setPassSpaceError("");
+                            <label htmlFor="nombre">Nombre:</label>
+                            <input id="nombre" name="nombre" type="text" placeholder="Nombre" onChange={(e) => {
+                                setNombre(e.currentTarget.value);
+                                setNombreError("");
                             }} required/>
-                            <div className="error">{passwordError}</div>
-                            <div className="error">{passCharError}</div>
-                            <div className="error">{passLengthError}</div>
-                            <div className="error">{passNumError}</div>
-                            <div className="error">{passSpaceError}</div>
+                            <div className="error">{nombreError}</div>
                         </div>
-                    }
-                    <div className="column">
-                        <label htmlFor="rol">Rol:</label>
-                        <select id="rol" name="rol" defaultValue="Administrativo" onChange={(e) => setRol(e.currentTarget.value)}>
-                            <option value="Administrativo">Administrativo</option>
-                            <option value="Coordinador">Coordinador</option>
-                            <option value="Profesor">Profesor</option>
-                            <option value="Estudiante">Estudiante</option>
-                        </select>
-                    </div>
-                    {
-                        rol !== "Administrativo" &&
                         <div className="column">
-                            <label htmlFor="universidad">Universidad:</label>
-                            <select id="universidad" name="universidad" defaultValue={universidades[0]} onChange={(e) => setUniversidad(e.currentTarget.value)}>
-                                {
-                                    universidades.map((uni) => {
-                                        return(
-                                            <option key={uni} value={uni}>{uni}</option>
-                                        );
-                                    })
-                                }
-                                {
-                                    rol === "Profesor" &&
-                                    <option key="Externo" value="Externo">Externo</option>
-                                }
-                            </select>
+                            <label htmlFor="1er_apellido">1er Apellido:</label>
+                            <input id="1er_apellido" name="1er_apellido" type="text" placeholder="1er Apellido" onChange={(e) => {
+                                setApellido1(e.currentTarget.value);
+                                setApellido1Error("");
+                            }} required/>
+                            <div className="error">{apellido1Error}</div>
                         </div>
-                    }
-                    {
-                        rol === "Estudiante" &&
-                        <>
-                            <div className="column">
-                                <label htmlFor="curso">Curso de admisión:</label>
-                                <input id="curso" name="curso" type="number" min="2020" max="2060" value={curso} onChange={(e) => {
-                                    setCursito(Number(e.currentTarget.value));
-                                    setCurso(`Curso ${Math.trunc(Number(e.currentTarget.value))}-${Math.trunc(Number(e.currentTarget.value)+1)}`);
+                        <div className="column">
+                            <label htmlFor="2do_apellido">2do Apellido:</label>
+                            <input id="2do_apellido" name="2do_apellido" type="text" placeholder="2do Apellido" onChange={(e) => setApellido2(e.currentTarget.value)}/>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="dni">DNI:</label>
+                            <input id="dni" name="dni" type="text" placeholder="DNI" onChange={(e) => {
+                                setDNI(e.currentTarget.value);
+                                setDNIError("");
+                            }} required/>
+                            <div className="error">{dniError}</div>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="phone_number">Numero telefónico:</label>
+                            <div id="phone_number" className="combo_data">
+                                <select id="prefix" name="prefix" defaultValue="+34" className="registerPhoneInput" onChange={(e) => setPrefix(e.currentTarget.value)}>
+                                    <option value="+30">+30</option>
+                                    <option value="+31">+31</option>
+                                    <option value="+32">+32</option>
+                                    <option value="+33">+33</option>
+                                    <option value="+34">+34</option>
+                                    <option value="+39">+39</option>
+                                    <option value="+49">+49</option>
+                                    <option value="+351">+351</option>
+                                </select>
+                                <input id="phone" name="phone" type="text" placeholder="Número telefónico" className="registerPhoneSelect" onChange={(e) => {
+                                    setPhone(e.currentTarget.value);
+                                    setPhoneError("");
                                 }}/>
                             </div>
+                            <div className="">{phoneError}</div>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="email">Email:</label>
+                            <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
+                                setEmail(e.currentTarget.value);
+                                setEmailError("");
+                            }} required/>
+                            <div className="error">{emailError}</div>
+                        </div>
+                        {
+                            rol !== "Estudiante" &&
                             <div className="column">
-                                <label htmlFor="grado">Grado univesitario cursado:</label>
-                                <select id="grado" name="grado" defaultValue={gradosUniversitarios[0]} onChange={(e) => setGrado(e.currentTarget.value)}>
+                                <label htmlFor="password">Password:</label>
+                                <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
+                                    setPassword(e.currentTarget.value);
+                                    setPasswordError("");
+                                    setPassCharError("");
+                                    setPassLengthError("");
+                                    setPassNumError("");
+                                    setPassSpaceError("");
+                                }} required/>
+                                <div className="error">{passwordError}</div>
+                                <div className="error">{passCharError}</div>
+                                <div className="error">{passLengthError}</div>
+                                <div className="error">{passNumError}</div>
+                                <div className="error">{passSpaceError}</div>
+                            </div>
+                        }
+                        <div className="column">
+                            <label htmlFor="rol">Rol:</label>
+                            <select id="rol" name="rol" defaultValue="Administrativo" onChange={(e) => setRol(e.currentTarget.value)}>
+                                <option value="Administrativo">Administrativo</option>
+                                <option value="Coordinador">Coordinador</option>
+                                <option value="Profesor">Profesor</option>
+                                <option value="Estudiante">Estudiante</option>
+                            </select>
+                        </div>
+                        {
+                            rol !== "Administrativo" &&
+                            <div className="column">
+                                <label htmlFor="universidad">Universidad:</label>
+                                <select id="universidad" name="universidad" defaultValue={universidades[0]} onChange={(e) => setUniversidad(e.currentTarget.value)}>
                                     {
-                                        gradosUniversitarios.map((grado) => {
+                                        universidades.map((uni) => {
                                             return(
-                                                <option key={grado} value={grado}>{grado}</option>
-                                            )
+                                                <option key={uni} value={uni}>{uni}</option>
+                                            );
                                         })
+                                    }
+                                    {
+                                        rol === "Profesor" &&
+                                        <option key="Externo" value="Externo">Externo</option>
                                     }
                                 </select>
                             </div>
-                        </>
-                    }
-                    <div className="buttons">
-                        <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
-                        <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                        <button type="button" onClick={handleNewUser} disabled={buttonAction}>Enviar</button>
-                    </div>
-                </form>
+                        }
+                        {
+                            rol === "Estudiante" &&
+                            <>
+                                <div className="column">
+                                    <label htmlFor="curso">Curso de admisión:</label>
+                                    <input id="curso" name="curso" type="number" min="2020" max="2060" value={curso} onChange={(e) => {
+                                        setCursito(Number(e.currentTarget.value));
+                                        setCurso(`Curso ${Math.trunc(Number(e.currentTarget.value))}-${Math.trunc(Number(e.currentTarget.value)+1)}`);
+                                    }}/>
+                                </div>
+                                <div className="column">
+                                    <label htmlFor="grado">Grado univesitario cursado:</label>
+                                    <select id="grado" name="grado" defaultValue={gradosUniversitarios[0]} onChange={(e) => setGrado(e.currentTarget.value)}>
+                                        {
+                                            gradosUniversitarios.map((grado) => {
+                                                return(
+                                                    <option key={grado} value={grado}>{grado}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                            </>
+                        }
+                        <div className="buttons">
+                            <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
+                            <button type="reset" onClick={handleReset}>Vaciar campos</button>
+                            <button type="button" onClick={handleNewUser} disabled={buttonAction}>Enviar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );
