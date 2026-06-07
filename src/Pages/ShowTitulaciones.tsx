@@ -12,6 +12,7 @@ function ShowTitulaciones() {
         const getTitulaciones = async () => {
             Cookie.remove("TFG_asig");
             Cookie.remove("TFG_curso");
+
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
                 globalThis.location.href = "/login";
@@ -37,7 +38,9 @@ function ShowTitulaciones() {
                 globalThis.location.href = "/login";
             }
 
-            const id_titulacion = Cookie.get("TFG_titulacion");
+            setTitulaciones(data_persona.titulaciones);
+
+            /*const id_titulacion = Cookie.get("TFG_titulacion");
 
             if(id_titulacion === undefined){
                 alert("No administras ninguna titulación");
@@ -60,11 +63,15 @@ function ShowTitulaciones() {
                 const titulaciones: Titulacion[] = [];
                 titulaciones.push(data);
                 setTitulaciones(titulaciones);
-            }
+            }*/
         }
 
         getTitulaciones();
     }, []);
+
+    const handleCreateTitulacionCookie = (id: string) => {
+        Cookie.set("TFG_titulacion", id, {expires: 7});
+    }
 
     return(
         <div className="finalPage">
@@ -83,10 +90,22 @@ function ShowTitulaciones() {
                                             <div key={titulacion.id} className="cards">
                                                 <div className="data">{titulacion.nombre}</div>
                                                 <div className="buttons">
-                                                    <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Ver asignaturas</button>
-                                                    <button type="button" onClick={() => globalThis.location.href = "/nuevaAsignatura"}>Insertar una asignatura nueva</button>
-                                                    <button type="button" onClick={() => globalThis.location.href = "/registrarPersona"}>Dar de alta a personas</button>
-                                                    <button type="button" onClick={() => globalThis.location.href = "/paginaTitulacion"}>Ver titulación</button>
+                                                    <button type="button" onClick={() => {
+                                                        handleCreateTitulacionCookie(titulacion.id);
+                                                        globalThis.location.href = "/mostrarAsignaturasTitulacion";
+                                                    }}>Ver asignaturas</button>
+                                                    <button type="button" onClick={() => {
+                                                        handleCreateTitulacionCookie(titulacion.id);
+                                                        globalThis.location.href = "/nuevaAsignatura";
+                                                    }}>Insertar una asignatura nueva</button>
+                                                    <button type="button" onClick={() => {
+                                                        handleCreateTitulacionCookie(titulacion.id);
+                                                        globalThis.location.href = "/registrarPersona";
+                                                    }}>Dar de alta a personas</button>
+                                                    <button type="button" onClick={() => {
+                                                        handleCreateTitulacionCookie(titulacion.id);
+                                                        globalThis.location.href = "/paginaTitulacion";
+                                                    }}>Ver titulación</button>
                                                 </div>
                                             </div>
                                         );
