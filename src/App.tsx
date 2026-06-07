@@ -17,6 +17,7 @@ import ShowCursos from './Pages/ShowCursos.tsx';
 import ShowTitulaciones from './Pages/ShowTitulaciones.tsx';
 import TitulacionPage from './Pages/TitulacionPage.tsx';
 import UserPage from './Pages/UserPage.tsx';
+import ReporteCalidad from './Pages/ReporteCalidad.tsx';
 //import Register from './Forms/Register.tsx';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Route path="mostrarAsignaturasTitulacion" element={<ShowAsignaturasTitulacion/>}/>
           <Route path="mostrarAsignaturas" element={<ShowAsignaturasImpartidas/>}/>
           <Route path="mostrarCursos" element={<ShowCursos/>}/>
+          <Route path="reporteCalidad" element={<ReporteCalidad/>}/>
         </Routes>
       </BrowserRouter>
     </>
