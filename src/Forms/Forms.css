@@ -48,21 +48,30 @@
 .newNotas{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10dvh;
+    margin-top: 5dvh;
+    place-items: center;
+    display: grid;
+    grid-template-rows: 1dvh 70dvh;
+}
+
+.newAdministrativo{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5dvh;
     place-items: center;
 }
 
-.newPersona{
+.newCoordinadorProfesorEstudiante{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 7dvh;
+    margin-top: 1dvh;
     place-items: center;
 }
 
 .upt{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 6dvh;
+    margin-top: 12dvh;
     place-items: center;
     width: 100%;
 }
