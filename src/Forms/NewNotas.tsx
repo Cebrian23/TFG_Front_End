@@ -17,6 +17,7 @@ function NewNotas() {
 
     const [alumnos, setAlumnos] = useState<Alumno[]>([]);
     const [asignatura, setAsignatura] = useState("");
+    const [nombreAsignatura, setNombreAsignatura] = useState("");
     const [curso, setCurso] = useState("")
     const [convocatoria, setConvocatoria] = useState("");
 
@@ -104,6 +105,7 @@ function NewNotas() {
             }
 
             setAsignatura(data_asig.id);
+            setNombreAsignatura(data_asig.nombre)
 
             const TFG_curso = Cookie.get("TFG_curso");
 
@@ -397,7 +399,7 @@ function NewNotas() {
                     {
                         alumnos !== undefined && alumnos.length > 0 &&
                         <>
-                            <h1>Calificación de la convocatoria {convocatoria.toLowerCase()}</h1>
+                            <h1>Calificación de la convocatoria {convocatoria.toLowerCase()} de {nombreAsignatura}</h1>
                             <table className="tablaNotas">
                                 <thead>
                                     <tr>
