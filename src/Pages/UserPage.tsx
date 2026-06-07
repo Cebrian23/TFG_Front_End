@@ -16,6 +16,7 @@ function UserPage() {
             Cookie.remove("TFG_asig");
             Cookie.remove("TFG_curso");
             Cookie.remove("TFG_conv");
+            Cookie.remove("TFG_titulacion");
 
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
@@ -55,9 +56,6 @@ function UserPage() {
                 }
                 else if(data.length != 0){
                     setNoAdmin(true);
-                }
-                else if(data.length !== 0){
-                    Cookie.set("TFG_titulacion", data[0].id, {expires: 7});
                 }
             }
             else{
@@ -118,9 +116,9 @@ function UserPage() {
                             <h2>¿Que deseas hacer?</h2>
                             <div className="columns">
                                 {
-                                user.rol === "Administrativo" && noAdmin === false &&
+                                user.rol === "Administrativo" &&
                                     <>
-                                        <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Ver titulaciones administradas</button>
+                                        <button type="button" disabled={!noAdmin} onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Ver titulaciones administradas</button>
                                         <br/>
                                     </>
                                 }
@@ -134,7 +132,7 @@ function UserPage() {
                                 {
                                     user.rol === "Coordinador" &&
                                     <>
-                                        <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Insertar TFM de un alumno</button>
+                                        <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Calificar TFM de un alumno</button>
                                         <br/>
                                     </>
                                 }
