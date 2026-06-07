@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import './Forms.css'
+import './Forms.css';
 import Cookie from "js-cookie";
 import type { Administrativo } from "../types/Personas/Administrativo.ts";
 import type { Coordinador } from "../types/Personas/Coordinador.ts";
@@ -40,6 +40,8 @@ function Login() {
         setPasswordError("");
         setEmptyError("");
         setValidationError("");
+        
+        setButtonAction(false);
     }
 
     const handleLogin = async () => {
