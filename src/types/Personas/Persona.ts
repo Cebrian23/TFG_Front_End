@@ -22,7 +22,6 @@ export type Persona_upt = {
     apellido_2?: string,
     prefijo_movil?: string,
     numero_movil?: string,
-    email: string,
     password?: string,
     universidad?: string,
 }
