@@ -8,6 +8,12 @@ import type { Profesor_Short } from "../Personas/Profesor.ts";
 export type Titulacion = {
     id: string,
     nombre: string,
+    creacion?: string,
+    controlCalidad?: {
+        universidad: string,
+        year: number,
+        tipo: "anual" | "Cada 3 años" | "Cada 6 años",
+    }[],
     universidades: string[],
     grados_aptos: string[],
     cursos: number,
