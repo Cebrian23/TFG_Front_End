@@ -3,6 +3,8 @@ import Cookie from "js-cookie";
 import type { Asignatura_titulacion_ins } from "../types/Asignaturas/Asignatura.ts";
 import type { Titulacion_ins } from "../types/Titulacion/Titulacion.ts";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function NewTitulacion() {
     const [auth, setAuth] = useState("");
@@ -86,6 +88,29 @@ function NewTitulacion() {
         
         setButtonAction(false);
     }
+    
+    const handleCursoVar = (cursito: number) => {
+        const asigs_aux: Asignatura_titulacion_ins[] = [];
+
+        asignaturas.forEach((asig) => {
+            const asig_curso = asig.curso.split("º");
+            if(Number(asig_curso[0]) > cursito){
+                asigs_aux.push(
+                    {
+                        nombre: asig.nombre,
+                        curso: `${cursito}º`,
+                        creditos: asig.creditos,
+                        optatividad: asig.optatividad,
+                    }
+                );
+            }
+            else{
+                asigs_aux.push(asig);
+            }
+        });
+
+        setAsignaturas(asigs_aux);
+    }
 
     const handleCreation = async () => {
         setButtonAction(true);
@@ -121,54 +146,38 @@ function NewTitulacion() {
                 asignaturas: asignaturas,
             }
 
-            const url = "https://tfg-back-end.onrender.com/titulacion";
-            const response = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(newTitulacion),
-            });
+            NProgress.start();
+                                
+            try{
+                const url = "https://tfg-back-end.onrender.com/titulacion";
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(newTitulacion),
+                });
 
-            if(response.status !== 200){
-                const error = await response.json();
+                if(response.status !== 200){
+                    const error = await response.json();
 
-                alert(error.error);
-                
-                setButtonAction(false);
+                    alert(error.error);
+                    
+                    setButtonAction(false);
+                }
+                else{
+                    const data = await response.json();
+                    alert(data.message);
+
+                    Cookie.set("TFG_titulacion", data.id, {expires: 7});
+                    
+                    globalThis.location.href = "/paginaPersonal";
+                }
             }
-            else{
-                const data = await response.json();
-                alert(data.message);
-
-                Cookie.set("TFG_titulacion", data.id, {expires: 7});
-                
-                globalThis.location.href = "/paginaPersonal";
+            finally{
+                NProgress.done();
             }
         }
         else{
             setButtonAction(false);
         }
-    }
-
-    const handleCursoVar = (cursito: number) => {
-        const asigs_aux: Asignatura_titulacion_ins[] = [];
-
-        asignaturas.forEach((asig) => {
-            const asig_curso = asig.curso.split("º");
-            if(Number(asig_curso[0]) > cursito){
-                asigs_aux.push(
-                    {
-                        nombre: asig.nombre,
-                        curso: `${cursito}º`,
-                        creditos: asig.creditos,
-                        optatividad: asig.optatividad,
-                    }
-                );
-            }
-            else{
-                asigs_aux.push(asig);
-            }
-        });
-
-        setAsignaturas(asigs_aux);
     }
 
     return(

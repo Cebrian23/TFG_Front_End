@@ -9,6 +9,8 @@ import { Encrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
 import { Validate_DNI } from "../utilities/Validations/Validate_DNI.ts";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function NewPersona() {
     const [nombre, setNombre] = useState("");
@@ -282,24 +284,31 @@ function NewPersona() {
                 body.grado_academico = gradoUniversitario;
             }
 
-            const url = `https://tfg-back-end.onrender.com/persona`;
-            const response = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(body),
-            });
+            NProgress.start();
+                                
+            try{
+                const url = `https://tfg-back-end.onrender.com/persona`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(body),
+                });
 
-            if(response.status !== 200){
-                const error = await response.json();
+                if(response.status !== 200){
+                    const error = await response.json();
 
-                alert(error.error);
-                
-                setButtonAction(false);
+                    alert(error.error);
+                    
+                    setButtonAction(false);
+                }
+                else{
+                    const data = await response.json();
+                    alert(data.message);
+                    
+                    globalThis.location.href = "/mostrarTitulaciones"
+                }
             }
-            else{
-                const data = await response.json();
-                alert(data.message);
-                
-                globalThis.location.href = "/mostrarTitulaciones"
+            finally{
+                NProgress.done();
             }
         }
         else{

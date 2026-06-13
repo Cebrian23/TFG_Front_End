@@ -11,6 +11,8 @@ import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
 import SidebarProfesor from "../Sidebar/SidebarProfesor.tsx";
 import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function UpdateUser() {
     const [user, setUser] = useState<Estudiante | Coordinador | Profesor | Administrativo>();
@@ -233,26 +235,33 @@ function UpdateUser() {
                 body.numero_movil = phone;
             }
 
-            const url = "https://tfg-back-end.onrender.com/datos_persona";
-            const response = await fetch(url, {
-                method: "PUT",
-                body: JSON.stringify(body),
-            });
+            NProgress.start();
 
-            if(response.status !== 200){
-                const error = await response.json();
+            try{
+                const url = "https://tfg-back-end.onrender.com/datos_persona";
+                const response = await fetch(url, {
+                    method: "PUT",
+                    body: JSON.stringify(body),
+                });
 
-                alert(error.error);
-                
-                setButtonAction(false);
+                if(response.status !== 200){
+                    const error = await response.json();
+
+                    alert(error.error);
+                    
+                    setButtonAction(false);
+                }
+                else{
+                    const data = await response.json();
+                    
+                    alert(data.message);
+                }
+
+                globalThis.location.href = "/paginaPersonal";
             }
-            else{
-                const data = await response.json();
-                
-                alert(data.message);
+            finally{
+                NProgress.done();
             }
-
-            globalThis.location.href = "/paginaPersonal";
         }
         else{
             setButtonAction(false);

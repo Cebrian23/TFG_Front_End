@@ -8,6 +8,8 @@ import type { Profesor } from "../types/Personas/Profesor.ts";
 import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -73,24 +75,31 @@ function Login() {
         }
         
         if(error_exists === false){
-            const URL = `https://tfg-back-end.onrender.com/login?email=${email}&password=${passwordCrypt}`;
-            const response = await fetch(URL, {
-                method: "GET",
-            });
+            NProgress.start();
 
-            if(response.status !== 200){
-                const error = await response.json();
+            try{
+                const URL = `https://tfg-back-end.onrender.com/login?email=${email}&password=${passwordCrypt}`;
+                const response = await fetch(URL, {
+                    method: "GET",
+                });
 
-                alert(error.error);
+                if(response.status !== 200){
+                    const error = await response.json();
+
+                    alert(error.error);
+                    
+                    setButtonAction(false);
+                }
+                else{
+                    const data: (Coordinador | Estudiante | Profesor | Administrativo) = await response.json();
+
+                    Cookie.set("authTFG", data.id, {expires: 7});
                 
-                setButtonAction(false);
+                    globalThis.location.href = "/paginaPersonal";
+                }
             }
-            else{
-                const data: (Coordinador | Estudiante | Profesor | Administrativo) = await response.json();
-
-                Cookie.set("authTFG", data.id, {expires: 7});
-            
-                globalThis.location.href = "/paginaPersonal";
+            finally{
+                NProgress.done();
             }
         }
         else{

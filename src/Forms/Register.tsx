@@ -4,8 +4,10 @@ import { Validate_Email } from "../utilities/Validations/Validate_Email.ts";
 import { Validate_Phone } from "../utilities/Validations/Validate_Phone.ts";
 import { Encrypt_Passwords } from "../utilities/Transforms/Transform_Passwords.ts";
 import { Encrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
-import Header from "../Header/Header.tsx";
 import { Validate_DNI } from "../utilities/Validations/Validate_DNI.ts";
+import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function Register() {
     const [nombre, setNombre] = useState("");
@@ -201,22 +203,29 @@ function Register() {
                 body.numero_movil = phone;
             }
 
-            const url = `https://tfg-back-end.onrender.com/register`;
-            const response = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(body),
-            });
+            NProgress.start();
+                                            
+            try{
+                const url = `https://tfg-back-end.onrender.com/register`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(body),
+                });
 
-            if(response.status !== 200){
-                const error = await response.json();
-                alert(error.error);
+                if(response.status !== 200){
+                    const error = await response.json();
+                    alert(error.error);
 
-                setButtonAction(false);
+                    setButtonAction(false);
+                }
+                else{
+                    const data = await response.json();
+                    alert(data.message);
+                    globalThis.location.href = "/paginaPersonal"
+                }
             }
-            else{
-                const data = await response.json();
-                alert(data.message);
-                globalThis.location.href = "/paginaPersonal"
+            finally{
+                NProgress.done();
             }
         }
         else{

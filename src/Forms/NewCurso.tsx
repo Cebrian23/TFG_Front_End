@@ -6,6 +6,8 @@ import type { Estudiante } from "../types/Personas/Estudiante.ts";
 import type { Profesor } from "../types/Personas/Profesor.ts";
 import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function NewCurso() {
     const [curso, setCurso] = useState("");
@@ -187,24 +189,31 @@ function NewCurso() {
                 profesores: docentes,
             }
 
-            const url = `https://tfg-back-end.onrender.com/curso`;
-            const response = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(body),
-            });
+            NProgress.start();
 
-            if(response.status !== 200){
-                const error = await response.json();
+            try{
+                const url = `https://tfg-back-end.onrender.com/curso`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(body),
+                });
 
-                alert(error.error);
-                
-                setButtonAction(false);
+                if(response.status !== 200){
+                    const error = await response.json();
+
+                    alert(error.error);
+                    
+                    setButtonAction(false);
+                }
+                else{
+                    const data = await response.json();
+                    alert(data.message);
+                    
+                    globalThis.location.href = "/mostrarAsignaturasTitulacion"
+                }
             }
-            else{
-                const data = await response.json();
-                alert(data.message);
-                
-                globalThis.location.href = "/mostrarAsignaturasTitulacion"
+            finally{
+                NProgress.done();
             }
         }
         else{

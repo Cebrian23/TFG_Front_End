@@ -6,6 +6,8 @@ import type { Estudiante_Short } from "../types/Personas/Estudiante.ts";
 import type { Profesor_Short } from "../types/Personas/Profesor.ts";
 import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function NewTFM() {
     const [nombre, setNombre] = useState("");
@@ -260,24 +262,31 @@ function NewTFM() {
                 nota: nota,
             }
 
-            const url = `https://tfg-back-end.onrender.com/TFM`;
-            const response = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(data_TFM),
-            });
+            NProgress.start();
+                                
+            try{
+                const url = `https://tfg-back-end.onrender.com/TFM`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(data_TFM),
+                });
 
-            if(response.status !== 200){
-                const error = await response.json();
+                if(response.status !== 200){
+                    const error = await response.json();
 
-                alert(error.error);
-                
-                setButtonAction(false);
+                    alert(error.error);
+                    
+                    setButtonAction(false);
+                }
+                else{
+                    const data = await response.json();
+                    alert(data.message);
+
+                    globalThis.location.href = "/paginaPersonal";
+                }
             }
-            else{
-                const data = await response.json();
-                alert(data.message);
-
-                globalThis.location.href = "/paginaPersonal";
+            finally{
+                NProgress.done();
             }
         }
         else{

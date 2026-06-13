@@ -5,6 +5,8 @@ import { Decrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 import SidebarCoordinador from "../Sidebar/SidebarCoordinador.tsx";
 import SidebarProfesor from "../Sidebar/SidebarProfesor.tsx";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function NewNotas() {
     const [estudiantes, setEstudiantes] =useState<
@@ -354,32 +356,39 @@ function NewNotas() {
     const handleSend = async () => {
         setButtonAction(true);
         
-        const url_notas = `https://tfg-back-end.onrender.com/curso/convocatoria/notas`;
-        const response_notas = await fetch(url_notas, {
-            method: "POST",
-            body: JSON.stringify(
-                {
-                    asignatura: asignatura,
-                    curso: curso,
-                    convocatoria: convocatoria,
-                    notas: estudiantes,
-                }
-            ),
-        });
-
-        if(response_notas.status !== 200){
-            const error = await response_notas.json();
-            
-            alert(error.error);
-            
-            setButtonAction(false);
+        const body = {
+            asignatura: asignatura,
+            curso: curso,
+            convocatoria: convocatoria,
+            notas: estudiantes,
         }
-        else{
-            const data = await response_notas.json();
 
-            alert(data.message);
+        NProgress.start();
+                    
+        try{
+            const url_notas = `https://tfg-back-end.onrender.com/curso/convocatoria/notas`;
+            const response_notas = await fetch(url_notas, {
+                method: "POST",
+                body: JSON.stringify(body),
+            });
 
-            globalThis.location.href = "/paginaPersonal";
+            if(response_notas.status !== 200){
+                const error = await response_notas.json();
+                
+                alert(error.error);
+                
+                setButtonAction(false);
+            }
+            else{
+                const data = await response_notas.json();
+
+                alert(data.message);
+
+                globalThis.location.href = "/paginaPersonal";
+            }
+        }
+        finally{
+            NProgress.done();
         }
     }
 

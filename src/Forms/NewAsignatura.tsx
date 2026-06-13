@@ -3,6 +3,8 @@ import Cookie from "js-cookie";
 import type { Asignatura_ins } from "../types/Asignaturas/Asignatura.ts";
 import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
 import Header from "../Header/Header.tsx";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 function NewAsignatura() {
     const [nombre, setNombre] = useState("");
@@ -111,24 +113,31 @@ function NewAsignatura() {
                 optatividad: optatividad,
             }
 
-            const url = `https://tfg-back-end.onrender.com/asignatura`;
-            const response = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(data),
-            });
+            NProgress.start();
 
-            if(response.status !== 200){
-                const error = await response.json();
+            try{
+                const url = `https://tfg-back-end.onrender.com/asignatura`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                });
 
-                alert(error.error);
-                
-                setButtonAction(false);
+                if(response.status !== 200){
+                    const error = await response.json();
+
+                    alert(error.error);
+                    
+                    setButtonAction(false);
+                }
+                else{
+                    const data = await response.json();
+                    alert(data.message);
+
+                    globalThis.location.href = "/paginaPersonal";
+                }
             }
-            else{
-                const data = await response.json();
-                alert(data.message);
-
-                globalThis.location.href = "/paginaPersonal";
+            finally{
+                NProgress.done();
             }
         }
         else{
