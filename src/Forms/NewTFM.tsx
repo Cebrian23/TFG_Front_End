@@ -67,7 +67,7 @@ function NewTFM() {
             const TFG_titulacion = Cookie.get("TFG_titulacion");
 
             if(TFG_titulacion === undefined){
-                if(data_persona.rol === "Coordinador"){
+                if(data_persona.rol === "Coordinador" || data_persona.rol === "Coordinador general"){
                     alert("No puedes insertar un TFM");
                 }
 
@@ -290,6 +290,7 @@ function NewTFM() {
             }
         }
         else{
+            alert("Falta rellenar algún campo");
             setButtonAction(false);
         }
     }

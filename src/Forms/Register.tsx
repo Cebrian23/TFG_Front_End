@@ -229,6 +229,7 @@ function Register() {
             }
         }
         else{
+            alert("Falta rellenar algún campo");
             setButtonAction(false);
         }
     }

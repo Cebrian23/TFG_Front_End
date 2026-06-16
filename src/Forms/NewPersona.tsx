@@ -271,7 +271,7 @@ function NewPersona() {
                 body.numero_movil = phone;
             }
 
-            if(rol === "Profesor" || rol === "Coordinador"){
+            if(rol === "Profesor" || rol === "Coordinador" || rol === "Coordinador general"){
                 body.universidad = universidad;
                 body.password = passwordCrypt;
             }
@@ -312,6 +312,7 @@ function NewPersona() {
             }
         }
         else{
+            alert("Falta rellenar algún campo");
             setButtonAction(false);
         }
     }

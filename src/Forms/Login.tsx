@@ -103,6 +103,7 @@ function Login() {
             }
         }
         else{
+            alert("Falta rellenar algún campo");
             setButtonAction(false);
         }
     }

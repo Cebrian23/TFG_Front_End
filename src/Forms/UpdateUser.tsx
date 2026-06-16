@@ -277,7 +277,7 @@ function UpdateUser() {
                     <SidebarAdministrativo/>
                 }
                 {
-                    rol === "Coordinador" &&
+                    (rol === "Coordinador" || rol === "Coordinador general") &&
                     <SidebarCoordinador/>
                 }
                 {

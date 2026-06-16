@@ -123,14 +123,14 @@ function UserPage() {
                                     </>
                                 }
                                 {
-                                    (user.rol === "Coordinador" || user.rol === "Profesor") && noAsig === true &&
+                                    (user.rol === "Coordinador" || user.rol === "Coordinador general" || user.rol === "Profesor") && noAsig === true &&
                                     <>
                                         <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Ver asignaturas impartidas</button>
                                         <br/>
                                     </>
                                 }
                                 {
-                                    user.rol === "Coordinador" &&
+                                    (user.rol === "Coordinador" || user.rol === "Coordinador general") &&
                                     <>
                                         <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Calificar TFM de un alumno</button>
                                         <br/>

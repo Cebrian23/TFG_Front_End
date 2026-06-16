@@ -217,6 +217,7 @@ function NewCurso() {
             }
         }
         else{
+            alert("Falta rellenar algún campo");
             setButtonAction(false);
         }
     }

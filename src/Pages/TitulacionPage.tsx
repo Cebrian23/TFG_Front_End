@@ -102,7 +102,7 @@ function TitulacionPage() {
                                     {
                                         titulacion.universidades.map((uni) => {
                                             return(
-                                                <span key={uni}>{uni}</span>
+                                                <span key={uni.nombre}>{uni.nombre}</span>
                                             )
                                         })
                                     }
@@ -116,7 +116,7 @@ function TitulacionPage() {
                                         {
                                             titulacion.universidades.map((uni) => {
                                                 return(
-                                                    <li key={uni}>{uni}</li>
+                                                    <span key={uni.nombre}>{uni.nombre}</span>
                                                 )
                                             })
                                         }

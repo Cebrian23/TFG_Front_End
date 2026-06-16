@@ -45,7 +45,7 @@ function ShowAsignaturasImpartidas() {
                 if(data_user.rol === "Profesor"){
                     alert("No das clase en ninguna titulación");
                 }
-                else if(data_user.rol === "Coordinador"){
+                else if(data_user.rol === "Coordinador" || data_user.rol === "Coordinador general"){
                     alert("No coordinas ninguna titulación");
                 }
 
@@ -133,7 +133,7 @@ function ShowAsignaturasImpartidas() {
             <Header/>
             <div className="totalPage">
                 {
-                    userRol === "Coordinador" &&
+                    (userRol === "Coordinador" || userRol === "Coordinador general") &&
                     <SidebarCoordinador/>
                 }
                 {

@@ -57,7 +57,9 @@ function ShowAsignaturasTitulacion() {
             }
             
             const data = await response_titulacion.json();
+            console.log(data)
             setTitulacion(data.nombre);
+            console.log(data.asignaturas);
             setAsignaturas(data.asignaturas);
         }
 

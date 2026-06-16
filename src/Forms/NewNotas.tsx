@@ -397,7 +397,7 @@ function NewNotas() {
             <Header/>
             <div className="totalPage">
                 {
-                    userRol === "Coordinador" &&
+                    (userRol === "Coordinador" || userRol === "Coordinador general") &&
                     <SidebarCoordinador/>
                 }
                 {
