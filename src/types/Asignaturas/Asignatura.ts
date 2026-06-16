@@ -44,7 +44,6 @@ export type Asignatura_Short = {
     tipo: "Asignatura",
 }
 
-
 export type Asignatura_curso = {
     id: string,
     id_asig: string,

@@ -14,6 +14,11 @@ export type Estudiante = {
     grado_academico: string,
     universidad: string,
     curso_admision: string,
+    asignaturas_matriculadas: {
+        nombre: string,
+        curso_academico: string,
+        tipo: string,
+    }[],
     asignaturas_cursadas: (TFM_alumno | Asignatura_alumno)[],
     asignaturas_aprobadas: (TFM_alumno | Asignatura_alumno)[],
 }

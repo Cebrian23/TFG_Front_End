@@ -18,6 +18,13 @@ export type TFM_Block_Short = {
     tipo: "Bloque TFMs",
 }
 
+export type TFM_Block_Curso = {
+    id: string,
+    nombre: string,
+    TFM: TFM[],
+    tipo: "Curso TFM",
+}
+
 export type TFM = {
     id: string,
     bloque: string,
