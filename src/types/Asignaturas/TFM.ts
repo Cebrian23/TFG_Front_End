@@ -7,7 +7,9 @@ export type TFM_Block = {
     id: string,
     curso: "2º" | string,
     creditos: number,
-    TFM: TFM[],
+    //TFM: TFM[],
+    cursos: TFM_Block_Curso[],
+    optatividad: "Obligatoria",
     tipo: "Bloque TFMs",
 }
 
@@ -16,13 +18,21 @@ export type TFM_Block_Short = {
     curso: "2º" | string,
     creditos: number,
     tipo: "Bloque TFMs",
+    titulacion: string,
 }
 
 export type TFM_Block_Curso = {
     id: string,
     nombre: string,
+    alumnos: Estudiante_Short[],
     TFM: TFM[],
     tipo: "Curso TFM",
+}
+
+export type TFM_Block_Curso_ins = {
+    nombre: string,
+    alumnos: string[],
+    titulacion: string,
 }
 
 export type TFM = {

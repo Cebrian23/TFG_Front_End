@@ -15,12 +15,13 @@ export type Estudiante = {
     universidad: string,
     curso_admision: string,
     asignaturas_matriculadas: {
-        nombre: string,
+        asignatura: string,
         curso_academico: string,
-        tipo: string,
+        tipo: "Asignatura" | "TFM",
     }[],
     asignaturas_cursadas: (TFM_alumno | Asignatura_alumno)[],
     asignaturas_aprobadas: (TFM_alumno | Asignatura_alumno)[],
+    graduado: boolean,
 }
 
 export type Estudiante_Short = {
@@ -30,5 +31,7 @@ export type Estudiante_Short = {
     apellido_2?: string,
     DNI: string,
     email: string,
+    universidad: string,
+    curso_admision: string,
     rol: "Estudiante",
 }
