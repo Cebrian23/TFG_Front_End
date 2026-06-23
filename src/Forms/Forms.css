@@ -3,7 +3,7 @@
     grid-template-columns: 1fr 1fr;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10dvh;
+    margin-top: 7dvh;
     place-items: center;
 }
 
@@ -21,7 +21,7 @@
     grid-template-columns: 1fr 1fr;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 28dvh;
+    margin-top: 25dvh;
     place-items: center;
 }
 
@@ -72,17 +72,31 @@
     grid-template-rows: 1dvh 70dvh;
 }
 
-.newAdministrativo{
+.newUser{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5dvh;
+    margin-top: 7dvh;
     place-items: center;
 }
 
-.newCoordinadorProfesorEstudiante{
+.newAdministrativo{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 1dvh;
+    margin-top: 20dvh;
+    place-items: center;
+}
+
+.newCoordinadorProfesor{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 14dvh;
+    place-items: center;
+}
+
+.newEstudiante{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7.5dvh;
     place-items: center;
 }
 
