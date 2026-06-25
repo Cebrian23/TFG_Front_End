@@ -3,21 +3,24 @@ import Cookie from "js-cookie";
 import type { Asignatura } from "../types/Asignaturas/Asignatura.ts";
 import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
 import Header from "../Header/Header.tsx";
+import type { TFM_Block } from "../types/Asignaturas/TFM.ts";
 
 function ShowAsignaturasTitulacion() {
     const [titulacion, setTitulacion] = useState("");
-    const [asignaturas, setAsignaturas] = useState<Asignatura[]>([]);
+    const [asignaturas, setAsignaturas] = useState<(Asignatura | TFM_Block)[]>([]);
 
     useEffect(() => {
         const getAsignaturas = async () => {
             Cookie.remove("TFG_asig");
             Cookie.remove("TFG_curso");
+            Cookie.remove("TFG_TFM_Block");
+
             const auth = Cookie.get("authTFG");
             if(auth === undefined){
                 globalThis.location.href = "/login";
             }
             
-            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_persona = `http://localhost:4000/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -45,7 +48,7 @@ function ShowAsignaturasTitulacion() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -57,10 +60,16 @@ function ShowAsignaturasTitulacion() {
             }
             
             const data = await response_titulacion.json();
-            console.log(data)
+            
             setTitulacion(data.nombre);
-            console.log(data.asignaturas);
-            setAsignaturas(data.asignaturas);
+
+            const asigs: (Asignatura | TFM_Block)[] = [];
+            data.asignaturas.forEach((asig: Asignatura) => {
+                asigs.push(asig);
+            });
+            asigs.push(data.TFM);
+            console.log(asigs)
+            setAsignaturas(asigs);
         }
 
         getAsignaturas();
@@ -84,27 +93,55 @@ function ShowAsignaturasTitulacion() {
                     <div>
                         {
                             asignaturas.length !== 0 &&
-                            <div className={asignaturas.length >= 3 ? "grid_asigs_titulacion3" : (asignaturas.length%2 === 0 ? "grid_asigs_titulacion2" : "grid_asigs_titulacion1")}>
+                            <div className={asignaturas.length >= 3 ? "grid_asigs_titulacion2" : "grid_asigs_titulacion1"}>
                                 {
                                     asignaturas.map((asig) => {
                                         return(
                                             <div key={asig.id} className="cards">
-                                                <div className="data">{asig.nombre} ({asig.curso}, {asig.creditos})</div>
+                                                {
+                                                    asig.tipo === "Asignatura" &&
+                                                    <div className="data">{asig.nombre} ({asig.curso}, {asig.creditos})</div>
+                                                }
+                                                {
+                                                    asig.tipo === "Bloque TFMs" &&
+                                                    <div className="data">Trabajos Fin de Master ({asig.curso}, {asig.creditos})</div>
+                                                }
                                                 <div className="buttons">
                                                     <button type="button" onClick={() => {
-                                                        Cookie.set("TFG_asig", asig.id, {expires: 7});
-                                                        
-                                                        globalThis.location.href = "/mostrarCursos";
+                                                        if(asig.tipo === "Asignatura"){
+                                                            Cookie.set("TFG_asig", asig.id, {expires: 7});
+                                                            
+                                                            globalThis.location.href = "/mostrarCursos";
+                                                        }
+                                                        else{
+                                                            Cookie.set("TFG_TFM_Block", asig.id, {expires: 7});
+                                                            
+                                                            globalThis.location.href = "/mostrarCursosTFM";
+                                                        }
                                                     }}>Ver cursos</button>
                                                     <button type="button" onClick={() => {
-                                                        Cookie.set("TFG_asig", asig.id, {expires: 7});
+                                                        if(asig.tipo === "Asignatura"){
+                                                            Cookie.set("TFG_asig", asig.id, {expires: 7});
 
-                                                        globalThis.location.href = "/nuevoCurso";
+                                                            globalThis.location.href = "/nuevoCurso";
+                                                        }
+                                                        else{
+                                                            Cookie.set("TFG_TFM_Block", asig.id, {expires: 7});
+
+                                                            globalThis.location.href = "/nuevoCursoTFM";
+                                                        }
                                                     }}>Insertar un curso nuevo</button>
                                                     <button type="button" onClick={() => {
-                                                        Cookie.set("TFG_asig", asig.id, {expires: 7});
+                                                        if(asig.tipo === "Asignatura"){
+                                                            Cookie.set("TFG_asig", asig.id, {expires: 7});
 
-                                                        globalThis.location.href = "/paginaAsignaturaTitulacion";
+                                                            globalThis.location.href = "/paginaAsignaturaTitulacion";
+                                                        }
+                                                        else{
+                                                            Cookie.set("TFG_TFM_Block", asig.id, {expires: 7});
+
+                                                            globalThis.location.href = "/paginaBlockTFMTitulacion";
+                                                        }
                                                     }}>Ver asignatura</button>
                                                 </div>
                                             </div>

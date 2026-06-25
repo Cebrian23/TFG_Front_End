@@ -28,7 +28,7 @@ function AsignaturaDocentePage() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });
@@ -42,7 +42,7 @@ function AsignaturaDocentePage() {
 
             const data_user = await response_user.json();
 
-            if(data_user.rol !== "Coordinador" && data_user.rol !== "Profesor"){
+            if(data_user.rol !== "Coordinador" && data_user.rol !== "Coordinador general" && data_user.rol !== "Profesor"){
                 globalThis.location.href = "/paginaPersonal";
             }
 
@@ -54,7 +54,7 @@ function AsignaturaDocentePage() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -86,13 +86,14 @@ function AsignaturaDocentePage() {
                 globalThis.location.href = "/mostrarAsignaturas"
             }
 
-            const url_asig = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
+            const url_asig = `http://localhost:4000/asignatura?id=${TFG_asig}`;
             const response_asig = await fetch(url_asig, {
                 method: "GET",
             })
 
             if(response_asig.status !== 200){
                 const error = await response_asig.json();
+                console.log(error)
                 alert(error.error);
 
                 globalThis.location.href = "/mostrarAsignaturas";
@@ -109,7 +110,7 @@ function AsignaturaDocentePage() {
             if(asignatura_exists === undefined){
                 alert(`Asignatura no encontrada en el ${data_titulacion.nombre}`);
 
-                globalThis.location.href = "/paginaPersonal";
+                globalThis.location.href = "/mostrarAsignaturas";
             }
 
             const TFG_curso = Cookie.get("TFG_curso");
@@ -118,7 +119,7 @@ function AsignaturaDocentePage() {
                 globalThis.location.href = "/mostrarAsignaturas";
             }
 
-            const url_curso = `https://tfg-back-end.onrender.com/curso?curso=${TFG_curso}&asignatura=${TFG_asig}`;
+            const url_curso = `http://localhost:4000/curso?curso=${TFG_curso}&asignatura=${TFG_asig}`;
             const response_curso = await fetch(url_curso, {
                 method: "GET",
             });
@@ -127,7 +128,7 @@ function AsignaturaDocentePage() {
                 const error = await response_curso.json();
                 alert(error.error);
 
-                globalThis.location.href = "/paginaPersonal";
+                globalThis.location.href = "/mostrarAsignaturas";
             }
 
             const data_curso = await response_curso.json();
@@ -152,7 +153,7 @@ function AsignaturaDocentePage() {
 
             const doc = new jsPDF();
 
-            const headers = [["Nombre completo", "DNI", "Email"/*, "Universidad", "Curso de admisión"*/]];
+            const headers = [["Nombre completo", "DNI", "Email", "Universidad", "Curso de admisión"]];
             const data: string[][] = [];
 
             data_curso!.estudiantes.forEach((estudiante: Estudiante_Short) => {
@@ -176,7 +177,8 @@ function AsignaturaDocentePage() {
                 alumno.push(nombreAlumno);
                 alumno.push(dni!);
                 alumno.push(estudiante.email);
-                //alumno.push(estudiante.)
+                alumno.push(estudiante.universidad);
+                alumno.push(estudiante.curso_admision);
 
                 data.push(alumno);
             });
@@ -278,7 +280,7 @@ function AsignaturaDocentePage() {
                     showAlumnos === true &&
                     <div className="AsignaturaImp">
                         <br/>
-                        <embed src={urlAlumnos} width="100%" height="350px"/>
+                        <embed src={urlAlumnos} width="100%" height="550px"/>
                     </div>
                 }
                 </div>

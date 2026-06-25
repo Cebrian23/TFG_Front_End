@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
-import type { Curso_ins } from "../types/Asignaturas/Asignatura.ts";
+import type { Asignatura_Short, Curso_ins } from "../types/Asignaturas/Asignatura.ts";
 import type { Coordinador } from "../types/Personas/Coordinador.ts";
 import type { Estudiante } from "../types/Personas/Estudiante.ts";
 import type { Profesor } from "../types/Personas/Profesor.ts";
@@ -8,10 +8,10 @@ import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
 import Header from "../Header/Header.tsx";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { data } from "react-router-dom";
 
 function NewCurso() {
     const [curso, setCurso] = useState("");
-    const [cursito, setCursito] = useState(new Date().getFullYear());
     const [alumnos, setAlumnos] = useState<string[]>([]);
     const [docentes, setDocentes] = useState<string[]>([]);
     const [idAsignatura, setIdAsignatura] = useState("");
@@ -34,7 +34,7 @@ function NewCurso() {
                 globalThis.location.href = "/login";
             }
 
-            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_persona = `http://localhost:4000/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -59,7 +59,7 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_asignatura = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
+            const url_asignatura = `http://localhost:4000/asignatura?id=${TFG_asig}`;
             const response_asignatura = await fetch(url_asignatura, {
                 method: "GET",
             });
@@ -69,25 +69,30 @@ function NewCurso() {
                 alert(error.error);
                 globalThis.location.href = "/paginaPersonal";
             }
-            else{
-                const data = await response_asignatura.json();
-                setIdAsignatura(data.id);
-                setNombreAsignatura(data.nombre);
-            }
+            
+            const data_asig = await response_asignatura.json();
+
+            setIdAsignatura(data_asig.id);
+            setNombreAsignatura(data_asig.nombre);
 
             const date = new Date();
-            setCursito(date.getFullYear());
-            setCurso("Curso " + (Number(date.getFullYear())).toString() + "-" + (Number(date.getFullYear()) + 1).toString());
+            
+            if(date.getMonth() >= 8){
+                setCurso("Curso " + (Number(date.getFullYear()) + 1).toString() + "-" + (Number(date.getFullYear()) + 2).toString());
+            }
+            else{
+                setCurso("Curso " + (Number(date.getFullYear())).toString() + "-" + (Number(date.getFullYear()) + 1).toString());
+            }
 
-            const id_titulacion = Cookie.get("TFG_titulacion");
+            const TFG_titulacion = Cookie.get("TFG_titulacion");
 
-            if(id_titulacion === undefined){
+            if(TFG_titulacion === undefined){
                 alert("No administras ninguna titulación");
 
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${id_titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -98,7 +103,19 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const urlAlumnos = `https://tfg-back-end.onrender.com/personas/alumnos?titulacion=${id_titulacion}`;
+            const data_titulacion = await response_titulacion.json();
+
+            const asignatura = data_titulacion.asignaturas.find((asig: Asignatura_Short) => {
+                if(asig.id === data_asig.id){
+                    return asig;
+                }
+            });
+
+            if(asignatura === undefined){
+                globalThis.location.href = "/paginaPersonal";
+            }
+
+            const urlAlumnos = `http://localhost:4000/personas/alumnos_para_asignatura?titulacion=${TFG_titulacion}&asignatura=${TFG_asig}`;
             const dataAlumnos = await fetch(urlAlumnos,
                 {
                     method: "GET",
@@ -110,18 +127,17 @@ function NewCurso() {
                 alert(error.error);
                 globalThis.location.href = "/paginaPersonal";
             }
-            else{
-                const data = await dataAlumnos.json();
+            
+            const data_alumnos = await dataAlumnos.json();
 
-                if(data.length === 0){
-                    alert("Hay que tener al menos a un alumno dado de alta");
-                    globalThis.location.href = "/mostrarTitulaciones";
-                }
-
-                setEstudiantes(data);   
+            if(data.length === 0){
+                alert("Hay que tener al menos a un alumno dado de alta");
+                globalThis.location.href = "/mostrarTitulaciones";
             }
 
-            const urlDocentes = `https://tfg-back-end.onrender.com/personas/docentes?titulacion=${id_titulacion}`;
+            setEstudiantes(data_alumnos);
+
+            const urlDocentes = `http://localhost:4000/personas/docentes?titulacion=${TFG_titulacion}`;
             const dataDocentes = await fetch(urlDocentes,
                 {
                     method: "GET",
@@ -133,16 +149,15 @@ function NewCurso() {
                 alert(error.error);
                 globalThis.location.href = "/paginaPersonal";
             }
-            else{
-                const data = await dataDocentes.json();
+            
+            const data_docentes = await dataDocentes.json();
 
-                if(data.length === 0){
-                    alert("Hay que tener al menos a un docente dado de alta");
-                    globalThis.location.href = "/mostrarTitulaciones";
-                }
-
-                setProfesores(data);
+            if(data.length === 0){
+                alert("Hay que tener al menos a un docente dado de alta");
+                globalThis.location.href = "/mostrarTitulaciones";
             }
+
+            setProfesores(data_docentes);
         }
 
         getPersonas();
@@ -152,10 +167,6 @@ function NewCurso() {
         setCurso("");
         setAlumnos([]);
         setDocentes([]);
-
-        const date = new Date();
-        setCursito(date.getFullYear());
-        setCurso("Curso " + date.getFullYear().toString() + "-" + (date.getFullYear()+1).toString())
 
         setEstudiante("");
         setProfesor("");
@@ -192,7 +203,7 @@ function NewCurso() {
             NProgress.start();
 
             try{
-                const url = `https://tfg-back-end.onrender.com/curso`;
+                const url = `http://localhost:4000/curso`;
                 const response = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify(body),
@@ -230,19 +241,21 @@ function NewCurso() {
                 <div className="grid_group_Curso">
                     <form className="newCurso">
                         <h1>Registro de un curso</h1>
-                        <div className="column">
-                            <label htmlFor="curso">Curso:</label>
-                            <input id="curso" name="curso" defaultValue={cursito} type="number" min={cursito} max={cursito+1} onChange={(e) => {
-                                setCurso("Curso " + (Math.trunc(Number(e.currentTarget.value))).toString() + "-" + (Math.trunc(Number(e.currentTarget.value)) + 1).toString());
-                            }}/>
-                        </div>
+                        {
+                            /*<div className="column">
+                                <label htmlFor="curso">Curso:</label>
+                                <input id="curso" name="curso" defaultValue={cursito} type="number" min={cursito} max={cursito+1} onChange={(e) => {
+                                    setCurso("Curso " + (Math.trunc(Number(e.currentTarget.value))).toString() + "-" + (Math.trunc(Number(e.currentTarget.value)) + 1).toString());
+                                }}/>
+                            </div>*/
+                        }
                         <div className="column">
                             <label htmlFor="docentes">Docentes:</label>
                             <div className="add_data">
                                 <select id="docentes" name="docentes" onChange={(e) => {
                                     setProfesor(e.currentTarget.value);
                                 }}>
-                                    <option key="" value="">Selecciona alumno</option>
+                                    <option key="" value="">Selecciona al docente</option>
                                     {
                                         profesores.map((profesor) => {
                                             if(profesor.apellido_2 !== null && profesor.apellido_2 !== undefined && profesor.apellido_2.trim() !== ""){
@@ -279,7 +292,7 @@ function NewCurso() {
 
                                     setProfesor("");
                                 }}>Insertar a la lista</button>
-                                <button type="button" onClick={() => {
+                                <button type="button" disabled={docentes.length === 0 ? true : false} onClick={() => {
                                     setDocentes([]);
                                 }}>Vaciar Lista</button>
                             </div>
@@ -291,7 +304,7 @@ function NewCurso() {
                                 <select id="alumnos" name="alumnos" onChange={(e) => {
                                     setEstudiante(e.currentTarget.value);
                                 }}>
-                                    <option key="" value="">Selecciona alumno</option>
+                                    <option key="" value="">Selecciona al alumno</option>
                                     {
                                         estudiantes.map((alumno) => {
                                             if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
@@ -328,7 +341,7 @@ function NewCurso() {
 
                                     setEstudiante("");
                                 }}>Insertar a la lista</button>
-                                <button type="button" onClick={() => {
+                                <button type="button" disabled={alumnos.length === 0 ? true : false} onClick={() => {
                                     setAlumnos([]);
                                 }}>Vaciar Lista</button>
                             </div>
@@ -349,7 +362,39 @@ function NewCurso() {
                             <p><b>Curso academico: </b>{curso}</p>
                         </div>
                         {
-                            docentes.length !== 0 &&
+                            docentes.length === 1 &&
+                            <div>
+                                <p>
+                                    <b>Docente: </b>
+                                    {
+                                        docentes.map((docente) => {
+                                            const persona = profesores.find((persona) => {
+                                                if(persona.email === docente){
+                                                    return persona;
+                                                }
+                                            });
+
+                                            if(persona === undefined){
+                                                return;
+                                            }
+                                            
+                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
+                                                )
+                                            }
+                                            else{
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
+                                                )
+                                            }
+                                        })
+                                    }
+                                </p>
+                            </div>
+                        }
+                        {
+                            docentes.length > 1 &&
                             <div>
                                 <p><b>Docentes:</b></p>
                                 <ul>
@@ -381,7 +426,39 @@ function NewCurso() {
                             </div>
                         }
                         {
-                            alumnos.length !== 0 &&
+                            alumnos.length === 1 &&
+                            <div>
+                                <p>
+                                    <b>Alumno: </b>
+                                    {
+                                        alumnos.map((alumno) => {
+                                            const persona = estudiantes.find((persona) => {
+                                                if(persona.email === alumno){
+                                                    return persona;
+                                                }
+                                            });
+
+                                            if(persona === undefined){
+                                                return;
+                                            }
+                                            
+                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
+                                                )
+                                            }
+                                            else{
+                                                return(
+                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
+                                                )
+                                            }
+                                        })
+                                    }
+                                </p>
+                            </div>
+                        }
+                        {
+                            alumnos.length > 1 &&
                             <div>
                                 <p><b>Alumnos:</b></p>
                                 <ul>

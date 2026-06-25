@@ -18,7 +18,7 @@ function AsignaturaTitulacionPage() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });
@@ -42,7 +42,7 @@ function AsignaturaTitulacionPage() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -73,7 +73,7 @@ function AsignaturaTitulacionPage() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_asig = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
+            const url_asig = `http://localhost:4000/asignatura?id=${TFG_asig}`;
             const response_asig = await fetch(url_asig, {
                 method: "GET",
             })
@@ -125,6 +125,12 @@ function AsignaturaTitulacionPage() {
                             <p><b>Curso: </b>{asignatura.curso}</p>
                             <p><b>Créditos: </b>{asignatura.creditos}</p>
                             <p><b>Optatividad: </b>{asignatura.optatividad}</p>
+                            {
+                                showCursos === true && asignatura.cursos_academicos.length === 0 &&
+                                <p>
+                                    <b>No se ha creado ningún curso para {asignatura.nombre.toLowerCase()}</b>
+                                </p>
+                            }
                             {
                                 showCursos === true && asignatura.cursos_academicos.length === 1 &&
                                 <p>

@@ -23,7 +23,7 @@ function ShowAsignaturasImpartidas() {
                 globalThis.location.href = "/login";
             }
             
-            const url_user = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_user = `http://localhost:4000/persona/id?id=${auth}`;
             const response_user = await fetch(url_user, {
                 method: "GET",
             });
@@ -52,7 +52,7 @@ function ShowAsignaturasImpartidas() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_Titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_Titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -78,7 +78,7 @@ function ShowAsignaturasImpartidas() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_asig = `https://tfg-back-end.onrender.com/docente/asignaturas?docente=${auth}&titulacion=${TFG_Titulacion}`;
+            const url_asig = `http://localhost:4000/docente/asignaturas?docente=${auth}&titulacion=${TFG_Titulacion}`;
             const response_asig = await fetch(url_asig, {
                 method: "GET",
             });
@@ -121,7 +121,7 @@ function ShowAsignaturasImpartidas() {
 
                 globalThis.location.href = "/paginaPersonal";
             }
-
+            
             setAsignaturas(data_asig);
         }
 
@@ -148,7 +148,7 @@ function ShowAsignaturasImpartidas() {
                     }
                     {
                         asignaturas.length > 0 &&
-                        <div className={asignaturas.length >= 3 ? "grid_asigs_docente3" : (asignaturas.length%2 === 0 ? "grid_asigs_docente2" : "grid_asigs_docente1")}>
+                        <div className={asignaturas.length >= 3 ? "grid_asigs_docente3" : (asignaturas.length === 2 ? "grid_asigs_docente2" : "grid_asigs_docente1")}>
                             {
                                 asignaturas.map((asig) => {
                                     return(

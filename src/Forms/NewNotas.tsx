@@ -14,6 +14,7 @@ function NewNotas() {
             alumno: string,
             presentado: boolean,
             nota: (string | number),
+            convocatoria_num: string,
         }[]
     >([]);
 
@@ -34,7 +35,7 @@ function NewNotas() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });
@@ -48,7 +49,7 @@ function NewNotas() {
 
             const data_user = await response_user.json();
 
-            if(data_user.rol !== "Coordinador" && data_user.rol !== "Profesor"){
+            if(data_user.rol !== "Coordinador" && data_user.rol !== "Coordinador general" && data_user.rol !== "Profesor"){
                 alert("Tienes que ser un docente para poder calificar una asignatura");
                 globalThis.location.href = "/paginaPersonal";
             }
@@ -61,7 +62,7 @@ function NewNotas() {
                 globalThis.location.href = "/paginaPersonal"
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -81,7 +82,7 @@ function NewNotas() {
                 globalThis.location.href = "/mostrarAsignaturas";
             }
 
-            const url_asig = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
+            const url_asig = `http://localhost:4000/asignatura?id=${TFG_asig}`;
             const response_asig = await fetch(url_asig, {
                 method: "GET",
             });
@@ -115,7 +116,7 @@ function NewNotas() {
                 globalThis.location.href = "/mostrarAsignaturas";
             }
 
-            const url_curso = `https://tfg-back-end.onrender.com/curso?asignatura=${TFG_asig}&curso=${TFG_curso}`;
+            const url_curso = `http://localhost:4000/curso?asignatura=${TFG_asig}&curso=${TFG_curso}`;
             const response_curso = await fetch(url_curso, {
                 method: "GET",
             });
@@ -154,6 +155,7 @@ function NewNotas() {
                 alumno: string,
                 presentado: boolean,
                 nota: (string | number),
+                convocatoria_num: string,
             }[] = [];
             const alumnos_conv: Alumno[] = [];
 
@@ -181,6 +183,8 @@ function NewNotas() {
                                     apellido_2: alumno.estudiante.apellido_2,
                                     DNI: alumno_DNI_trans!,
                                     email: alumno.estudiante.email,
+                                    universidad: alumno.estudiante.universidad,
+                                    curso_admision: alumno.estudiante.curso_admision,
                                     rol: alumno.estudiante.rol,
                                 },
                                 convocatoria_name: alumno.convocatoria_name,
@@ -195,6 +199,7 @@ function NewNotas() {
                                 alumno: alumno.estudiante.id,
                                 presentado: false,
                                 nota: "No presentado",
+                                convocatoria_num: alumno.convocatoria_num,
                             }
                         );
                     });
@@ -224,6 +229,8 @@ function NewNotas() {
                                     apellido_2: alumno.estudiante.apellido_2,
                                     DNI: alumno_DNI_trans!,
                                     email: alumno.estudiante.email,
+                                    universidad: alumno.estudiante.universidad,
+                                    curso_admision: alumno.estudiante.curso_admision,
                                     rol: alumno.estudiante.rol,
                                 },
                                 convocatoria_name: alumno.convocatoria_name,
@@ -238,6 +245,7 @@ function NewNotas() {
                                 alumno: alumno.estudiante.id,
                                 presentado: false,
                                 nota: "No presentado",
+                                convocatoria_num: alumno.convocatoria_num,
                             }
                         );
                     });
@@ -248,7 +256,7 @@ function NewNotas() {
             setAlumnos(alumnos_conv);
 
             if(TFG_conv === "Extraordinaria" && data_curso.alumnos_extraordinaria.length === 0){
-                const url_extra = `https://tfg-back-end.onrender.com/curso/convocatoria/notas`;
+                const url_extra = `http://localhost:4000/curso/calificar_convocatoria`;
                
                 const response_extra = await fetch(url_extra, {
                     method: "POST",
@@ -272,6 +280,8 @@ function NewNotas() {
                     
                     alert(data.message);
                 }
+
+                globalThis.location.href = "/mostrarAsignaturas"
             }
         }
 
@@ -285,6 +295,7 @@ function NewNotas() {
             alumno: string,
             presentado: boolean,
             nota: (string | number),
+            convocatoria_num: string,
         }[] = []
 
         estudiantes.forEach((alumno) => {
@@ -295,6 +306,7 @@ function NewNotas() {
                             alumno: alumno.alumno,
                             presentado: true,
                             nota: 5,
+                            convocatoria_num: alumno.convocatoria_num,
                         }
                     );
                 }
@@ -303,7 +315,8 @@ function NewNotas() {
                         {
                             alumno: alumno.alumno,
                             presentado: false,
-                            nota: "No presentado"
+                            nota: "No presentado",
+                            convocatoria_num: alumno.convocatoria_num,
                         }
                     );
                 }
@@ -317,12 +330,12 @@ function NewNotas() {
     }
 
     const handleCalificar = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>, user: string) => {
-        
         const estudiantes_aux: {
             alumno: string,
             presentado: boolean,
             nota: (string | number),
-        }[] = []
+            convocatoria_num: string,
+        }[] = [];
 
         estudiantes.forEach((alumno) => {
             if(alumno.alumno === user){
@@ -332,6 +345,7 @@ function NewNotas() {
                             alumno: alumno.alumno,
                             presentado: alumno.presentado,
                             nota: 10,
+                            convocatoria_num: alumno.convocatoria_num,
                         }
                     );
                 }
@@ -341,6 +355,7 @@ function NewNotas() {
                             alumno: alumno.alumno,
                             presentado: alumno.presentado,
                             nota: Number(e.currentTarget.value),
+                            convocatoria_num: alumno.convocatoria_num,
                         }
                     );
                 }
@@ -366,7 +381,7 @@ function NewNotas() {
         NProgress.start();
                     
         try{
-            const url_notas = `https://tfg-back-end.onrender.com/curso/convocatoria/notas`;
+            const url_notas = `http://localhost:4000/curso/calificar_convocatoria`;
             const response_notas = await fetch(url_notas, {
                 method: "POST",
                 body: JSON.stringify(body),
@@ -384,7 +399,7 @@ function NewNotas() {
 
                 alert(data.message);
 
-                globalThis.location.href = "/paginaPersonal";
+                globalThis.location.href = "/paginaAsignatura";
             }
         }
         finally{
@@ -480,7 +495,7 @@ function NewNotas() {
                         </>
                     }
                     <div className="buttonsNotas">
-                        <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Volver</button>
+                        <button type="button" onClick={() => globalThis.location.href = "/paginaAsignatura"}>Volver</button>
                         <button type="button" disabled={buttonAction} onClick={handleSend}>Enviar</button>
                     </div>
                 </div>

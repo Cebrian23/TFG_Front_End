@@ -48,7 +48,7 @@ function NewTitulacion() {
                 setAuth(auth)
             }
 
-            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_persona = `http://localhost:4000/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -184,7 +184,7 @@ function NewTitulacion() {
             NProgress.start();
                                 
             try{
-                const url = "https://tfg-back-end.onrender.com/titulacion";
+                const url = "http://localhost:4000/titulacion";
                 const response = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify(newTitulacion),
@@ -228,7 +228,7 @@ function NewTitulacion() {
                             <h3>Datos de la titulación</h3>
                             <div className="column">
                                 <label htmlFor="nombre">Nombre:</label>
-                                <input id="nombre" name="nombre" placeholder="Nombre de la titulación" onChange={(e) => {
+                                <input id="nombre" name="nombre" placeholder="Nombre de la titulación" value={nombre} onChange={(e) => {
                                     setNombre(e.currentTarget.value);
                                     setNombreError("");
                                 }}/>
@@ -254,12 +254,24 @@ function NewTitulacion() {
                                             });
 
                                             const uni2_exists = universidades.find((uni) => {
+                                                if(uni.nombre === universidad.trim()){
+                                                    return uni;
+                                                }
+                                            });
+
+                                            const uni3_exists = universidades.find((uni) => {
                                                 if(uni.principal === true && universidadPrincipal === "Si"){
                                                     return uni;
                                                 }
                                             });
 
-                                            if(uni1_exists === undefined && uni2_exists === undefined){
+                                            if(uni1_exists !== undefined && uni2_exists !== undefined){
+                                                setUniversidadesError(`${universidad.trim()} ya existe en la lista`);
+                                            }
+                                            else if(uni3_exists !== undefined){
+                                                setUniversidadesError("Ya hay una universidad principal");
+                                            }
+                                            else{
                                                 const new_nombres_universidades = nombresUniversidades;
                                                 new_nombres_universidades.push(universidad);
                                                 setNombresUniversidades(new_nombres_universidades);
@@ -296,16 +308,13 @@ function NewTitulacion() {
 
                                                 setUniversidadesError("");
                                             }
-                                            else{
-                                                setUniversidadesError(`${universidad.trim()} ya existe en la lista`);
-                                            }
                                         }
                                         setUniversidad("");
                                     }}>Insertar a la lista</button>
                                     <button type="button" disabled={nombresUniversidades.length === 0 ? true : false} onClick={() => {
                                         setUniversidad("");
                                         setNombresUniversidades([]);
-
+                                        setUniversidades([]);
                                     }}>Reiniciar lista</button>
                                 </div>
                                 <div className="error">{universidadesError}</div>
@@ -343,7 +352,7 @@ function NewTitulacion() {
                             </div>
                             <div className="column">
                                 <label htmlFor="cursos">Cursos:</label>
-                                <input name="cursos" type="number" defaultValue={cursos} min="1" max="4" onChange={(e) => {
+                                <input name="cursos" type="number" value={cursos} min="1" max="4" onChange={(e) => {
                                     setCursos(Math.trunc(Number(e.currentTarget.value)));
 
                                     if(curso_asig > Math.trunc(Number(e.currentTarget.value))){
@@ -359,7 +368,7 @@ function NewTitulacion() {
                             </div>
                             <div className="buttons">
                                 <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
-                                <button type="button" onClick={() => setPagina(pagina+1)}>Página siguiente</button>
+                                <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
                             </div>
                         </>
                     }
@@ -441,7 +450,7 @@ function NewTitulacion() {
                             <div className="buttons">
                                 <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
                                 <button type="button" onClick={() => setPagina(pagina-1)}>Página anterior</button>
-                                <button type="button" onClick={() => setPagina(pagina+1)}>Página siguiente</button>
+                                <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
                             </div>
                         </>
                     }
@@ -451,12 +460,12 @@ function NewTitulacion() {
                             <h3>Datos de los créditos de la titulación</h3>
                             <div className="column">
                                 <div className="intra_div2">
-                                    <label htmlFor="cred_oblig">Creditos obligatorios para presentar el TFM:</label>
+                                    <label htmlFor="cred_oblig">Creditos obligatorios para defender el TFM:</label>
                                     <input id="cred_oblig" name="cred_oblig" type="number" defaultValue={creditos_asig_oblig} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
                                 </div>
                                 <div className="intra_div2">
-                                    <label htmlFor="cred_opt">Creditos optativos para presentar el TFM:</label>
-                                    <input id="cred_opt" name="cred_opt" type="number" defaultValue={creditos_asig_opt} min="1" max="100" onChange={(e) => setCreditosAsigOblig(Math.trunc(Number(e.currentTarget.value)))}/>
+                                    <label htmlFor="cred_opt">Creditos optativos para defender el TFM:</label>
+                                    <input id="cred_opt" name="cred_opt" type="number" defaultValue={creditos_asig_opt} min="1" max="100" onChange={(e) => setCreditosAsigOpt(Math.trunc(Number(e.currentTarget.value)))}/>
                                 </div>
                                 <div className="intra_div2">
                                     <label htmlFor="creditosTFM">Creditos TFM:</label>
@@ -477,22 +486,41 @@ function NewTitulacion() {
                         <p>Nombre de la titulación: {nombre}</p>
                     </div>
                     {
-                        universidades.length !== 0 &&
+                        universidades.length === 1 &&
+                        <div>
+                            <p>Universidad insertada: {universidades[0].nombre}</p>
+                        </div>
+                    }
+                    {
+                        universidades.length > 1 &&
                         <div>
                             <span>Universidades insertadas:</span>
                             <ul>
                                 {
-                                    nombresUniversidades.map((uni) => {
-                                        return(
-                                            <li key={uni}>{uni}</li>
-                                        )
+                                    universidades.map((uni) => {
+                                        if(uni.principal === true){
+                                            return(
+                                                <li key={uni.nombre}>{uni.nombre} (universidad coordinadora)</li>
+                                            )
+                                        }
+                                        else{
+                                            return(
+                                                <li key={uni.nombre}>{uni.nombre}</li>
+                                            )
+                                        }
                                     })
                                 }
                             </ul>
                         </div>
                     }
                     {
-                        grados.length !== 0 &&
+                        grados.length === 1 &&
+                        <div>
+                            <p>Grado insertado: {grados[0]}</p>
+                        </div>
+                    }
+                    {
+                        grados.length > 1 &&
                         <div>
                             <span>Grados insertados:</span>
                             <ul>
@@ -528,7 +556,13 @@ function NewTitulacion() {
                         </div>
                     }
                     <div>
-                        <p>Creditos del TFM: {creditosTFM}</p>
+                        <p>Créditos obligatorios para defender el TFM: {creditos_asig_oblig}</p>
+                    </div>
+                    <div>
+                        <p>Créditos optativos para defender el TFM: {creditos_asig_opt}</p>
+                    </div>
+                    <div>
+                        <p>Créditos del TFM: {creditosTFM}</p>
                     </div>
                 </div>
             </div>

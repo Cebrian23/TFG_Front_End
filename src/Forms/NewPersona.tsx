@@ -13,6 +13,8 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
 function NewPersona() {
+    const [pagina, setPagina] = useState(1);
+
     const [nombre, setNombre] = useState("");
     const [apellido1, setApellido1] = useState("");
     const [apellido2, setApellido2] = useState("");
@@ -23,11 +25,11 @@ function NewPersona() {
     const [password, setPassword] = useState("");
     const [rol, setRol] = useState("Administrativo");
     const [universidad, setUniversidad] = useState("");
-    const [cursoAcademico, setCurso] = useState("");
+    //const [cursoAcademico, setCurso] = useState("");
     const [gradoUniversitario, setGrado] = useState("");
     const [titulacion, setTitulacion] = useState("");
 
-    const [curso, setCursito] = useState(0)
+    //const [curso, setCursito] = useState(0)
     const [universidades, setUniversidades] = useState<string[]>([]);
     const [gradosUniversitarios, setGrados] = useState<string[]>([]);
 
@@ -52,7 +54,7 @@ function NewPersona() {
                 globalThis.location.href = "/login";
             }
             
-            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${id_user}`;
+            const url_persona = `http://localhost:4000/persona/id?id=${id_user}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -81,7 +83,7 @@ function NewPersona() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url = `https://tfg-back-end.onrender.com/titulacion?id=${id_titulacion}`;
+            const url = `http://localhost:4000/titulacion?id=${id_titulacion}`;
             const response = await fetch(url, {
                 method: "GET"
             });
@@ -93,15 +95,21 @@ function NewPersona() {
             else{
                 const data = await response.json();
                 setTitulacion(data.id);
-                setUniversidad(data.universidades[0]);
-                setUniversidades(data.universidades);
+                setUniversidad(data.universidades[0].nombre);
+                
+                const unis: string[] = [];
+                data.universidades.forEach((uni: {nombre: string, principal: boolean}) => {
+                    unis.push(uni.nombre);
+                });
+                
+                setUniversidades(unis);
                 setGrado(data.grados_aptos[0]);
                 setGrados(data.grados_aptos);
             }
 
-            const date = new Date();
+            /*const date = new Date();
             setCursito(date.getFullYear());
-            setCurso(`Curso ${date.getFullYear()}-${date.getFullYear()+1}`);
+            setCurso(`Curso ${date.getFullYear()}-${date.getFullYear()+1}`);*/
         }
 
         getDatosTitulacion();
@@ -118,12 +126,12 @@ function NewPersona() {
         setPassword("");
         setRol("Administrativo");
         setUniversidad(universidades[0]);
-        setCurso("");
+        //setCurso("");
         setGrado(gradosUniversitarios[0]);
         
-        const date = new Date();
+        /*const date = new Date();
         setCursito(date.getFullYear());
-        setCurso(`Curso ${date.getFullYear()}-${date.getFullYear()+1}`);
+        setCurso(`Curso ${date.getFullYear()}-${date.getFullYear()+1}`);*/
 
         setNombreError("");
         setApellido1Error("");
@@ -280,14 +288,25 @@ function NewPersona() {
             }
             else if(rol === "Estudiante"){
                 body.universidad = universidad;
-                body.curso_admision = cursoAcademico;
                 body.grado_academico = gradoUniversitario;
+
+                const date = new Date();
+                let curso = "Curso ";
+
+                if(date.getMonth() > 7){
+                    curso += `${date.getFullYear()+1}-${date.getFullYear()+2}`;
+                }
+                else{
+                    curso += `${date.getFullYear()}-${date.getFullYear()+1}`;
+                }
+
+                body.curso_admision = curso;
             }
 
             NProgress.start();
                                 
             try{
-                const url = `https://tfg-back-end.onrender.com/persona`;
+                const url = `http://localhost:4000/persona`;
                 const response = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify(body),
@@ -322,140 +341,165 @@ function NewPersona() {
             <Header/>
             <div className="totalPage">
                 <SidebarAdministrativo/>
-                <div className={rol === "Administrativo" ? "newAdministrativo" : "newCoordinadorProfesorEstudiante"}>
+                <div className={pagina === 1 ? "newUser" : (pagina === 2 && rol === "Administrativo") ? "newAdministrativo" : (pagina === 2 && rol === "Estudiante") ? "newEstudiante" : "newCoordinadorProfesor"}>
                     <form className="registerForm">
                         <h2>Registro de usuario</h2>
-                        <div className="column">
-                            <label htmlFor="nombre">Nombre:</label>
-                            <input id="nombre" name="nombre" type="text" placeholder="Nombre" onChange={(e) => {
-                                setNombre(e.currentTarget.value);
-                                setNombreError("");
-                            }} required/>
-                            <div className="error">{nombreError}</div>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="1er_apellido">1er Apellido:</label>
-                            <input id="1er_apellido" name="1er_apellido" type="text" placeholder="1er Apellido" onChange={(e) => {
-                                setApellido1(e.currentTarget.value);
-                                setApellido1Error("");
-                            }} required/>
-                            <div className="error">{apellido1Error}</div>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="2do_apellido">2do Apellido:</label>
-                            <input id="2do_apellido" name="2do_apellido" type="text" placeholder="2do Apellido" onChange={(e) => setApellido2(e.currentTarget.value)}/>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="dni">DNI:</label>
-                            <input id="dni" name="dni" type="text" placeholder="DNI" onChange={(e) => {
-                                setDNI(e.currentTarget.value);
-                                setDNIError("");
-                            }} required/>
-                            <div className="error">{dniError}</div>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="phone_number">Numero telefónico:</label>
-                            <div id="phone_number" className="combo_data">
-                                <select id="prefix" name="prefix" defaultValue="+34" className="registerPhoneInput" onChange={(e) => setPrefix(e.currentTarget.value)}>
-                                    <option value="+30">+30</option>
-                                    <option value="+31">+31</option>
-                                    <option value="+32">+32</option>
-                                    <option value="+33">+33</option>
-                                    <option value="+34">+34</option>
-                                    <option value="+39">+39</option>
-                                    <option value="+49">+49</option>
-                                    <option value="+351">+351</option>
-                                </select>
-                                <input id="phone" name="phone" type="text" placeholder="Número telefónico" className="registerPhoneSelect" onChange={(e) => {
-                                    setPhone(e.currentTarget.value);
-                                    setPhoneError("");
-                                }}/>
-                            </div>
-                            <div className="">{phoneError}</div>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="email">Email:</label>
-                            <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
-                                setEmail(e.currentTarget.value);
-                                setEmailError("");
-                            }} required/>
-                            <div className="error">{emailError}</div>
-                        </div>
                         {
-                            rol !== "Estudiante" &&
-                            <div className="column">
-                                <label htmlFor="password">Password:</label>
-                                <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
-                                    setPassword(e.currentTarget.value);
-                                    setPasswordError("");
-                                    setPassCharError("");
-                                    setPassLengthError("");
-                                    setPassNumError("");
-                                    setPassSpaceError("");
-                                }} required/>
-                                <div className="error">{passwordError}</div>
-                                <div className="error">{passCharError}</div>
-                                <div className="error">{passLengthError}</div>
-                                <div className="error">{passNumError}</div>
-                                <div className="error">{passSpaceError}</div>
-                            </div>
-                        }
-                        <div className="column">
-                            <label htmlFor="rol">Rol:</label>
-                            <select id="rol" name="rol" defaultValue="Administrativo" onChange={(e) => setRol(e.currentTarget.value)}>
-                                <option value="Administrativo">Administrativo</option>
-                                <option value="Coordinador">Coordinador</option>
-                                <option value="Profesor">Profesor</option>
-                                <option value="Estudiante">Estudiante</option>
-                            </select>
-                        </div>
-                        {
-                            rol !== "Administrativo" &&
-                            <div className="column">
-                                <label htmlFor="universidad">Universidad:</label>
-                                <select id="universidad" name="universidad" defaultValue={universidades[0]} onChange={(e) => setUniversidad(e.currentTarget.value)}>
-                                    {
-                                        universidades.map((uni) => {
-                                            return(
-                                                <option key={uni} value={uni}>{uni}</option>
-                                            );
-                                        })
-                                    }
-                                    {
-                                        rol === "Profesor" &&
-                                        <option key="Externo" value="Externo">Externo</option>
-                                    }
-                                </select>
-                            </div>
-                        }
-                        {
-                            rol === "Estudiante" &&
+                            pagina === 1 &&
                             <>
                                 <div className="column">
-                                    <label htmlFor="curso">Curso de admisión:</label>
-                                    <input id="curso" name="curso" type="number" min="2020" max="2060" value={curso} onChange={(e) => {
-                                        setCursito(Number(e.currentTarget.value));
-                                        setCurso(`Curso ${Math.trunc(Number(e.currentTarget.value))}-${Math.trunc(Number(e.currentTarget.value)+1)}`);
-                                    }}/>
+                                    <label htmlFor="nombre">Nombre:</label>
+                                    <input id="nombre" name="nombre" type="text" placeholder="Nombre" value={nombre} onChange={(e) => {
+                                        setNombre(e.currentTarget.value);
+                                        setNombreError("");
+                                    }} required/>
+                                    <div className="error">{nombreError}</div>
                                 </div>
                                 <div className="column">
-                                    <label htmlFor="grado">Grado univesitario cursado:</label>
-                                    <select id="grado" name="grado" defaultValue={gradosUniversitarios[0]} onChange={(e) => setGrado(e.currentTarget.value)}>
-                                        {
-                                            gradosUniversitarios.map((grado) => {
-                                                return(
-                                                    <option key={grado} value={grado}>{grado}</option>
-                                                )
-                                            })
-                                        }
+                                    <label htmlFor="1er_apellido">1er Apellido:</label>
+                                    <input id="1er_apellido" name="1er_apellido" type="text" placeholder="1er Apellido" value={apellido1} onChange={(e) => {
+                                        setApellido1(e.currentTarget.value);
+                                        setApellido1Error("");
+                                    }} required/>
+                                    <div className="error">{apellido1Error}</div>
+                                </div>
+                                <div className="column">
+                                    <label htmlFor="2do_apellido">2do Apellido:</label>
+                                    <input id="2do_apellido" name="2do_apellido" type="text" placeholder="2do Apellido" value={apellido2} onChange={(e) => setApellido2(e.currentTarget.value)}/>
+                                </div>
+                                <div className="column">
+                                    <label htmlFor="dni">DNI:</label>
+                                    <input id="dni" name="dni" type="text" placeholder="DNI" value={dni} onChange={(e) => {
+                                        setDNI(e.currentTarget.value);
+                                        setDNIError("");
+                                    }} required/>
+                                    <div className="error">{dniError}</div>
+                                </div>
+                                <div className="column">
+                                    <label htmlFor="rol">Rol:</label>
+                                    <select id="rol" name="rol" value={rol} onChange={(e) => setRol(e.currentTarget.value)}>
+                                        <option value="Administrativo">Administrativo</option>
+                                        <option value="Coordinador">Coordinador</option>
+                                        <option value="Profesor">Profesor</option>
+                                        <option value="Estudiante">Estudiante</option>
                                     </select>
                                 </div>
                             </>
                         }
+                        {
+                            pagina === 2 &&
+                            <>
+                                <div className="column">
+                                    <label htmlFor="phone_number">Numero telefónico:</label>
+                                    <div id="phone_number" className="combo_data">
+                                        <select id="prefix" name="prefix" defaultValue="+34" className="registerPhoneInput" onChange={(e) => setPrefix(e.currentTarget.value)}>
+                                            <option value="+30">+30</option>
+                                            <option value="+31">+31</option>
+                                            <option value="+32">+32</option>
+                                            <option value="+33">+33</option>
+                                            <option value="+34">+34</option>
+                                            <option value="+39">+39</option>
+                                            <option value="+49">+49</option>
+                                            <option value="+351">+351</option>
+                                        </select>
+                                        <input id="phone" name="phone" type="text" placeholder="Número telefónico" className="registerPhoneSelect" value={phone} onChange={(e) => {
+                                            setPhone(e.currentTarget.value);
+                                            setPhoneError("");
+                                        }}/>
+                                    </div>
+                                    <div className="">{phoneError}</div>
+                                </div>
+                                <div className="column">
+                                    <label htmlFor="email">Email:</label>
+                                    <input id="email" name="email" type="text" placeholder="Email" value={email} onChange={(e) => {
+                                        setEmail(e.currentTarget.value);
+                                        setEmailError("");
+                                    }} required/>
+                                    <div className="error">{emailError}</div>
+                                </div>
+                                {
+                                    rol !== "Estudiante" &&
+                                    <div className="column">
+                                        <label htmlFor="password">Password:</label>
+                                        <input id="password" name="password" type="password" placeholder="Password" value={password} onChange={(e) => {
+                                            setPassword(e.currentTarget.value);
+                                            setPasswordError("");
+                                            setPassCharError("");
+                                            setPassLengthError("");
+                                            setPassNumError("");
+                                            setPassSpaceError("");
+                                        }} required/>
+                                        <div className="error">{passwordError}</div>
+                                        <div className="error">{passCharError}</div>
+                                        <div className="error">{passLengthError}</div>
+                                        <div className="error">{passNumError}</div>
+                                        <div className="error">{passSpaceError}</div>
+                                    </div>
+                                }
+                                {
+                                    rol !== "Administrativo" &&
+                                    <div className="column">
+                                        <label htmlFor="universidad">Universidad:</label>
+                                        <select id="universidad" name="universidad" value={universidad} onChange={(e) => setUniversidad(e.currentTarget.value)}>
+                                            {
+                                                universidades.map((uni) => {
+                                                    return(
+                                                        <option key={uni} value={uni}>{uni}</option>
+                                                    );
+                                                })
+                                            }
+                                            {
+                                                rol === "Profesor" &&
+                                                <option key="Externo" value="Externo">Externo</option>
+                                            }
+                                        </select>
+                                    </div>
+                                }
+                                {
+                                    rol === "Estudiante" &&
+                                    <>
+                                        {
+                                            /*<div className="column">
+                                                <label htmlFor="curso">Curso de admisión:</label>
+                                                <input id="curso" name="curso" type="number" min="2020" max="2060" value={curso} onChange={(e) => {
+                                                    setCursito(Number(e.currentTarget.value));
+                                                    setCurso(`Curso ${Math.trunc(Number(e.currentTarget.value))}-${Math.trunc(Number(e.currentTarget.value)+1)}`);
+                                                }}/>
+                                            </div>*/
+                                        }
+                                        <div className="column">
+                                            <label htmlFor="grado">Grado univesitario cursado:</label>
+                                            <select id="grado" name="grado" value={gradoUniversitario} onChange={(e) => setGrado(e.currentTarget.value)}>
+                                                {
+                                                    gradosUniversitarios.map((grado) => {
+                                                        return(
+                                                            <option key={grado} value={grado}>{grado}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                    </>
+                                }
+                            </>
+                        }
                         <div className="buttons">
-                            <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
+                            
                             <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                            <button type="button" onClick={handleNewUser} disabled={buttonAction}>Enviar</button>
+                            {
+                                pagina === 1 &&
+                                <>
+                                    <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
+                                    <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
+                                </>
+                            }
+                            {
+                                pagina === 2 &&
+                                <>
+                                    <button type="button" onClick={() => setPagina(pagina-1)}>Página anterior</button>
+                                    <button type="button" onClick={handleNewUser} disabled={buttonAction}>Enviar</button>
+                                </>
+                            }
                         </div>
                     </form>
                 </div>

@@ -18,7 +18,7 @@ function CursoPage() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });
@@ -42,7 +42,7 @@ function CursoPage() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -72,7 +72,7 @@ function CursoPage() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_asig = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
+            const url_asig = `http://localhost:4000/asignatura?id=${TFG_asig}`;
             const response_asig = await fetch(url_asig, {
                 method: "GET",
             })
@@ -146,12 +146,12 @@ function CursoPage() {
                                         curso.profesores.map((docente) => {
                                             if(docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== ""){
                                                 return(
-                                                    <span key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2}</span>
+                                                    <span key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2} ({docente.email})</span>
                                                 )
                                             }
                                             else{
                                                 return(
-                                                    <span key={docente.id}>{docente.nombre} {docente.apellido_1}</span>
+                                                    <span key={docente.id}>{docente.nombre} {docente.apellido_1} ({docente.email})</span>
                                                 )
                                             }
                                         })
@@ -167,12 +167,12 @@ function CursoPage() {
                                             curso.profesores.map((docente) => {
                                                 if(docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== ""){
                                                     return(
-                                                        <li key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2}</li>
+                                                        <li key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2} ({docente.email})</li>
                                                     )
                                                 }
                                                 else{
                                                     return(
-                                                        <li key={docente.id}>{docente.nombre} {docente.apellido_1}</li>
+                                                        <li key={docente.id}>{docente.nombre} {docente.apellido_1} ({docente.email})</li>
                                                     )
                                                 }
                                             })
@@ -188,12 +188,12 @@ function CursoPage() {
                                         curso.estudiantes.map((alumno) => {
                                             if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
                                                 return(
-                                                    <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2}</span>
+                                                    <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2} ({alumno.email})</span>
                                                 )
                                             }
                                             else{
                                                 return(
-                                                    <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1}</span>
+                                                    <span key={alumno.id}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</span>
                                                 )
                                             }
                                         })
@@ -209,12 +209,12 @@ function CursoPage() {
                                             curso.estudiantes.map((alumno) => {
                                                 if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
                                                     return(
-                                                        <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2}</li>
+                                                        <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2} ({alumno.email})</li>
                                                     )
                                                 }
                                                 else{
                                                     return(
-                                                        <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1}</li>
+                                                        <li key={alumno.id}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</li>
                                                     )
                                                 }
                                             })

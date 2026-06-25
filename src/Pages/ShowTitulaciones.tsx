@@ -18,7 +18,7 @@ function ShowTitulaciones() {
                 globalThis.location.href = "/login";
             }
             
-            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
+            const url_persona = `http://localhost:4000/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -48,7 +48,7 @@ function ShowTitulaciones() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${id_titulacion}`;
+            const url_titulacion = `http://localhost:4000/titulacion?id=${id_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -83,7 +83,7 @@ function ShowTitulaciones() {
                     <div>
                         {
                             titulaciones !== undefined && titulaciones.length > 0 &&
-                            <div className={titulaciones.length >= 3 ? "grid_titulaciones3" : (titulaciones.length%2 === 0 ? "grid_titulaciones2" : "grid_titulaciones1")}>
+                            <div className={titulaciones.length >= 3 ? "grid_titulaciones2" : "grid_titulaciones1"}>
                                 {
                                     titulaciones.map((titulacion) => {
                                         return(

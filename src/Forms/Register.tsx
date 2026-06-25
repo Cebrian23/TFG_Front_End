@@ -206,7 +206,7 @@ function Register() {
             NProgress.start();
                                             
             try{
-                const url = `https://tfg-back-end.onrender.com/register`;
+                const url = `http://localhost:4000/register`;
                 const response = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify(body),
