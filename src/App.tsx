@@ -20,6 +20,9 @@ import UserPage from './Pages/UserPage.tsx';
 //import Register from './Forms/Register.tsx';
 import NewCursoTFM from './Forms/NewCursoTFM.tsx';
 import ControlCalidad from './Pages/ControlCalidad.tsx';
+import ShowCursosTFM from './Pages/ShowCursosTFM.tsx';
+import TFM_BlockPage from './Pages/TFM_BlockPage.tsx';
+import CursoTFMPage from './Pages/CursoTFMPage.tsx';
 
 function App() {
   return (
@@ -38,8 +41,10 @@ function App() {
           <Route path="paginaPersonal" element={<UserPage/>}/>
           <Route path="paginaTitulacion" element={<TitulacionPage/>}/>
           <Route path="paginaAsignaturaTitulacion" element={<AsignaturaTitulacionPage/>}/>
+          <Route path="paginaBlockTFMTitulacion" element={<TFM_BlockPage/>}/>
           <Route path="paginaAsignatura" element={<AsignaturaDocentePage/>}/>
           <Route path="paginaCurso" element={<CursoPage/>}/>
+          <Route path="paginaCursoTFM" element={<CursoTFMPage/>}/>
           <Route path="actualizarDatosPersonales" element={<UpdateUser/>}/>
           <Route path="controlCalidad" element={<ControlCalidad/>}/>
           {
@@ -49,6 +54,7 @@ function App() {
           <Route path="mostrarAsignaturasTitulacion" element={<ShowAsignaturasTitulacion/>}/>
           <Route path="mostrarAsignaturas" element={<ShowAsignaturasImpartidas/>}/>
           <Route path="mostrarCursos" element={<ShowCursos/>}/>
+          <Route path="mostrarCursosTFM" element={<ShowCursosTFM/>}/>
         </Routes>
       </BrowserRouter>
     </>
