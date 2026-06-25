@@ -267,6 +267,58 @@
     }
 }
 
+.grid_cursosTFM1{
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    .cards{
+        border: 1px black solid;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 70dvh;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 2%;
+    }
+}
+
+.grid_cursosTFM2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    margin: 3%;
+    .cards{
+        border: 1px black solid;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 70dvh;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 2%;
+    }
+}
+
+.grid_cursosTFM3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;    
+    .cards{
+        border: 1px black solid;
+        border-radius: 3dvh;
+        background-color: #f8fafc;
+        width: 70dvh;
+        text-align: center;
+        margin: 2%;
+    }
+    button{
+        margin-bottom: 2%;
+    }
+}
+
 .data{
     text-align: center;
     padding: 2%;
