@@ -268,6 +268,7 @@ function ShowNotasUniversidad() {
                 <SidebarCoordinador/>
                 <div className="notasAlumnosPage">
                     <form className="notasAlumnosMenu">
+                        <h1>Notas de alumnos de tu universidad</h1>
                         <div className="column">
                             <label>Selecciona el curso</label>
                             <select value={curso} onChange={(e) => handleChangeCurso(e)}>
