@@ -23,6 +23,7 @@ import ControlCalidad from './Pages/ControlCalidad.tsx';
 import ShowCursosTFM from './Pages/ShowCursosTFM.tsx';
 import TFM_BlockPage from './Pages/TFM_BlockPage.tsx';
 import CursoTFMPage from './Pages/CursoTFMPage.tsx';
+import ShowNotasUniversidad from './Pages/ShowNotasUniversidad.tsx';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="mostrarAsignaturas" element={<ShowAsignaturasImpartidas/>}/>
           <Route path="mostrarCursos" element={<ShowCursos/>}/>
           <Route path="mostrarCursosTFM" element={<ShowCursosTFM/>}/>
+          <Route path="mostrarNotasAlumnosUni" element={<ShowNotasUniversidad/>}/>
         </Routes>
       </BrowserRouter>
     </>
