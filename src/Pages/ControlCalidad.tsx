@@ -144,11 +144,9 @@ function ControlCalidad() {
                 year += 1;
             }
 
-            if(cursos_disponibles.includes(limiteInfo) === false){
+            if(cursos_disponibles.includes(limiteInfo) === false && year < Number(limiteInfo.split(" ")[1].split("-")[0])){
                 cursos_disponibles.push(limiteInfo);
             }
-
-            cursos_disponibles.push("Curso 2026-2027");
 
             setCursosDisponibles(cursos_disponibles);
 
