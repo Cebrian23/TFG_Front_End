@@ -148,7 +148,7 @@ function ShowNotasUniversidad() {
                 cursos_disponibles.push(limiteInfo);
             }
 
-            cursos_disponibles.push("Curso 2026-2027")
+            cursos_disponibles.push("Curso 2026-2027");
 
             setCursosDisponibles(cursos_disponibles);
 
