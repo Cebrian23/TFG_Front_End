@@ -12,13 +12,20 @@ function ControlCalidad() {
     const [titulacion, setTitulacion] = useState("");
     const [universidad, setUniversidad] = useState("");
 
-    //const [coordinador, setCoordinador] = useState<Coordinador>()
     const [rol, setRol] = useState("");
     const [universidadesDisponibles, setUniversidadesDisponibles] = useState<string[]>([]);
     const [cursosDisponibles, setCursosDisponibles] = useState<string[]>([]);
+    const [data, setData] = useState<{
+        creditos_matriculados: number,
+        creditos_presentados: number,
+        creditos_aprobados: number,
+        tasa_rendimiento: number | null,
+        tasa_evaluacion: number | null,
+        tasa_exito: number | null,
+    }>();
 
     const [datosPieChart, setDatosPieChart] = useState<{nombre: string, valor: number, fill: string}[]>();
-    const [datosBarChart, setDatosBarChart] = useState<{nombre: string, valor: number}[]>([]);
+    const [datosBarChart, setDatosBarChart] = useState<{nombre: string, valor: number, fill: string}[]>([]);
 
     useEffect(() => {
         const getData = async () => {
@@ -41,7 +48,6 @@ function ControlCalidad() {
             }
 
             const data_user = await response_user.json();
-            //setCoordinador(data_user);
             setRol(data_user.rol);
 
             if(data_user.rol !== "Coordinador" && data_user.rol !== "Coordinador general"){
@@ -142,6 +148,8 @@ function ControlCalidad() {
                 cursos_disponibles.push(limiteInfo);
             }
 
+            cursos_disponibles.push("Curso 2026-2027");
+
             setCursosDisponibles(cursos_disponibles);
 
             /*if(data_user.rol === "Coordinador"){
@@ -210,6 +218,8 @@ function ControlCalidad() {
         const data_calidad = await response_controlCalidad.json();
         console.log(data_calidad)
 
+        setData(data_calidad);
+
         const newDatosPieChart: {
             nombre: string,
             valor: number,
@@ -220,7 +230,7 @@ function ControlCalidad() {
 
         newDatosPieChart.push(
             {
-                nombre: "Creditos aprobados",
+                nombre: "Créditos aprobados",
                 valor: aprobados,
                 fill: "#FF8042"
             }
@@ -230,9 +240,9 @@ function ControlCalidad() {
 
         newDatosPieChart.push(
             {
-                nombre: "Creditos suspensos",
+                nombre: "Créditos suspensos",
                 valor: suspensos,
-                fill: "#FFBB28",
+                fill: "green",
             }
         );
 
@@ -240,7 +250,7 @@ function ControlCalidad() {
 
         newDatosPieChart.push(
             {
-                nombre: "creditos no presentados",
+                nombre: "Créditos no presentados",
                 valor: no_presentados,
                 fill: "#0088FE",
             }
@@ -251,14 +261,15 @@ function ControlCalidad() {
         const newDatosBarChart: {
             nombre: string,
             valor: number,
-            fill?: string,
+            fill: string,
         }[] = [];
 
         if(data_calidad.tasa_evaluacion){
             newDatosBarChart.push(
                 {
-                    nombre: "tasa_evaluacion",
-                    valor: data_calidad.tasa_evaluacion,
+                    nombre: "Tasa de evaluación",
+                    valor: Math.round(data_calidad.tasa_evaluacion*100)/100,
+                    fill: "black",
                     //00C49F
                 }
             );
@@ -266,8 +277,9 @@ function ControlCalidad() {
         else{
             newDatosBarChart.push(
                 {
-                    nombre: "tasa_evaluacion",
+                    nombre: "Tasa de evaluación",
                     valor: 0,
+                    fill: "black",
                     //00C49F
                 }
             );
@@ -276,16 +288,18 @@ function ControlCalidad() {
         if(data_calidad.tasa_exito){
             newDatosBarChart.push(
                 {
-                    nombre: "tasa_exito",
-                    valor: data_calidad.tasa_exito,
+                    nombre: "Tasa de éxito",
+                    valor: Math.round(data_calidad.tasa_exito*100)/100,
+                    fill: "grey",
                 }
             );
         }
         else{
             newDatosBarChart.push(
                 {
-                    nombre: "tasa_exito",
+                    nombre: "Tasa de éxito",
                     valor: 0,
+                    fill: "grey",
                 }
             );
         }
@@ -293,16 +307,18 @@ function ControlCalidad() {
         if(data_calidad.tasa_rendimiento){
             newDatosBarChart.push(
                 {
-                    nombre: "tasa_rendimiento",
-                    valor: data_calidad.tasa_rendimiento,
+                    nombre: "Tasa de rendimiento",
+                    valor: Math.round(data_calidad.tasa_rendimiento*100)/100,
+                    fill: "white",
                 }
             );
         }
         else{
             newDatosBarChart.push(
                 {
-                    nombre: "tasa_rendimiento",
+                    nombre: "Tasa de rendimiento",
                     valor: 0,
+                    fill: "white",
                 }
             );
         }
@@ -317,7 +333,7 @@ function ControlCalidad() {
                 <SidebarCoordinador/>
                 <div className="controlCalidadPage">
                     <form className="controlCalidadMenu">
-                        <h1>Filtro del control de calidad</h1>
+                        <h1>Métricas para el control de calidad</h1>
                         {
                             rol === "Coordinador general" &&
                             <div className="column">
@@ -356,7 +372,13 @@ function ControlCalidad() {
                         </div>
                     </form>
                     {
-                        universidad.trim() !== "" && curso.trim() !== "" &&
+                        universidad.trim() !== "" && curso.trim() !== "" && (data !== undefined && (data.tasa_evaluacion === null || data.tasa_exito === null || data.tasa_rendimiento === null)) &&
+                        <div style={{marginTop: "15dvh"}}>
+                            <h1>No hay datos para el {curso.toLowerCase()}</h1> 
+                        </div>
+                    }
+                    {
+                        universidad.trim() !== "" && curso.trim() !== "" && (data !== undefined && (data !== undefined && data.tasa_evaluacion !== null && data.tasa_exito !== null && data.tasa_rendimiento !== null)) &&
                         <div className="graficos">
                             <PieChart width={600} height={300}>
                                 <Pie
