@@ -118,7 +118,7 @@ function ShowAsignaturasTitulacion() {
                                                             
                                                             globalThis.location.href = "/mostrarCursosTFM";
                                                         }
-                                                    }}>Ver cursos</button>
+                                                    }}>Ver cursos académicos</button>
                                                     <button type="button" onClick={() => {
                                                         if(asig.tipo === "Asignatura"){
                                                             Cookie.set("TFG_asig", asig.id, {expires: 7});
@@ -130,7 +130,7 @@ function ShowAsignaturasTitulacion() {
 
                                                             globalThis.location.href = "/nuevoCursoTFM";
                                                         }
-                                                    }}>Insertar un curso nuevo</button>
+                                                    }}>Insertar un nuevo curso académico</button>
                                                     <button type="button" onClick={() => {
                                                         if(asig.tipo === "Asignatura"){
                                                             Cookie.set("TFG_asig", asig.id, {expires: 7});
