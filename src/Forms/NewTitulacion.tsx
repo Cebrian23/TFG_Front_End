@@ -48,7 +48,7 @@ function NewTitulacion() {
                 setAuth(auth)
             }
 
-            const url_persona = `http://localhost:4000/persona/id?id=${auth}`;
+            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -184,7 +184,7 @@ function NewTitulacion() {
             NProgress.start();
                                 
             try{
-                const url = "http://localhost:4000/titulacion";
+                const url = "https://tfg-back-end.onrender.com/titulacion";
                 const response = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify(newTitulacion),

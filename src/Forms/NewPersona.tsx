@@ -54,7 +54,7 @@ function NewPersona() {
                 globalThis.location.href = "/login";
             }
             
-            const url_persona = `http://localhost:4000/persona/id?id=${id_user}`;
+            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${id_user}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -83,7 +83,7 @@ function NewPersona() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url = `http://localhost:4000/titulacion?id=${id_titulacion}`;
+            const url = `https://tfg-back-end.onrender.com/titulacion?id=${id_titulacion}`;
             const response = await fetch(url, {
                 method: "GET"
             });
@@ -306,7 +306,7 @@ function NewPersona() {
             NProgress.start();
                                 
             try{
-                const url = `http://localhost:4000/persona`;
+                const url = `https://tfg-back-end.onrender.com/persona`;
                 const response = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify(body),

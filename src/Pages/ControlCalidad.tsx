@@ -35,7 +35,7 @@ function ControlCalidad() {
                 globalThis.location.href = "/login";
             }
 
-            const url_auth = `http://localhost:4000/persona/id?id=${auth}`;
+            const url_auth = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_user = await fetch(url_auth, {
                 method: "GET",
             });
@@ -70,7 +70,7 @@ function ControlCalidad() {
 
             setTitulacion(TFG_titulacion!);
 
-            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -103,7 +103,7 @@ function ControlCalidad() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_creacion = `http://localhost:4000/titulacion/creacion?titulacion=${TFG_titulacion}`;
+            const url_creacion = `https://tfg-back-end.onrender.com/titulacion/creacion?titulacion=${TFG_titulacion}`;
             const response_creacion = await fetch(url_creacion, {
                 method: "GET",
             });
@@ -153,7 +153,7 @@ function ControlCalidad() {
             setCursosDisponibles(cursos_disponibles);
 
             /*if(data_user.rol === "Coordinador"){
-                const url_controlCalidad = `http://localhost:4000/titulacion/control_calidad?titulacion=${TFG_titulacion}&universidad=${data_user.universidad}&curso=${limiteInfo}`;
+                const url_controlCalidad = `https://tfg-back-end.onrender.com/titulacion/control_calidad?titulacion=${TFG_titulacion}&universidad=${data_user.universidad}&curso=${limiteInfo}`;
                 const response_controlCalidad = await fetch(url_controlCalidad, {
                     method: "GET",
                 });
@@ -187,7 +187,7 @@ function ControlCalidad() {
 
     const handleChangeUniversidad = async (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
         setUniversidad(e.currentTarget.value);
-        const url_controlCalidad = `http://localhost:4000/titulacion/control_calidad?titulacion=${titulacion}&universidad=${e.currentTarget.value}&curso=${curso}`;
+        const url_controlCalidad = `https://tfg-back-end.onrender.com/titulacion/control_calidad?titulacion=${titulacion}&universidad=${e.currentTarget.value}&curso=${curso}`;
 
         if(e.currentTarget.value.trim() !== "" && curso.trim() !== ""){
             await handleDatos(url_controlCalidad);
@@ -196,7 +196,7 @@ function ControlCalidad() {
 
     const handleChangeCurso = async (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
         setCurso(e.currentTarget.value);
-        const url_controlCalidad = `http://localhost:4000/titulacion/control_calidad?titulacion=${titulacion}&universidad=${universidad}&curso=${e.currentTarget.value}`;
+        const url_controlCalidad = `https://tfg-back-end.onrender.com/titulacion/control_calidad?titulacion=${titulacion}&universidad=${universidad}&curso=${e.currentTarget.value}`;
 
         if(universidad.trim() !== "" && e.currentTarget.value.trim() !== ""){
             await handleDatos(url_controlCalidad);

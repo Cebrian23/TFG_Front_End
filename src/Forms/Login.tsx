@@ -78,7 +78,7 @@ function Login() {
             NProgress.start();
 
             try{
-                const URL = `http://localhost:4000/login?email=${email}&password=${passwordCrypt}`;
+                const URL = `https://tfg-back-end.onrender.com/login?email=${email}&password=${passwordCrypt}`;
                 const response = await fetch(URL, {
                     method: "GET",
                 });

@@ -45,7 +45,7 @@ function UpdateUser() {
                 globalThis.location.href = "/login";
             }
 
-            const url = `http://localhost:4000/persona/id?id=${auth}`;
+            const url = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response = await fetch(url, {
                 method: "GET",
             });
@@ -238,7 +238,7 @@ function UpdateUser() {
             NProgress.start();
 
             try{
-                const url = "http://localhost:4000/datos_persona";
+                const url = "https://tfg-back-end.onrender.com/datos_persona";
                 const response = await fetch(url, {
                     method: "PUT",
                     body: JSON.stringify(body),

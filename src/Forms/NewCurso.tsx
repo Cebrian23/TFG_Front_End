@@ -34,7 +34,7 @@ function NewCurso() {
                 globalThis.location.href = "/login";
             }
 
-            const url_persona = `http://localhost:4000/persona/id?id=${auth}`;
+            const url_persona = `https://tfg-back-end.onrender.com/persona/id?id=${auth}`;
             const response_persona = await fetch(url_persona, {
                 method: "GET",
             });
@@ -59,7 +59,7 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_asignatura = `http://localhost:4000/asignatura?id=${TFG_asig}`;
+            const url_asignatura = `https://tfg-back-end.onrender.com/asignatura?id=${TFG_asig}`;
             const response_asignatura = await fetch(url_asignatura, {
                 method: "GET",
             });
@@ -92,7 +92,7 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const url_titulacion = `http://localhost:4000/titulacion?id=${TFG_titulacion}`;
+            const url_titulacion = `https://tfg-back-end.onrender.com/titulacion?id=${TFG_titulacion}`;
             const response_titulacion = await fetch(url_titulacion, {
                 method: "GET",
             });
@@ -115,7 +115,7 @@ function NewCurso() {
                 globalThis.location.href = "/paginaPersonal";
             }
 
-            const urlAlumnos = `http://localhost:4000/personas/alumnos_para_asignatura?titulacion=${TFG_titulacion}&asignatura=${TFG_asig}`;
+            const urlAlumnos = `https://tfg-back-end.onrender.com/personas/alumnos_para_asignatura?titulacion=${TFG_titulacion}&asignatura=${TFG_asig}`;
             const dataAlumnos = await fetch(urlAlumnos,
                 {
                     method: "GET",
@@ -137,7 +137,7 @@ function NewCurso() {
 
             setEstudiantes(data_alumnos);
 
-            const urlDocentes = `http://localhost:4000/personas/docentes?titulacion=${TFG_titulacion}`;
+            const urlDocentes = `https://tfg-back-end.onrender.com/personas/docentes?titulacion=${TFG_titulacion}`;
             const dataDocentes = await fetch(urlDocentes,
                 {
                     method: "GET",
@@ -203,7 +203,7 @@ function NewCurso() {
             NProgress.start();
 
             try{
-                const url = `http://localhost:4000/curso`;
+                const url = `https://tfg-back-end.onrender.com/curso`;
                 const response = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify(body),
