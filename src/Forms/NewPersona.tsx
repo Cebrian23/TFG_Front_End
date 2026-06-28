@@ -468,7 +468,7 @@ function NewPersona() {
                                             </div>*/
                                         }
                                         <div className="column">
-                                            <label htmlFor="grado">Grado univesitario cursado:</label>
+                                            <label htmlFor="grado">Grado univesitario cursado que da acceso al Máster:</label>
                                             <select id="grado" name="grado" value={gradoUniversitario} onChange={(e) => setGrado(e.currentTarget.value)}>
                                                 {
                                                     gradosUniversitarios.map((grado) => {
@@ -484,12 +484,11 @@ function NewPersona() {
                             </>
                         }
                         <div className="buttons">
-                            
-                            <button type="reset" onClick={handleReset}>Vaciar campos</button>
                             {
                                 pagina === 1 &&
                                 <>
                                     <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
+                                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
                                     <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
                                 </>
                             }
@@ -497,6 +496,7 @@ function NewPersona() {
                                 pagina === 2 &&
                                 <>
                                     <button type="button" onClick={() => setPagina(pagina-1)}>Página anterior</button>
+                                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
                                     <button type="button" onClick={handleNewUser} disabled={buttonAction}>Enviar</button>
                                 </>
                             }
