@@ -8,6 +8,9 @@ function SidebarAdministrativo() {
         Cookie.remove("TFG_asig");
         Cookie.remove("TFG_curso");
         Cookie.remove("TFG_conv");
+        Cookie.remove("TFG_TFM");
+        Cookie.remove("TFG_TFM_Block");
+        Cookie.remove("TFG_cursoTFM");
         
         globalThis.location.href = "/login";
     }
