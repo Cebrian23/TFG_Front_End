@@ -143,18 +143,22 @@ function UserPage() {
                                     </>
                                 }
                                 {
-                                    user.rol === "Coordinador" &&
+                                    (user.rol === "Coordinador" || user.rol === "Coordinador general") &&
                                     <>
-                                        <button type="button" onClick={() => globalThis.location.href = "/controlCalidad"}>Obtener datos para el control de calidad de tu universidad</button>
+                                        <button type="button" onClick={() => globalThis.location.href = "/controlCalidad"}>Ver métricas de calidad</button>
+                                        <br/>
+                                        <button type="button" onClick={() => globalThis.location.href = "/mostrarNotasAlumnosUni"}>Ver notas de alumnos de mi universidad</button>
                                         <br/>
                                     </>
                                 }
                                 {
-                                    user.rol === "Coordinador general" &&
-                                    <>
-                                        <button type="button" onClick={() => globalThis.location.href = "/controlCalidad"}>Obtener datos para el control de calidad para todas las universidades</button>
-                                        <br/>
-                                    </>
+                                    /*
+                                        user.rol === "Coordinador general" &&
+                                        <>
+                                            <button type="button" onClick={() => globalThis.location.href = "/controlCalidad"}>Obtener datos para el control de calidad para todas las universidades</button>
+                                            <br/>
+                                        </>
+                                    */
                                 }
                                 <button type="button" onClick={() => globalThis.location.href = "/actualizarDatosPersonales"}>Actualizar información personal</button>
                                 <br/>
