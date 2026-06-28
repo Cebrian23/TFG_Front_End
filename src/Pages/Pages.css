@@ -471,6 +471,50 @@
     margin-top: 3dvb;
 }
 
+.notasAlumnosPage{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2.5dvb;
+    place-items: center;
+    width: 100%;
+}
+
+.notasAlumnosMenu{
+    border: 1px black solid;
+    background-color: #f8fafc;
+    width: 40dvh;
+}
+
+.tablaNotasAlumnos{
+    margin-top: 5dvh;
+    border-collapse: collapse;
+    background-color: #f8fafc;
+    td{
+        text-align: center;
+        padding: 5px;
+        border: 1px solid black;
+    }
+    th{
+        padding: 5px;
+        border: 1px solid black;
+    }
+    tr{
+        border: 1px solid black;
+    }
+    select{
+        width: 100%;
+        border: white;
+        background-color: #f8fafc;
+    }
+    input{
+        margin-block-start: 16.5px;
+        margin-block-end: 16.5px;
+        text-align: center;
+        border: white;
+        background-color: #f8fafc;
+    }
+}
+
 .userPageShow{
     margin-left: auto;
     margin-right: auto;
