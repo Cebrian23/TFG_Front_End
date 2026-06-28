@@ -126,8 +126,8 @@ function Login() {
                         <div className="error">{validationError}</div>
                     </div>
                     <div className="column">
-                        <label htmlFor="password">Password:</label>
-                        <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
+                        <label htmlFor="password">Contraseña:</label>
+                        <input id="password" name="password" type="password" placeholder="Contraseña" onChange={(e) => {
                             setPassword(e.currentTarget.value);
                             setPasswordError("");
                             setEmptyError("");

@@ -331,7 +331,7 @@ function UpdateUser() {
                             rol !== "Estudiante" &&
                             <>
                                 <div className="column">
-                                    <label htmlFor="password">Password:</label>
+                                    <label htmlFor="password">Contraseña:</label>
                                     <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
                                         setPassword1(e.currentTarget.value);
                                         setPassword1Error("");
@@ -347,8 +347,8 @@ function UpdateUser() {
                                     <div className="error">{passSpaceError}</div>
                                 </div>
                                 <div className="column">
-                                    <label htmlFor="validation">Validacion:</label>
-                                    <input id="validation" name="validation" type="password" placeholder="Validation" onChange={(e) => {
+                                    <label htmlFor="validation">Repetir contraseña:</label>
+                                    <input id="validation" name="validation" type="password" placeholder="Repetir contraseña" onChange={(e) => {
                                         setPassword2(e.currentTarget.value);
                                         setPassword2Error("");
                                     }} required/>

@@ -297,8 +297,8 @@ function Register() {
                         <div className="error">{emailError}</div>
                     </div>
                     <div className="column">
-                        <label htmlFor="password">Password:</label>
-                        <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
+                        <label htmlFor="password">Contraseña:</label>
+                        <input id="password" name="password" type="password" placeholder="Contraseña" onChange={(e) => {
                             setPassword1(e.currentTarget.value);
                             setPassword1Error("");
                             setPassLengthError("");
@@ -313,8 +313,8 @@ function Register() {
                         <div className="error">{passSpaceError}</div>
                     </div>
                     <div className="column">
-                        <label htmlFor="verificacion">Password:</label>
-                        <input id="verificacion" name="verificacion" type="password" placeholder="Verificacion de la password" onChange={(e) => {
+                        <label htmlFor="verificacion">Repite la contraseña:</label>
+                        <input id="verificacion" name="verificacion" type="password" placeholder="Verificacion de la contraseña" onChange={(e) => {
                             setPassword2(e.currentTarget.value);
                             setPassword2Error("");
                         }} required/>
