@@ -180,7 +180,7 @@ function NewAsignatura() {
                             </select>
                         </div>
                         <div className="column">
-                            <label>Optatividad:</label>
+                            <label>Tipo:</label>
                             <select value={optatividad} onChange={(e) => setOptatividad(e.currentTarget.value)}>
                                 <option value="Obligatoria">Obligatoria</option>
                                 <option value="Optativa">Optativa</option>
