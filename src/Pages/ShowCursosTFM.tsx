@@ -58,7 +58,6 @@ function ShowCursosTFM() {
             const data_titulacion = await response_titulacion.json();
 
             const TFG_TFM_Block = Cookie.get("TFG_TFM_Block");
-            console.log(TFG_TFM_Block);
 
             if(TFG_TFM_Block === undefined){
                 alert("No has seleccionado el bloque de TFMs");

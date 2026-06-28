@@ -167,8 +167,6 @@ function ControlCalidad() {
 
                 const data_calidad = await response_controlCalidad.json();
 
-                console.log(data_calidad);
-
                 setDatos(data_calidad);
             }*/
         }
@@ -216,7 +214,6 @@ function ControlCalidad() {
         }
 
         const data_calidad = await response_controlCalidad.json();
-        console.log(data_calidad)
 
         setData(data_calidad);
 

@@ -68,7 +68,6 @@ function ShowAsignaturasTitulacion() {
                 asigs.push(asig);
             });
             asigs.push(data.TFM);
-            console.log(asigs)
             setAsignaturas(asigs);
         }
 

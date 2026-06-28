@@ -93,7 +93,6 @@ function AsignaturaDocentePage() {
 
             if(response_asig.status !== 200){
                 const error = await response_asig.json();
-                console.log(error)
                 alert(error.error);
 
                 globalThis.location.href = "/mostrarAsignaturas";

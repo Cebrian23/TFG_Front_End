@@ -199,7 +199,6 @@ function ShowNotasUniversidad() {
                 }[],
             }[] = await response_notas.json();
             setAsignaturas(data_notas);
-            console.log(data_notas);
 
             if(asignatura !== undefined){
                 data_notas.forEach((data) => {
@@ -239,7 +238,6 @@ function ShowNotasUniversidad() {
                 }[],
             }[] = await response_notas.json();
             setAsignaturas(data_notas);
-            console.log(data_notas);
 
             if(asignatura !== undefined){
                 data_notas.forEach((data) => {

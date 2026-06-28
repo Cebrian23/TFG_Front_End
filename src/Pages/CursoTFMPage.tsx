@@ -110,7 +110,6 @@ function CursoTFMPage() {
             }
 
             const data = await response_cursoTFM.json();
-            console.log(data);
             setCurso(data);
         }
 
