@@ -75,28 +75,28 @@
 .newUser{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 7dvh;
+    margin-top: 15dvh;
     place-items: center;
 }
 
 .newAdministrativo{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20dvh;
+    margin-top: 25dvh;
     place-items: center;
 }
 
 .newCoordinadorProfesor{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 14dvh;
+    margin-top: 20dvh;
     place-items: center;
 }
 
 .newEstudiante{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 7.5dvh;
+    margin-top: 15dvh;
     place-items: center;
 }
 
