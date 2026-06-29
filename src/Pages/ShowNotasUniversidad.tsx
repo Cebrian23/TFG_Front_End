@@ -9,6 +9,7 @@ import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
 import type { Profesor_Short } from "../types/Personas/Profesor.ts";
 
 function ShowNotasUniversidad() {
+    const [id, setID] = useState("");
     const [nombreAsignaturas, setNombreAsignaturas] = useState<string[]>([]);
     const [nombre, setNombre] = useState("");
     const [asignaturas, setAsignaturas] = useState<{
@@ -62,6 +63,7 @@ function ShowNotasUniversidad() {
             }
 
             const data_user = await response_user.json();
+            setID(data_user.id);
 
             if(data_user.rol !== "Coordinador" && data_user.rol !== "Coordinador general"){
                 alert("Tienes que ser un coordinador para poder ver los datos para hacer el control de calidad");
@@ -248,6 +250,8 @@ function ShowNotasUniversidad() {
     }
 
     const handleChangeAsignatura = (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
+        setDocenteIn(false);
+        setDocentes([]);
         setNombre(e.currentTarget.value);
 
         asignaturas.forEach((asig) => {
@@ -318,45 +322,50 @@ function ShowNotasUniversidad() {
                             {
                                 docentes.length === 1 &&
                                 <>
-                                    <h3>El acta oficial lo rellena: </h3>
+                                    <h3>El acta oficial lo rellena:
                                     {
                                         docentes.map((docente) => {
-                                            return(
-                                                <>
-                                                    {
-                                                        docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== "" &&
-                                                        <span>{docente.nombre} {docente.apellido_1} {docente.apellido_2} ({docente.email})</span>
-                                                    }
-                                                    {
-                                                        (docente.apellido_2 === null || docente.apellido_2 === undefined || docente.apellido_2.trim() === "") &&
-                                                        <span>{docente.nombre} {docente.apellido_1} ({docente.email})</span>
-                                                    }
-                                                </>
-                                            );
+                                            if(docente.id === id){
+                                                return <span key={docente.id}> Usted</span>
+                                            }
+                                            else if(docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== ""){
+                                                return(
+                                                    <span key={docente.id}> {docente.nombre} {docente.apellido_1} {docente.apellido_2} ({docente.email})</span>
+                                                );
+                                            }
+                                            else if((docente.apellido_2 === null || docente.apellido_2 === undefined || docente.apellido_2.trim() === "") && docente.universidad === universidad){
+                                                return(
+                                                    <span key={docente.id}> {docente.nombre} {docente.apellido_1} ({docente.email})</span>
+                                                );
+                                            }
                                         })
                                     }
+                                    </h3>
                                 </>
                             }
                             {
                                 docentes.length > 1 &&
                                 <>
                                     <h3>El acta oficial lo rellenan: </h3>
+                                    <ul>
                                     {
                                         docentes.map((docente) => {
-                                            return(
-                                                <ul>
-                                                    {
-                                                        docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== "" &&
-                                                        <li>{docente.nombre} {docente.apellido_1} {docente.apellido_2} ({docente.email})</li>
-                                                    }
-                                                    {
-                                                        (docente.apellido_2 === null || docente.apellido_2 === undefined || docente.apellido_2.trim() === "") &&
-                                                        <li>{docente.nombre} {docente.apellido_1} ({docente.email})</li>
-                                                    }
-                                                </ul>
-                                            );
+                                            if(docente.id === id){
+                                                return <li key={docente.id}>Usted</li>
+                                            }
+                                            else if(docente.apellido_2 !== null && docente.apellido_2 !== undefined && docente.apellido_2.trim() !== "" && docente.universidad === universidad){
+                                                return(
+                                                    <li key={docente.id}>{docente.nombre} {docente.apellido_1} {docente.apellido_2} ({docente.email})</li>
+                                                );
+                                            }
+                                            else if((docente.apellido_2 === null || docente.apellido_2 === undefined || docente.apellido_2.trim() === "") && docente.universidad === universidad){
+                                                return(
+                                                    <li key={docente.id}>{docente.nombre} {docente.apellido_1} ({docente.email})</li>
+                                                );
+                                            }
                                         })
                                     }
+                                    </ul>
                                 </>
                             }
                         </div>
