@@ -219,6 +219,7 @@ function NewTFM() {
         setCalificacionError("");
         
         setButtonAction(false);
+        setPagina(1);
     }
 
     const handleCreation = async () => {
@@ -329,7 +330,7 @@ function NewTFM() {
                                                         newCursito.push(alumno);
                                                     }
                                                 })
-                                                setAlumnos(newCursito)
+                                                setAlumnos(newCursito);
                                             }
                                         });
                                     }}>
@@ -519,17 +520,18 @@ function NewTFM() {
                             </>
                         }
                         <div className="buttons">
-                            <button type="reset" onClick={handleReset}>Vaciar campos</button>
                             {
                                 pagina === 1 &&
                                 <>
                                     <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+                                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
                                 </>
                             }
                             {
                                 pagina > 1 &&
                                 <>
                                     <button type="button" onClick={() => setPagina(pagina-1)}>Página anterior</button>
+                                    <button type="reset" onClick={handleReset}>Vaciar campos</button>
                                 </>
                             }
                             {

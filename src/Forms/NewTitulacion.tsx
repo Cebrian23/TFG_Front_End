@@ -448,8 +448,8 @@ function NewTitulacion() {
                                 <div className="error">{asignaturaError}</div>
                             </div>
                             <div className="buttons">
-                                <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
                                 <button type="button" onClick={() => setPagina(pagina-1)}>Página anterior</button>
+                                <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
                                 <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
                             </div>
                         </>
@@ -473,8 +473,8 @@ function NewTitulacion() {
                                 </div>
                             </div>
                             <div className="buttons">
-                                <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
                                 <button type="button" onClick={() => setPagina(pagina-1)}>Página anterior</button>
+                                <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
                                 <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
                             </div>
                         </>
@@ -483,18 +483,18 @@ function NewTitulacion() {
                 <div>
                     <h3>Datos de la titulación:</h3>
                     <div>
-                        <p>Nombre de la titulación: {nombre}</p>
+                        <p><b>Nombre de la titulación:</b> {nombre}</p>
                     </div>
                     {
                         universidades.length === 1 &&
                         <div>
-                            <p>Universidad insertada: {universidades[0].nombre}</p>
+                            <p><b>Universidad insertada: </b>{universidades[0].nombre}</p>
                         </div>
                     }
                     {
                         universidades.length > 1 &&
                         <div>
-                            <span>Universidades insertadas:</span>
+                            <span><b>Universidades insertadas:</b></span>
                             <ul>
                                 {
                                     universidades.map((uni) => {
@@ -516,13 +516,13 @@ function NewTitulacion() {
                     {
                         grados.length === 1 &&
                         <div>
-                            <p>Grado insertado: {grados[0]}</p>
+                            <p><b>Grado insertado: </b>{grados[0]}</p>
                         </div>
                     }
                     {
                         grados.length > 1 &&
                         <div>
-                            <span>Grados insertados:</span>
+                            <span><b>Grados insertados:</b></span>
                             <ul>
                             {
                                 grados.map((grado) => {
@@ -535,15 +535,30 @@ function NewTitulacion() {
                         </div>
                     }
                     <div>
-                        <p>Cursos en los que se desarrolla la titulación: {cursos}</p>
+                        <p><b>Cursos en los que se desarrolla la titulación: </b>{cursos}</p>
                     </div>
                     <div>
-                        <p>Convocatorias posibles de los alumnos en cada asignatura: {convocatorias}</p>
+                        <p><b>Convocatorias posibles de los alumnos en cada asignatura: </b>{convocatorias}</p>
                     </div>
                     {
-                        asignaturas.length !== 0 &&
+                        asignaturas.length === 1 &&
                         <div>
-                            <span>Asignaturas:</span>
+                            <span>
+                                <b>Asignatura: </b>
+                                {
+                                    asignaturas.map((asig) => {
+                                        return(
+                                            <span>{asig.nombre} ({asig.curso}, {asig.creditos} ECTS, {asig.optatividad})</span>
+                                        )
+                                    })
+                                }
+                            </span>
+                        </div>
+                    }
+                    {
+                        asignaturas.length > 1 &&
+                        <div>
+                            <span><b>Asignaturas:</b></span>
                             <ul>
                                 {
                                     asignaturas.map((asig) => {
@@ -556,13 +571,13 @@ function NewTitulacion() {
                         </div>
                     }
                     <div>
-                        <p>Créditos obligatorios para defender el TFM: {creditos_asig_oblig}</p>
+                        <p><b>Créditos obligatorios para defender el TFM: </b>{creditos_asig_oblig}</p>
                     </div>
                     <div>
-                        <p>Créditos optativos para defender el TFM: {creditos_asig_opt}</p>
+                        <p><b>Créditos optativos para defender el TFM: </b>{creditos_asig_opt}</p>
                     </div>
                     <div>
-                        <p>Créditos del TFM: {creditosTFM}</p>
+                        <p><b>Créditos del TFM: </b>{creditosTFM}</p>
                     </div>
                 </div>
             </div>

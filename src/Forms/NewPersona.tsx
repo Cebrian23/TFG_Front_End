@@ -23,7 +23,7 @@ function NewPersona() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [rol, setRol] = useState("Administrativo");
+    const [rol, setRol] = useState("");
     const [universidad, setUniversidad] = useState("");
     //const [cursoAcademico, setCurso] = useState("");
     const [gradoUniversitario, setGrado] = useState("");
@@ -124,7 +124,7 @@ function NewPersona() {
         setPhone("");
         setEmail("");
         setPassword("");
-        setRol("Administrativo");
+        setRol("");
         setUniversidad(universidades[0]);
         //setCurso("");
         setGrado(gradosUniversitarios[0]);
@@ -378,6 +378,7 @@ function NewPersona() {
                                 <div className="column">
                                     <label htmlFor="rol">Rol:</label>
                                     <select id="rol" name="rol" value={rol} onChange={(e) => setRol(e.currentTarget.value)}>
+                                        <option value="">Selecciona el rol</option>
                                         <option value="Administrativo">Administrativo</option>
                                         <option value="Coordinador">Coordinador</option>
                                         <option value="Profesor">Profesor</option>
@@ -489,7 +490,17 @@ function NewPersona() {
                                 <>
                                     <button type="button" onClick={() => globalThis.location.href = "/mostrarTitulaciones"}>Volver</button>
                                     <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                                    <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
+                                    <button
+                                        type="button"
+                                        disabled={
+                                            (
+                                                nombre.trim() !== "" && apellido1.trim() !== "" && dni.trim() !== "" && rol.trim() !== ""
+                                            ) ? false : true
+                                        }
+                                        onClick={() => setPagina(pagina+1)}
+                                    >
+                                        Siguiente página
+                                    </button>
                                 </>
                             }
                             {
