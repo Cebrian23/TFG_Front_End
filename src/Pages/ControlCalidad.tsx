@@ -172,17 +172,6 @@ function ControlCalidad() {
         getData();
     }, []);
 
-    /*const handleReset = () => {
-        if(coordinador!.rol === "Coordinador general"){
-            setUniversidad("");
-        }
-        else{
-            setUniversidad(coordinador!.universidad);
-        }
-
-        setCurso("");
-    }*/
-
     const handleChangeUniversidad = async (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
         setUniversidad(e.currentTarget.value);
         const url_controlCalidad = `https://tfg-back-end.onrender.com/titulacion/control_calidad?titulacion=${titulacion}&universidad=${e.currentTarget.value}&curso=${curso}`;
@@ -347,7 +336,7 @@ function ControlCalidad() {
                             </div>
                         }
                         <div className="column">
-                            <label>Seleccione un curso:</label>
+                            <label>Seleccione un curso académico:</label>
                             <select value={curso} onChange={(e) => handleChangeCurso(e)}>
                                 <option value="">Seleccione un curso</option>
                                 {
