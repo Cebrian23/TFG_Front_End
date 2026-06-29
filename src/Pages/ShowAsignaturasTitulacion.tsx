@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
-import type { Asignatura } from "../types/Asignaturas/Asignatura.ts";
+import type { Asignatura_Short } from "../types/Asignaturas/Asignatura.ts";
 import SidebarAdministrativo from "../Sidebar/SidebarAdministrativo.tsx";
 import Header from "../Header/Header.tsx";
-import type { TFM_Block } from "../types/Asignaturas/TFM.ts";
+import type { TFM_Block_Short } from "../types/Asignaturas/TFM.ts";
 
 function ShowAsignaturasTitulacion() {
     const [titulacion, setTitulacion] = useState("");
-    const [asignaturas, setAsignaturas] = useState<(Asignatura | TFM_Block)[]>([]);
+    const [asignaturas, setAsignaturas] = useState<(Asignatura_Short | TFM_Block_Short)[]>([]);
 
     useEffect(() => {
         const getAsignaturas = async () => {
@@ -63,8 +63,8 @@ function ShowAsignaturasTitulacion() {
             
             setTitulacion(data.nombre);
 
-            const asigs: (Asignatura | TFM_Block)[] = [];
-            data.asignaturas.forEach((asig: Asignatura) => {
+            const asigs: (Asignatura_Short | TFM_Block_Short)[] = [];
+            data.asignaturas.forEach((asig: Asignatura_Short) => {
                 asigs.push(asig);
             });
             asigs.push(data.TFM);
@@ -106,18 +106,22 @@ function ShowAsignaturasTitulacion() {
                                                     <div className="data">Trabajos Fin de Master ({asig.curso}, {asig.creditos})</div>
                                                 }
                                                 <div className="buttons">
-                                                    <button type="button" onClick={() => {
-                                                        if(asig.tipo === "Asignatura"){
-                                                            Cookie.set("TFG_asig", asig.id, {expires: 7});
-                                                            
-                                                            globalThis.location.href = "/mostrarCursos";
-                                                        }
-                                                        else{
-                                                            Cookie.set("TFG_TFM_Block", asig.id, {expires: 7});
-                                                            
-                                                            globalThis.location.href = "/mostrarCursosTFM";
-                                                        }
-                                                    }}>Ver cursos académicos</button>
+                                                    <button
+                                                        type="button"
+                                                        disabled={((asig.tipo === "Asignatura" && asig.cursos_academicos > 0) || (asig.tipo === "Bloque TFMs" && asig.cursos > 0)) ? false : true}
+                                                        onClick={() => {
+                                                            if(asig.tipo === "Asignatura"){
+                                                                Cookie.set("TFG_asig", asig.id, {expires: 7});
+                                                                
+                                                                globalThis.location.href = "/mostrarCursos";
+                                                            }
+                                                            else{
+                                                                Cookie.set("TFG_TFM_Block", asig.id, {expires: 7});
+                                                                
+                                                                globalThis.location.href = "/mostrarCursosTFM";
+                                                            }
+                                                        }}
+                                                    >Ver cursos académicos</button>
                                                     <button type="button" onClick={() => {
                                                         if(asig.tipo === "Asignatura"){
                                                             Cookie.set("TFG_asig", asig.id, {expires: 7});
