@@ -22,7 +22,7 @@ function SidebarCoordinador() {
             <h4>Gestionar asignaturas impartidas</h4>
             <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturas"}>Ver asignaturas impartidas</button>
             <h4>Gestionar TFM de alumnos</h4>
-            <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Insertar TFM de un alumno</button>
+            <button type="button" onClick={() => globalThis.location.href = "/nuevoTFM"}>Calificar TFM de un alumno</button>
             <h4>Gestionar información de las calificaciones de los estudiantes</h4>
             <button type="button" onClick={() => globalThis.location.href = "/controlCalidad"}>Ver métricas de calidad</button>
             <br/>
