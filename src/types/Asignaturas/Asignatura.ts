@@ -39,6 +39,7 @@ export type Asignatura_Short = {
     id: string,
     nombre: string,
     curso: "1º" | "2º" | string,
+    cursos_academicos: number,
     creditos: number,
     optatividad: "Obligatoria" | "Optitiva" | string,
     tipo: "Asignatura",

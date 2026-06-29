@@ -18,6 +18,7 @@ export type TFM_Block_Short = {
     id: string,
     titulacion: string,
     curso: "2º" | string,
+    cursos: number,
     creditos: number,
     optatividad: "Obligatoria",
     tipo: "Bloque TFMs",
