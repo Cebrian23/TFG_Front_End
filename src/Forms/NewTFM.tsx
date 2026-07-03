@@ -411,7 +411,7 @@ function NewTFM() {
                                                             alert("Director ya insertado");
                                                         }
                                                         else if(inTribunal !== undefined){
-                                                            alert("Este docente es parte del tribunal de defense");
+                                                            alert("Este docente es parte del tribunal de defensa");
                                                         }
                                                     }
 
