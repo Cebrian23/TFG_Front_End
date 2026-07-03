@@ -395,14 +395,23 @@ function NewTFM() {
                                                             }
                                                         })
 
-                                                        if(docente_exists === undefined){
+                                                        const inTribunal = miembrosTribunal.find((docente) => {
+                                                            if(docente === miembro){
+                                                                return docente;
+                                                            }
+                                                        })
+
+                                                        if(docente_exists === undefined && inTribunal === undefined){
                                                             const directores_aux = directores;
                                                             directores_aux.push(director);
                                                             setDirectores(directores_aux);
                                                             setDirector("");
                                                         }
-                                                        else{
+                                                        else if(docente_exists !== undefined){
                                                             alert("Director ya insertado");
+                                                        }
+                                                        else if(inTribunal !== undefined){
+                                                            alert("Este docente es parte del tribunal de defense");
                                                         }
                                                     }
 
@@ -438,14 +447,23 @@ function NewTFM() {
                                                             }
                                                         })
 
-                                                        if(miembro_exists === undefined){
+                                                        const isDirector = directores.find((docente) => {
+                                                            if(docente === miembro){
+                                                                return docente;
+                                                            }
+                                                        });
+
+                                                        if(miembro_exists === undefined && isDirector === undefined){
                                                             const miembros_aux = miembrosTribunal;
                                                             miembros_aux.push(miembro);
                                                             setTribunal(miembros_aux);
                                                             setMiembro("");
                                                         }
-                                                        else{
+                                                        else if(miembro_exists !== undefined){
                                                             alert("Miembro del tribunal ya insertado");
+                                                        }
+                                                        else if(isDirector !== undefined){
+                                                            alert("Este miembro es uno de los directores del TFM");
                                                         }
                                                     }
                                                     
