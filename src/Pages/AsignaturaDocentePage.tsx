@@ -229,7 +229,7 @@ function AsignaturaDocentePage() {
                             <div className="column">
                                 <button type="button" onClick={() => setShowAlumnos(!showAlumnos)}>
                                     {
-                                        showAlumnos === false ? <>Mostrar alumnos</> : <>Ocultar alumnos</>
+                                        showAlumnos === false ? <>Mostrar listado de alumnos</> : <>Ocultar listado de alumnos</>
                                     }
                                 </button>
                                 {
@@ -239,7 +239,7 @@ function AsignaturaDocentePage() {
 
                                         const date = new Date();
 
-                                        if((date.getFullYear() > Number(curso_aux)) || date.getMonth() >= 8){
+                                        if((date.getFullYear() > Number(curso_aux)) || date.getMonth() + 1 >= 8){
                                             alert("No se puede evaluar una asignatura fuera de fecha");
 
                                             globalThis.location.href = "/mostrarAsignaturas";
