@@ -121,11 +121,12 @@ function ControlCalidad() {
 
             const date = new Date();
             let limiteInfo = `Curso `
-            if(date.getMonth() >= 0 && date.getMonth() < 8){
-                limiteInfo += `${date.getFullYear()-1}-${date.getFullYear()}`;
+            
+            if(date.getMonth() + 1 <= 9){
+                limiteInfo += `${date.getFullYear()}-${date.getFullYear() + 1}`;
             }
             else{
-                limiteInfo += `${date.getFullYear()}-${date.getFullYear()+1}`;
+                limiteInfo += `${date.getFullYear() + 1}-${date.getFullYear() + 2}`;
             }
 
             const cursos_disponibles: string[] = [];
@@ -149,24 +150,6 @@ function ControlCalidad() {
             }
 
             setCursosDisponibles(cursos_disponibles);
-
-            /*if(data_user.rol === "Coordinador"){
-                const url_controlCalidad = `https://tfg-back-end.onrender.com/titulacion/control_calidad?titulacion=${TFG_titulacion}&universidad=${data_user.universidad}&curso=${limiteInfo}`;
-                const response_controlCalidad = await fetch(url_controlCalidad, {
-                    method: "GET",
-                });
-
-                if(response_controlCalidad.status !== 200){
-                    const error = await response_controlCalidad.json();
-                    alert(error.error);
-
-                    globalThis.location.href = "/paginaPersonal";
-                }
-
-                const data_calidad = await response_controlCalidad.json();
-
-                setDatos(data_calidad);
-            }*/
         }
 
         getData();
@@ -174,7 +157,7 @@ function ControlCalidad() {
 
     const handleChangeUniversidad = async (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
         setUniversidad(e.currentTarget.value);
-        const url_controlCalidad = `https://tfg-back-end.onrender.com/titulacion/control_calidad?titulacion=${titulacion}&universidad=${e.currentTarget.value}&curso=${curso}`;
+        const url_controlCalidad = `http://localhost:4000/titulacion/control_calidad?titulacion=${titulacion}&universidad=${e.currentTarget.value}&curso=${curso}`;
 
         if(e.currentTarget.value.trim() !== "" && curso.trim() !== ""){
             await handleDatos(url_controlCalidad);
@@ -183,7 +166,7 @@ function ControlCalidad() {
 
     const handleChangeCurso = async (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
         setCurso(e.currentTarget.value);
-        const url_controlCalidad = `https://tfg-back-end.onrender.com/titulacion/control_calidad?titulacion=${titulacion}&universidad=${universidad}&curso=${e.currentTarget.value}`;
+        const url_controlCalidad = `http://localhost:4000/titulacion/control_calidad?titulacion=${titulacion}&universidad=${universidad}&curso=${e.currentTarget.value}`;
 
         if(universidad.trim() !== "" && e.currentTarget.value.trim() !== ""){
             await handleDatos(url_controlCalidad);
@@ -201,6 +184,7 @@ function ControlCalidad() {
         }
 
         const data_calidad = await response_controlCalidad.json();
+        console.log(data_calidad)
 
         setData(data_calidad);
 
@@ -254,7 +238,6 @@ function ControlCalidad() {
                     nombre: "Tasa de evaluación",
                     valor: Math.round(data_calidad.tasa_evaluacion*100)/100,
                     fill: "black",
-                    //00C49F
                 }
             );
         }
@@ -264,7 +247,6 @@ function ControlCalidad() {
                     nombre: "Tasa de evaluación",
                     valor: 0,
                     fill: "black",
-                    //00C49F
                 }
             );
         }
@@ -303,6 +285,25 @@ function ControlCalidad() {
                     nombre: "Tasa de rendimiento",
                     valor: 0,
                     fill: "white",
+                }
+            );
+        }
+
+        if(data_calidad.tasa_egresados !== "-" && data_calidad.tasa_egresados !== null){
+            newDatosBarChart.push(
+                {
+                    nombre: "Tasa de egresados",
+                    valor: Math.round(data_calidad.tasa_egresados*100)/100,
+                    fill: "#00C49F",
+                }
+            );
+        }
+        else{
+            newDatosBarChart.push(
+                {
+                    nombre: "Tasa de egresados",
+                    valor: 0,
+                    fill: "#00C49F",
                 }
             );
         }
