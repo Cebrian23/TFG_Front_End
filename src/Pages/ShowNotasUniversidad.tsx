@@ -7,6 +7,8 @@ import type { Estudiante_Short } from "../types/Personas/Estudiante.ts";
 import { Decrypt_DNI } from "../utilities/Transforms/Transform_DNI.ts";
 import type { Coordinador_Short } from "../types/Personas/Coordinador.ts";
 import type { Profesor_Short } from "../types/Personas/Profesor.ts";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 function ShowNotasUniversidad() {
     const [id, setID] = useState("");
@@ -41,6 +43,7 @@ function ShowNotasUniversidad() {
     const [titulacion, setTitulacion] = useState("");
     const [docenteIn, setDocenteIn] = useState(false);
     const [docentes, setDocentes] = useState<(Coordinador_Short | Profesor_Short)[]>([]);
+    const [url, setURL] = useState("");
 
     useEffect(() => {
         const getData = async () => {
@@ -123,11 +126,11 @@ function ShowNotasUniversidad() {
 
             const date = new Date();
             let limiteInfo = `Curso `
-            if(date.getMonth() >= 0 && date.getMonth() < 8){
-                limiteInfo += `${date.getFullYear()-1}-${date.getFullYear()}`;
+            if(date.getMonth() + 1 >= 1 && date.getMonth() + 1 < 9){
+                limiteInfo += `${date.getFullYear()}-${date.getFullYear() + 1}`;
             }
             else{
-                limiteInfo += `${date.getFullYear()}-${date.getFullYear()+1}`;
+                limiteInfo += `${date.getFullYear() + 1}-${date.getFullYear() + 2}`;
             }
 
             const cursos_disponibles: string[] = [];
@@ -204,6 +207,14 @@ function ShowNotasUniversidad() {
                 data_notas.forEach((data) => {
                     if(data.asignatura === asignatura.asignatura){
                         setAsignatura(data);
+                        if(data.docentesUniCoordinador === true){
+                            setDocenteIn(true);
+                            setDocentes(data.docentes);
+                        }
+                        else{
+                            setDocenteIn(false);
+                            createPDF(data.alumnos);
+                        }
                     }
                 });
             }
@@ -243,6 +254,14 @@ function ShowNotasUniversidad() {
                 data_notas.forEach((data) => {
                     if(data.asignatura === asignatura.asignatura){
                         setAsignatura(data);
+                        if(data.docentesUniCoordinador === true){
+                            setDocenteIn(true);
+                            setDocentes(data.docentes);
+                        }
+                        else{
+                            setDocenteIn(false);
+                            createPDF(data.alumnos);
+                        }
                     }
                 });
             }
@@ -261,8 +280,67 @@ function ShowNotasUniversidad() {
                     setDocenteIn(true);
                     setDocentes(asig.docentes);
                 }
+                else{
+                    setDocenteIn(false);
+                    createPDF(asig.alumnos);
+                }
             }
         });
+    }
+
+    const createPDF = (alumnos: { estudiante: Estudiante_Short, nota: number | string}[]) => {
+        console.log(alumnos);
+
+        const doc = new jsPDF();
+
+        const headers = [["Nombre completo", "DNI", "Convocatoria", "Nota"]];
+        const data: (string | number)[][] = [];
+
+        alumnos.forEach((alumno) => {
+            const alumno_data: (string | number)[] = [];
+
+            let nombreAlumno = alumno.estudiante.nombre + " " + alumno.estudiante.apellido_1;
+
+            if(alumno.estudiante.apellido_2 !== null && alumno.estudiante.apellido_2 !== undefined && alumno.estudiante.apellido_2.trim() !== ""){
+                nombreAlumno += ` ${alumno.estudiante.apellido_2}`;
+            }
+
+            const dni = Decrypt_DNI(alumno.estudiante.DNI)
+            
+            if(dni === undefined){
+                alert("Error al mostrar la página");
+
+                globalThis.location.href =  "/mostrarAsignaturas";
+            }
+
+            alumno_data.push(nombreAlumno);
+            alumno_data.push(dni!);
+            alumno_data.push(convocatoria);
+            alumno_data.push(alumno.nota);
+
+            data.push(alumno_data);
+        });
+
+        doc.setFontSize(20);
+        doc.text(`Listado de notas de alumnos de la asignatura ${asignatura!.asignatura}`, 20, 20);
+    
+        autoTable(doc,
+            {
+                head: headers,
+                body: data,
+                startY: 30,
+                theme: "striped",
+                margin: {
+                    left: 14,
+                    right: 14,
+                }
+            }
+        );
+    
+        const pdfBlob = doc.output('blob');
+    
+        const newUrl = URL.createObjectURL(pdfBlob);
+        setURL(newUrl);
     }
     
     return(
@@ -310,9 +388,14 @@ function ShowNotasUniversidad() {
                                 </select>
                             </div>
                         }
-                        <div></div>
                         <div className="buttons">
                             <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+                            {
+                                asignatura !== undefined &&
+                                <a href={url} download>
+                                    <button type="button" disabled={docenteIn}>Descargar notas en PDF</button>
+                                </a>
+                            }
                         </div>
                     </form>
                     {
