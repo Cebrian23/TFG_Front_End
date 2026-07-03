@@ -25,11 +25,10 @@ function NewPersona() {
     const [password, setPassword] = useState("");
     const [rol, setRol] = useState("");
     const [universidad, setUniversidad] = useState("");
-    //const [cursoAcademico, setCurso] = useState("");
+    const [cursoAcademico, setCursoAcademico] = useState("");
     const [gradoUniversitario, setGrado] = useState("");
     const [titulacion, setTitulacion] = useState("");
 
-    //const [curso, setCursito] = useState(0)
     const [universidades, setUniversidades] = useState<string[]>([]);
     const [gradosUniversitarios, setGrados] = useState<string[]>([]);
 
@@ -43,6 +42,7 @@ function NewPersona() {
     const [dniError, setDNIError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [phoneError, setPhoneError] = useState("");
+    const [rolError, setRolError] = useState("");
 
     const [buttonAction, setButtonAction] = useState(false);
 
@@ -107,9 +107,19 @@ function NewPersona() {
                 setGrados(data.grados_aptos);
             }
 
-            /*const date = new Date();
-            setCursito(date.getFullYear());
-            setCurso(`Curso ${date.getFullYear()}-${date.getFullYear()+1}`);*/
+            const date = new Date();
+            let curso = "Curso ";
+
+            console.log(date.getMonth()+1)
+
+            if(date.getMonth()+1 <= 9){
+                curso += `${date.getFullYear()}-${date.getFullYear() + 1}`;
+            }
+            else{
+                curso += `${date.getFullYear() + 1}-${date.getFullYear() + 2}`;
+            }
+
+            setCursoAcademico(curso)
         }
 
         getDatosTitulacion();
@@ -126,12 +136,7 @@ function NewPersona() {
         setPassword("");
         setRol("");
         setUniversidad(universidades[0]);
-        //setCurso("");
         setGrado(gradosUniversitarios[0]);
-        
-        /*const date = new Date();
-        setCursito(date.getFullYear());
-        setCurso(`Curso ${date.getFullYear()}-${date.getFullYear()+1}`);*/
 
         setNombreError("");
         setApellido1Error("");
@@ -188,6 +193,11 @@ function NewPersona() {
                 setEmailError(error.error);
                 error_exists = true;
             }
+        }
+
+        if(rol.trim() === ""){
+            setRolError("Hay que rellenar este campo");
+            error_exists = true;
         }
 
         if(rol !== "Estudiante"){
@@ -290,17 +300,7 @@ function NewPersona() {
                 body.universidad = universidad;
                 body.grado_academico = gradoUniversitario;
 
-                const date = new Date();
-                let curso = "Curso ";
-
-                if(date.getMonth() > 7){
-                    curso += `${date.getFullYear()+1}-${date.getFullYear()+2}`;
-                }
-                else{
-                    curso += `${date.getFullYear()}-${date.getFullYear()+1}`;
-                }
-
-                body.curso_admision = curso;
+                body.curso_admision = cursoAcademico;
             }
 
             NProgress.start();
@@ -345,6 +345,9 @@ function NewPersona() {
                     <form className="registerForm">
                         <h2>Registro de usuario</h2>
                         {
+                            rol === "Estudiante" && <span>{cursoAcademico}</span>
+                        }
+                        {
                             pagina === 1 &&
                             <>
                                 <div className="column">
@@ -377,13 +380,17 @@ function NewPersona() {
                                 </div>
                                 <div className="column">
                                     <label htmlFor="rol">Rol:</label>
-                                    <select id="rol" name="rol" value={rol} onChange={(e) => setRol(e.currentTarget.value)}>
+                                    <select id="rol" name="rol" value={rol} onChange={(e) => {
+                                        setRol(e.currentTarget.value);
+                                        setRolError("");
+                                    }}>
                                         <option value="">Selecciona el rol</option>
                                         <option value="Administrativo">Administrativo</option>
                                         <option value="Coordinador">Coordinador</option>
                                         <option value="Profesor">Profesor</option>
                                         <option value="Estudiante">Estudiante</option>
                                     </select>
+                                    <div className="error">{rolError}</div>
                                 </div>
                             </>
                         }

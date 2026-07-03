@@ -47,11 +47,12 @@ function NewCursoTFM() {
             }
 
             const date = new Date();
-            if(date.getMonth() >= 8){
-                setCurso("Curso " + (Number(date.getFullYear()) + 1).toString() + "-" + (Number(date.getFullYear()) + 2).toString());
+            
+            if(date.getMonth() + 1 <= 9){
+                setCurso("Curso " + (Number(date.getFullYear())).toString() + "-" + (Number(date.getFullYear()) + 1).toString());
             }
             else{
-                setCurso("Curso " + (Number(date.getFullYear())).toString() + "-" + (Number(date.getFullYear()) + 1).toString());
+                setCurso("Curso " + (Number(date.getFullYear()) + 1).toString() + "-" + (Number(date.getFullYear()) + 2).toString());
             }
 
             const TFG_titulacion = Cookie.get("TFG_titulacion");
