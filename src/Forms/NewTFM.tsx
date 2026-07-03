@@ -345,11 +345,6 @@ function NewTFM() {
                                     </select>
                                     <div className="error">{cursoError}</div>
                                 </div>
-                            </>
-                        }
-                        {
-                            pagina === 2 &&
-                            <> 
                                 <div className="column">
                                     <label htmlFor="titulo">Título:</label>
                                     <input type="text" placeholder="Titulo" value={nombre} onChange={(e) => {
@@ -361,21 +356,18 @@ function NewTFM() {
                                 <div className="column">
                                     <label>Alumno:</label>
                                     <div className="add_data">
-                                        {
-                                            alumnos.length > 0 &&
-                                            <select value={estudiante} onChange={(e) => {
-                                                handleStudentChange(e);
-                                            }}>
-                                                <option key="" value="">Seleccionar Estudiante</option>
-                                                {
-                                                    alumnos.map((alumno) => {
-                                                        return(
-                                                            <option key={alumno.id} value={alumno.DNI}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
-                                        }
+                                        <select value={estudiante} onChange={(e) => {
+                                            handleStudentChange(e);
+                                        }}>
+                                            <option key="" value="">Seleccionar Estudiante</option>
+                                            {
+                                                alumnos.map((alumno) => {
+                                                    return(
+                                                        <option key={alumno.id} value={alumno.DNI}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
                                     </div>
                                     <div className="error">{estudianteError}</div>
                                 </div>
@@ -468,7 +460,7 @@ function NewTFM() {
                             </>
                         }
                         {
-                            pagina === 3 &&
+                            pagina === 2 &&
                             <>
                                 <div className="column">
                                     <label htmlFor="convocatoria">Convocatoria</label>
@@ -535,13 +527,21 @@ function NewTFM() {
                                 </>
                             }
                             {
-                                pagina < 3 &&
+                                (pagina === 1) &&
                                 <>
-                                    <button type="button" disabled={curso === "" ? true : false} onClick={() => setPagina(pagina+1)}>Siguiente página</button>
+                                    <button
+                                        type="button"
+                                        disabled={
+                                            (curso === "" && nombre === "" && estudiante === "" && directores.length === 0 && miembrosTribunal.length === 0) ? true : false
+                                        }
+                                        onClick={() => setPagina(pagina+1)}
+                                    >
+                                        Siguiente página
+                                    </button>
                                 </>
                             }
                             {
-                                pagina === 3 &&
+                                pagina === 2 &&
                                 <>
                                     <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
                                 </>
