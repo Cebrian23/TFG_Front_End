@@ -9,7 +9,7 @@ export type Asignatura = {
     cursos_academicos: Asignatura_curso[],
     creditos: number,
     titulacion: string,
-    optatividad: "Obligatoria" | "Optitiva" | string,
+    optatividad: "Obligatoria" | "Optativa" | string,
     tipo: "Asignatura",
 }
 
@@ -18,14 +18,14 @@ export type Asignatura_ins = {
     titulacion: string,
     curso: "1º" | "2º" | string,
     creditos: number,
-    optatividad: "Obligatoria" | "Optitiva" | string,
+    optatividad: "Obligatoria" | "Optativa" | string,
 }
 
 export type Asignatura_titulacion_ins = {
     nombre: string,
     curso: "1º" | "2º" | string,
     creditos: number,
-    optatividad: "Obligatoria" | "Optitiva" | string,
+    optatividad: "Obligatoria" | "Optativa" | string,
 }
 
 export type Asignatura_upt = {
@@ -41,7 +41,7 @@ export type Asignatura_Short = {
     curso: "1º" | "2º" | string,
     cursos_academicos: number,
     creditos: number,
-    optatividad: "Obligatoria" | "Optitiva" | string,
+    optatividad: "Obligatoria" | "Optativa" | string,
     tipo: "Asignatura",
 }
 
