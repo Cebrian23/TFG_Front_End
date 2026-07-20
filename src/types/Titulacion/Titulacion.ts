@@ -1,4 +1,5 @@
 import type { Asignatura_Short } from "../Asignaturas/Asignatura.ts";
+import type { Practicas_Short } from "../Asignaturas/Practicas.ts";
 import type { TFM_Block_Short } from "../Asignaturas/TFM.ts";
 import type { Administrativo_Short } from "../Personas/Administrativo.ts";
 import type { Coordinador_Short } from "../Personas/Coordinador.ts";
@@ -26,6 +27,7 @@ export type Titulacion = {
         creditos_optativos: number,
     },
     TFM: TFM_Block_Short,
+    practicas?: Practicas_Short,
     administrativos: Administrativo_Short[],
     docentes: (Coordinador_Short | Profesor_Short)[],
     alumnos: Estudiante_Short[],
@@ -44,6 +46,7 @@ export type Titulacion_ins = {
     creditos_obligatorios: number,
     creditos_optativos: number,
     creditos_TFM: number,
+    creditos_practicas?: number,
     administrativo: string,
 }
 
