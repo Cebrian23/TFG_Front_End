@@ -3,7 +3,7 @@
     grid-template-columns: 1fr 1fr;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 7dvh;
+    margin-top: 5dvh;
     place-items: center;
 }
 
@@ -300,6 +300,18 @@
         margin-left: 5%;
         margin-right: 5%;
     }
+}
+
+.message_response{
+    border-radius: 5dvh;
+    border: 1px black solid;
+    background-color: #f8fafc;
+    text-align: center;
+    width: 75dvh;
+    margin-top: 35dvh;
+    margin-left: auto;
+    margin-right: auto;
+    height: 20dvh;
 }
 
 .message_auto{
