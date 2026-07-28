@@ -21,6 +21,7 @@ function Login() {
     const [validationError, setValidationError] = useState("");
 
     const [buttonAction, setButtonAction] = useState(false);
+    const [creationSuccess, setCreationSuccess] = useState(false);
 
     useEffect(() => {
         const Verify_Id = () => {
@@ -94,8 +95,7 @@ function Login() {
                     const data: (Coordinador | Estudiante | Profesor | Administrativo) = await response.json();
 
                     Cookie.set("authTFG", data.id, {expires: 7});
-                
-                    globalThis.location.href = "/paginaPersonal";
+                    setCreationSuccess(true);
                 }
             }
             finally{
@@ -111,36 +111,50 @@ function Login() {
     return (
         <div className="finalPage">
             <Header/>
-            <div className="login">
-                <form className="loginForm" onSubmit={(e) => e.preventDefault()}>
-                    <h2>Inicio de sesión</h2>
+            {
+                creationSuccess === false &&
+                <div className="login">
+                    <form className="loginForm" onSubmit={(e) => e.preventDefault()}>
+                        <h2>Inicio de sesión</h2>
+                        <div className="column">
+                            <label htmlFor="email">Email:</label>
+                            <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
+                                setEmail(e.currentTarget.value);
+                                setEmptyError("");
+                                setEmailError("");
+                                setValidationError("");
+                            }}/>
+                            <div className="error">{emailError}</div>
+                            <div className="error">{validationError}</div>
+                        </div>
+                        <div className="column">
+                            <label htmlFor="password">Contraseña:</label>
+                            <input id="password" name="password" type="password" placeholder="Contraseña" onChange={(e) => {
+                                setPassword(e.currentTarget.value);
+                                setPasswordError("");
+                                setEmptyError("");
+                            }}/>
+                            <div className="error">{passwordError}</div>
+                        </div>
+                        <div className="error">{emptyError}</div>
+                        <div className="buttons">
+                            <button type="reset" onClick={handleReset}>Vaciar campos</button>
+                            <button type="button" onClick={handleLogin} disabled={buttonAction}>Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            }
+            {
+                creationSuccess === true &&
+                <div className="message_response">
                     <div className="column">
-                        <label htmlFor="email">Email:</label>
-                        <input id="email" name="email" type="text" placeholder="Email" onChange={(e) => {
-                            setEmail(e.currentTarget.value);
-                            setEmptyError("");
-                            setEmailError("");
-                            setValidationError("");
-                        }}/>
-                        <div className="error">{emailError}</div>
-                        <div className="error">{validationError}</div>
+                        <h1>Inicio de sesión exitoso</h1>
                     </div>
-                    <div className="column">
-                        <label htmlFor="password">Contraseña:</label>
-                        <input id="password" name="password" type="password" placeholder="Contraseña" onChange={(e) => {
-                            setPassword(e.currentTarget.value);
-                            setPasswordError("");
-                            setEmptyError("");
-                        }}/>
-                        <div className="error">{passwordError}</div>
-                    </div>
-                    <div className="error">{emptyError}</div>
                     <div className="buttons">
-                        <button type="reset" onClick={handleReset}>Vaciar campos</button>
-                        <button type="button" onClick={handleLogin} disabled={buttonAction}>Enviar</button>
+                        <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Continuar</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            }
         </div>
     )
 }

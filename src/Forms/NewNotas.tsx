@@ -26,6 +26,8 @@ function NewNotas() {
 
     const [buttonAction, setButtonAction] = useState(false);
     const [userRol, setRol] = useState("");
+    const [creationSuccess, setCreationSuccess] = useState(false);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const getAlumnos = async () => {
@@ -349,6 +351,16 @@ function NewNotas() {
                         }
                     );
                 }
+                else if(Number(e.currentTarget.value) <= 0){
+                    estudiantes_aux.push(
+                        {
+                            alumno: alumno.alumno,
+                            presentado: alumno.presentado,
+                            nota: 0,
+                            convocatoria_num: alumno.convocatoria_num,
+                        }
+                    );
+                }
                 else{
                     estudiantes_aux.push(
                         {
@@ -396,10 +408,9 @@ function NewNotas() {
             }
             else{
                 const data = await response_notas.json();
-
-                alert(data.message);
-
-                globalThis.location.href = "/paginaAsignatura";
+                    
+                setMessage(data.message);
+                setCreationSuccess(true);
             }
         }
         finally{
@@ -419,86 +430,104 @@ function NewNotas() {
                     userRol === "Profesor" &&
                     <SidebarProfesor/>
                 }
-                <div className="newNotas">
-                    {
-                        alumnos !== undefined && alumnos.length > 0 &&
-                        <>
-                            <h1>Calificación de la convocatoria {convocatoria.toLowerCase()} de {nombreAsignatura}</h1>
-                            <table className="tablaNotas">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre completo</th>
-                                        <th>Email</th>
-                                        <th>DNI</th>
-                                        <th>Presentado</th>
-                                        <th>Calificacion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        alumnos.map((alumno) => {
-                                            const estudiante = estudiantes.find((estudiante) => {
-                                                if(alumno.estudiante.id === estudiante.alumno){
-                                                    return estudiante;
+                {
+                    creationSuccess === false &&
+                    <div className="newNotas">
+                        {
+                            alumnos !== undefined && alumnos.length > 0 &&
+                            <>
+                                <h1>Calificación de la convocatoria {convocatoria.toLowerCase()} de {nombreAsignatura}</h1>
+                                <table className="tablaNotas">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre completo</th>
+                                            <th>Email</th>
+                                            <th>DNI</th>
+                                            <th>Presentado</th>
+                                            <th>Calificacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            alumnos.map((alumno) => {
+                                                const estudiante = estudiantes.find((estudiante) => {
+                                                    if(alumno.estudiante.id === estudiante.alumno){
+                                                        return estudiante;
+                                                    }
+                                                })
+
+                                                if(estudiante === undefined){
+                                                    alert("Estudiante no encontrado");
+
+                                                    globalThis.location.href = "/paginaAsignatura";
                                                 }
+
+                                                return(
+                                                    <tr key={alumno.estudiante.id}>
+                                                        <td>
+                                                            {
+                                                                alumno.estudiante.apellido_2 !== undefined && alumno.estudiante.apellido_2 !== null && alumno.estudiante.apellido_2.trim() !== "" && 
+                                                                <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1} {alumno.estudiante.apellido_2}</>
+                                                            }
+                                                            {
+                                                                (alumno.estudiante.apellido_2 === undefined || alumno.estudiante.apellido_2 === null || alumno.estudiante.apellido_2.trim() === "") && 
+                                                                <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1}</>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {alumno.estudiante.email}
+                                                        </td>
+                                                        <td>
+                                                            {alumno.estudiante.DNI}
+                                                        </td>
+                                                        <td>
+                                                            <select defaultValue={estudiante!.presentado === true ? "Si" : "No"} onChange={(e) => {
+                                                                handlePresentado(e, estudiante!.alumno);
+                                                            }}>
+                                                                <option value="No">No</option>
+                                                                <option value="Si">Si</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                estudiante!.presentado === false &&
+                                                                <p>No presentado</p>
+                                                            }
+                                                            {
+                                                                estudiante!.presentado === true &&
+                                                                <input
+                                                                    type="number"
+                                                                    defaultValue={estudiante!.nota} min={0} max={10} step={0.1}
+                                                                    onChange={(e) => handleCalificar(e, estudiante!.alumno)}
+                                                                />
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                )
                                             })
-
-                                            if(estudiante === undefined){
-                                                alert("Estudiante no encontrado");
-
-                                                globalThis.location.href = "/paginaAsignatura";
-                                            }
-
-                                            return(
-                                                <tr key={alumno.estudiante.id}>
-                                                    <td>
-                                                        {
-                                                            alumno.estudiante.apellido_2 !== undefined && alumno.estudiante.apellido_2 !== null && alumno.estudiante.apellido_2.trim() !== "" && 
-                                                            <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1} {alumno.estudiante.apellido_2}</>
-                                                        }
-                                                        {
-                                                            (alumno.estudiante.apellido_2 === undefined || alumno.estudiante.apellido_2 === null || alumno.estudiante.apellido_2.trim() === "") && 
-                                                            <>{alumno.estudiante.nombre} {alumno.estudiante.apellido_1}</>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        {alumno.estudiante.email}
-                                                    </td>
-                                                    <td>
-                                                        {alumno.estudiante.DNI}
-                                                    </td>
-                                                    <td>
-                                                        <select defaultValue={estudiante!.presentado === true ? "Si" : "No"} onChange={(e) => {
-                                                            handlePresentado(e, estudiante!.alumno);
-                                                        }}>
-                                                            <option value="No">No</option>
-                                                            <option value="Si">Si</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        {
-                                                            estudiante!.presentado === false &&
-                                                            <p>No presentado</p>
-                                                        }
-                                                        {
-                                                            estudiante!.presentado === true &&
-                                                            <input type="number" min={0} defaultValue={estudiante!.nota} max={10} step="0.1" onChange={(e) => handleCalificar(e, estudiante!.alumno)}/>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                            <br/>
-                        </>
-                    }
-                    <div className="buttonsNotas">
-                        <button type="button" onClick={() => globalThis.location.href = "/paginaAsignatura"}>Volver</button>
-                        <button type="button" disabled={buttonAction} onClick={handleSend}>Enviar</button>
+                                        }
+                                    </tbody>
+                                </table>
+                                <br/>
+                            </>
+                        }
+                        <div className="buttonsNotas">
+                            <button type="button" onClick={() => globalThis.location.href = "/paginaAsignatura"}>Volver</button>
+                            <button type="button" disabled={buttonAction} onClick={handleSend}>Enviar</button>
+                        </div>
                     </div>
-                </div>
+                }
+                {
+                    creationSuccess === true &&
+                    <div className="message_response">
+                        <div className="column">
+                            <h1>{message}</h1>
+                        </div>
+                        <div className="buttons">
+                            <button type="button" onClick={() => globalThis.location.href = "/paginaAsignatura"}>Continuar</button>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     );

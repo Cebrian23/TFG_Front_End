@@ -37,6 +37,8 @@ function UpdateUser() {
     const [passSpaceError, setPassSpaceError] = useState("");
 
     const [buttonAction, setButtonAction] = useState(false);
+    const [creationSuccess, setCreationSuccess] = useState(false);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const getUser = async () => {
@@ -250,14 +252,15 @@ function UpdateUser() {
                     alert(error.error);
                     
                     setButtonAction(false);
+
+                    globalThis.location.href = "/paginaPersonal";
                 }
                 else{
                     const data = await response.json();
                     
-                    alert(data.message);
+                    setMessage(data.message);
+                    setCreationSuccess(true);
                 }
-
-                globalThis.location.href = "/paginaPersonal";
             }
             finally{
                 NProgress.done();
@@ -284,85 +287,99 @@ function UpdateUser() {
                     rol === "Profesor" &&
                     <SidebarProfesor/>
                 }
-                <div className="upt">
-                    <form className="uptUserForm">
-                        <h2>Actualización de datos de usuario</h2>
-                        <div className="column">
-                            <label htmlFor="nombre">Nombre:</label>
-                            <input id="nombre" name="nombre" type="text" value={nombre} placeholder="Nombre" onChange={(e) => {
-                                setNombre(e.currentTarget.value);
-                                setNombreError("");
-                            }} required/>
-                            <div className="error">{nombreError}</div>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="1er_apellido">1er Apellido:</label>
-                            <input id="1er_apellido" name="1er_apellido" type="text" value={apellido1} placeholder="1er Apellido" onChange={(e) => {
-                                setApellido1(e.currentTarget.value);
-                                setApellido1Error("");
-                            }} required/>
-                            <div className="error">{apellido1Error}</div>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="2do_apellido">2do Apellido:</label>
-                            <input id="2do_apellido" name="2do_apellido" type="text" value={apellido2} placeholder="2do Apellido" onChange={(e) => setApellido2(e.currentTarget.value)}/>
-                        </div>
-                        <div className="column">
-                            <label htmlFor="phone_number">Numero telefónico:</label>
-                            <div id="phone_number" className="combo_data">
-                                <select id="prefix" name="prefix" value={prefix !== "" ? prefix : "+34"} className="registerPhoneInput" onChange={(e) => setPrefix(e.currentTarget.value)}>
-                                    <option value="+30">+30</option>
-                                    <option value="+31">+31</option>
-                                    <option value="+32">+32</option>
-                                    <option value="+33">+33</option>
-                                    <option value="+34">+34</option>
-                                    <option value="+39">+39</option>
-                                    <option value="+49">+49</option>
-                                    <option value="+351">+351</option>
-                                </select>
-                                <input id="phone" name="phone" type="text" value={phone} placeholder="Número telefónico" className="registerPhoneSelect" onChange={(e) => {
-                                    setPhone(e.currentTarget.value);
-                                    setPhoneError("");
-                                }}/>
+                {
+                    creationSuccess === false &&
+                    <div className="upt">
+                        <form className="uptUserForm">
+                            <h2>Actualización de datos de usuario</h2>
+                            <div className="column">
+                                <label htmlFor="nombre">Nombre:</label>
+                                <input id="nombre" name="nombre" type="text" value={nombre} placeholder="Nombre" onChange={(e) => {
+                                    setNombre(e.currentTarget.value);
+                                    setNombreError("");
+                                }} required/>
+                                <div className="error">{nombreError}</div>
                             </div>
-                            <div className="">{phoneError}</div>
+                            <div className="column">
+                                <label htmlFor="1er_apellido">1er Apellido:</label>
+                                <input id="1er_apellido" name="1er_apellido" type="text" value={apellido1} placeholder="1er Apellido" onChange={(e) => {
+                                    setApellido1(e.currentTarget.value);
+                                    setApellido1Error("");
+                                }} required/>
+                                <div className="error">{apellido1Error}</div>
+                            </div>
+                            <div className="column">
+                                <label htmlFor="2do_apellido">2do Apellido:</label>
+                                <input id="2do_apellido" name="2do_apellido" type="text" value={apellido2} placeholder="2do Apellido" onChange={(e) => setApellido2(e.currentTarget.value)}/>
+                            </div>
+                            <div className="column">
+                                <label htmlFor="phone_number">Numero telefónico:</label>
+                                <div id="phone_number" className="combo_data">
+                                    <select id="prefix" name="prefix" value={prefix !== "" ? prefix : "+34"} className="registerPhoneInput" onChange={(e) => setPrefix(e.currentTarget.value)}>
+                                        <option value="+30">+30</option>
+                                        <option value="+31">+31</option>
+                                        <option value="+32">+32</option>
+                                        <option value="+33">+33</option>
+                                        <option value="+34">+34</option>
+                                        <option value="+39">+39</option>
+                                        <option value="+49">+49</option>
+                                        <option value="+351">+351</option>
+                                    </select>
+                                    <input id="phone" name="phone" type="text" value={phone} placeholder="Número telefónico" className="registerPhoneSelect" onChange={(e) => {
+                                        setPhone(e.currentTarget.value);
+                                        setPhoneError("");
+                                    }}/>
+                                </div>
+                                <div className="">{phoneError}</div>
+                            </div>
+                            {
+                                rol !== "Estudiante" &&
+                                <>
+                                    <div className="column">
+                                        <label htmlFor="password">Contraseña:</label>
+                                        <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
+                                            setPassword1(e.currentTarget.value);
+                                            setPassword1Error("");
+                                            setPassCharError("");
+                                            setPassLengthError("");
+                                            setPassNumError("");
+                                            setPassSpaceError("");
+                                        }} required/>
+                                        <div className="error">{password1Error}</div>
+                                        <div className="error">{passCharError}</div>
+                                        <div className="error">{passLengthError}</div>
+                                        <div className="error">{passNumError}</div>
+                                        <div className="error">{passSpaceError}</div>
+                                    </div>
+                                    <div className="column">
+                                        <label htmlFor="validation">Repetir contraseña:</label>
+                                        <input id="validation" name="validation" type="password" placeholder="Repetir contraseña" onChange={(e) => {
+                                            setPassword2(e.currentTarget.value);
+                                            setPassword2Error("");
+                                        }} required/>
+                                        <div className="error">{password2Error}</div>
+                                    </div>
+                                </>
+                            }
+                            <div className="buttons">
+                                <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
+                                <button type="button" onClick={handleReset}>Vaciar campos</button>
+                                <button type="button" onClick={handleUpdate} disabled={buttonAction}>Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                }
+                {
+                    creationSuccess === true &&
+                    <div className="message_response">
+                        <div className="column">
+                            <h1>{message}</h1>
                         </div>
-                        {
-                            rol !== "Estudiante" &&
-                            <>
-                                <div className="column">
-                                    <label htmlFor="password">Contraseña:</label>
-                                    <input id="password" name="password" type="password" placeholder="Password" onChange={(e) => {
-                                        setPassword1(e.currentTarget.value);
-                                        setPassword1Error("");
-                                        setPassCharError("");
-                                        setPassLengthError("");
-                                        setPassNumError("");
-                                        setPassSpaceError("");
-                                    }} required/>
-                                    <div className="error">{password1Error}</div>
-                                    <div className="error">{passCharError}</div>
-                                    <div className="error">{passLengthError}</div>
-                                    <div className="error">{passNumError}</div>
-                                    <div className="error">{passSpaceError}</div>
-                                </div>
-                                <div className="column">
-                                    <label htmlFor="validation">Repetir contraseña:</label>
-                                    <input id="validation" name="validation" type="password" placeholder="Repetir contraseña" onChange={(e) => {
-                                        setPassword2(e.currentTarget.value);
-                                        setPassword2Error("");
-                                    }} required/>
-                                    <div className="error">{password2Error}</div>
-                                </div>
-                            </>
-                        }
                         <div className="buttons">
-                            <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Volver</button>
-                            <button type="button" onClick={handleReset}>Vaciar campos</button>
-                            <button type="button" onClick={handleUpdate} disabled={buttonAction}>Enviar</button>
+                            <button type="button" onClick={() => globalThis.location.href = "/paginaPersonal"}>Continuar</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                }
             </div>
         </div>
     );

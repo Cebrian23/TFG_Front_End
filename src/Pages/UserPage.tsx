@@ -11,6 +11,8 @@ function UserPage() {
     const [noAdmin, setNoAdmin] = useState(false);
     const [noAsig, setNoAsig] = useState(false);
 
+    const [logoutSuccess, setLogoutSuccess] = useState(false);
+
     useEffect(() => {
         const getUser = async () => {
             Cookie.remove("TFG_asig");
@@ -99,8 +101,8 @@ function UserPage() {
         Cookie.remove("TFG_TFM");
         Cookie.remove("TFG_TFM_Block");
         Cookie.remove("TFG_cursoTFM");
-        
-        globalThis.location.href = "/login";
+
+        setLogoutSuccess(true);
     }
 
     return(
@@ -108,7 +110,7 @@ function UserPage() {
             <Header/>
             <div className="userPageShow">
                 {
-                    user !== undefined &&
+                    user !== undefined && logoutSuccess === false &&
                     <div className="userPage">
                         {
                             (user.apellido_2 !== undefined && user.apellido_2 !== null && user.apellido_2 !== "") &&
@@ -151,20 +153,22 @@ function UserPage() {
                                         <br/>
                                     </>
                                 }
-                                {
-                                    /*
-                                        user.rol === "Coordinador general" &&
-                                        <>
-                                            <button type="button" onClick={() => globalThis.location.href = "/controlCalidad"}>Obtener datos para el control de calidad para todas las universidades</button>
-                                            <br/>
-                                        </>
-                                    */
-                                }
                                 <button type="button" onClick={() => globalThis.location.href = "/actualizarDatosPersonales"}>Actualizar información personal</button>
                                 <br/>
                                 <button type="button" onClick={handleLogout}>Cerrar sesion</button>
                             </div>
                         </form>
+                    </div>
+                }
+                {
+                    logoutSuccess === true &&
+                    <div className="message_response">
+                        <div className="column">
+                            <h1>Sesión exitosamente</h1>
+                        </div>
+                        <div className="buttons">
+                            <button type="button" onClick={() =>  globalThis.location.href = "/login"}>Continuar</button>
+                        </div>
                     </div>
                 }
             </div>

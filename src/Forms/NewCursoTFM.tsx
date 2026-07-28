@@ -18,6 +18,8 @@ function NewCursoTFM() {
     const [alumnosError, setAlumnosError] = useState("");
 
     const [buttonAction, setButtonAction] = useState(false);
+    const [creationSuccess, setCreationSuccess] = useState(false);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const getPersonas = async () => {
@@ -161,9 +163,9 @@ function NewCursoTFM() {
                 }
                 else{
                     const data = await response.json();
-                    alert(data.message);
                     
-                    globalThis.location.href = "/mostrarAsignaturasTitulacion"
+                    setMessage(data.message);
+                    setCreationSuccess(true);
                 }
             }
             finally{
@@ -181,148 +183,162 @@ function NewCursoTFM() {
             <Header/>
             <div className="totalPage">
                 <SidebarAdministrativo/>
-                <div className="grid_group_Curso">
-                    <form className="newCurso">
-                        <h1>Registro de un curso</h1>
-                        {
-                            /*<div className="column">
-                                <label htmlFor="curso">Curso:</label>
-                                <input id="curso" name="curso" defaultValue={cursito} type="number" min={cursito} max={cursito+1} onChange={(e) => {
-                                    setCurso("Curso " + (Math.trunc(Number(e.currentTarget.value))).toString() + "-" + (Math.trunc(Number(e.currentTarget.value)) + 1).toString());
-                                }}/>
-                            </div>*/
-                        }
-                        <div className="column">
-                            <label htmlFor="alumnos">Alumnos:</label>
-                            <div className="add_data">
-                                <select id="alumnos" name="alumnos" onChange={(e) => {
-                                    setEstudiante(e.currentTarget.value);
-                                }}>
-                                    <option key="" value="">Selecciona alumno</option>
-                                    {
-                                        estudiantes.map((alumno) => {
-                                            if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
-                                                return(
-                                                    <option key={alumno.id} value={alumno.email}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2} ({alumno.email})</option>
-                                                )
+                {
+                    creationSuccess === false &&
+                    <div className="grid_group_Curso">
+                        <form className="newCurso">
+                            <h1>Registro de un curso</h1>
+                            {
+                                /*<div className="column">
+                                    <label htmlFor="curso">Curso:</label>
+                                    <input id="curso" name="curso" defaultValue={cursito} type="number" min={cursito} max={cursito+1} onChange={(e) => {
+                                        setCurso("Curso " + (Math.trunc(Number(e.currentTarget.value))).toString() + "-" + (Math.trunc(Number(e.currentTarget.value)) + 1).toString());
+                                    }}/>
+                                </div>*/
+                            }
+                            <div className="column">
+                                <label htmlFor="alumnos">Alumnos:</label>
+                                <div className="add_data">
+                                    <select id="alumnos" name="alumnos" onChange={(e) => {
+                                        setEstudiante(e.currentTarget.value);
+                                    }}>
+                                        <option key="" value="">Selecciona alumno</option>
+                                        {
+                                            estudiantes.map((alumno) => {
+                                                if(alumno.apellido_2 !== null && alumno.apellido_2 !== undefined && alumno.apellido_2.trim() !== ""){
+                                                    return(
+                                                        <option key={alumno.id} value={alumno.email}>{alumno.nombre} {alumno.apellido_1} {alumno.apellido_2} ({alumno.email})</option>
+                                                    )
+                                                }
+                                                else{
+                                                    return(
+                                                        <option key={alumno.id} value={alumno.email}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</option>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </select>
+                                    <button type="button" onClick={() => {
+                                        if(estudiante.trim() !== ""){
+                                            const alumno_exists = alumnos.find((alumno) => {
+                                                if(alumno === estudiante){
+                                                    return alumno;
+                                                }
+                                            })
+
+                                            if(alumno_exists === undefined){
+                                                const alumnos_aux = alumnos;
+                                                alumnos_aux.push(estudiante);
+                                                setAlumnos(alumnos_aux);
+                                                setAlumnosError("");
                                             }
                                             else{
-                                                return(
-                                                    <option key={alumno.id} value={alumno.email}>{alumno.nombre} {alumno.apellido_1} ({alumno.email})</option>
-                                                )
+                                                alert("Alumno ya insertado");
                                             }
-                                        })
-                                    }
-                                </select>
-                                <button type="button" onClick={() => {
-                                    if(estudiante.trim() !== ""){
-                                        const alumno_exists = alumnos.find((alumno) => {
-                                            if(alumno === estudiante){
-                                                return alumno;
-                                            }
-                                        })
-
-                                        if(alumno_exists === undefined){
-                                            const alumnos_aux = alumnos;
-                                            alumnos_aux.push(estudiante);
-                                            setAlumnos(alumnos_aux);
-                                            setAlumnosError("");
                                         }
-                                        else{
-                                            alert("Alumno ya insertado");
-                                        }
-                                    }
 
-                                    setEstudiante("");
-                                }}>Insertar a la lista</button>
-                                <button type="button" disabled={alumnos.length === 0 ? true : false} onClick={() => {
-                                    setAlumnos([]);
-                                }}>Vaciar Lista</button>
+                                        setEstudiante("");
+                                    }}>Insertar a la lista</button>
+                                    <button type="button" disabled={alumnos.length === 0 ? true : false} onClick={() => {
+                                        setAlumnos([]);
+                                    }}>Vaciar Lista</button>
+                                </div>
+                                <div className="error">{alumnosError}</div>
                             </div>
-                            <div className="error">{alumnosError}</div>
+                            <div className="buttons">
+                                <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
+                                {
+                                    //<button type="reset" onClick={handleReset}>Vaciar campos</button>
+                                }
+                                <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
+                            </div>
+                        </form>
+                        <div>
+                            <h3>Datos del curso:</h3>
+                            <div>
+                                <p><b>Nombre de la asignatura: </b>Trabajos Fin de Grado</p>
+                            </div>
+                            <div>
+                                <p><b>Curso academico: </b>{curso}</p>
+                            </div>
+                            {
+                                alumnos.length === 1 &&
+                                <div>
+                                    <p>
+                                        <b>Alumno: </b>
+                                        {
+                                            alumnos.map((alumno) => {
+                                                const persona = estudiantes.find((persona) => {
+                                                    if(persona.email === alumno){
+                                                        return persona;
+                                                    }
+                                                });
+
+                                                if(persona === undefined){
+                                                    return;
+                                                }
+                                                
+                                                if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                    return(
+                                                        <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
+                                                    )
+                                                }
+                                                else{
+                                                    return(
+                                                        <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </p>
+                                </div>
+                            }
+                            {
+                                alumnos.length > 1 &&
+                                <div>
+                                    <p><b>Alumnos:</b></p>
+                                    <ul>
+                                        {
+                                            alumnos.map((alumno) => {
+                                                const persona = estudiantes.find((persona) => {
+                                                    if(persona.email === alumno){
+                                                        return persona;
+                                                    }
+                                                });
+
+                                                if(persona === undefined){
+                                                    return;
+                                                }
+                                                
+                                                if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
+                                                    return(
+                                                        <li key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</li>
+                                                    )
+                                                }
+                                                else{
+                                                    return(
+                                                        <li key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</li>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                {
+                    creationSuccess === true &&
+                    <div className="message_response">
+                        <div className="column">
+                            <h1>{message}</h1>
                         </div>
                         <div className="buttons">
-                            <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Volver</button>
-                            {
-                                //<button type="reset" onClick={handleReset}>Vaciar campos</button>
-                            }
-                            <button type="button" onClick={handleCreation} disabled={buttonAction}>Enviar</button>
+                            <button type="button" onClick={() => globalThis.location.href = "/mostrarAsignaturasTitulacion"}>Continuar</button>
                         </div>
-                    </form>
-                    <div>
-                        <h3>Datos del curso:</h3>
-                        <div>
-                            <p><b>Nombre de la asignatura: </b>Trabajos Fin de Grado</p>
-                        </div>
-                        <div>
-                            <p><b>Curso academico: </b>{curso}</p>
-                        </div>
-                        {
-                            alumnos.length === 1 &&
-                            <div>
-                                <p>
-                                    <b>Alumno: </b>
-                                    {
-                                        alumnos.map((alumno) => {
-                                            const persona = estudiantes.find((persona) => {
-                                                if(persona.email === alumno){
-                                                    return persona;
-                                                }
-                                            });
-
-                                            if(persona === undefined){
-                                                return;
-                                            }
-                                            
-                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
-                                                return(
-                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</span>
-                                                )
-                                            }
-                                            else{
-                                                return(
-                                                    <span key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</span>
-                                                )
-                                            }
-                                        })
-                                    }
-                                </p>
-                            </div>
-                        }
-                        {
-                            alumnos.length > 1 &&
-                            <div>
-                                <p><b>Alumnos:</b></p>
-                                <ul>
-                                    {
-                                        alumnos.map((alumno) => {
-                                            const persona = estudiantes.find((persona) => {
-                                                if(persona.email === alumno){
-                                                    return persona;
-                                                }
-                                            });
-
-                                            if(persona === undefined){
-                                                return;
-                                            }
-                                            
-                                            if(persona.apellido_2 !== null && persona.apellido_2 !== undefined && persona.apellido_2.trim() !== ""){
-                                                return(
-                                                    <li key={persona.id}>{persona.nombre} {persona.apellido_1} {persona.apellido_2} ({persona.email})</li>
-                                                )
-                                            }
-                                            else{
-                                                return(
-                                                    <li key={persona.id}>{persona.nombre} {persona.apellido_1} ({persona.email})</li>
-                                                )
-                                            }
-                                        })
-                                    }
-                                </ul>
-                            </div>
-                        }
                     </div>
-                </div>
+                }
             </div>
         </div>
     );
