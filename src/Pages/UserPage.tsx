@@ -162,7 +162,7 @@ function UserPage() {
                 }
                 {
                     logoutSuccess === true &&
-                    <div className="message_response">
+                    <div className="logout_response">
                         <div className="column">
                             <h1>Sesión exitosamente</h1>
                         </div>
