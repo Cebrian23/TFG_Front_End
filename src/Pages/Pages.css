@@ -537,3 +537,15 @@
         padding: 2%;
     }
 }
+
+.logout_response{
+    border-radius: 5dvh;
+    border: 1px black solid;
+    background-color: #f8fafc;
+    text-align: center;
+    width: 75dvh;
+    margin-top: 7.5dvh;
+    margin-left: auto;
+    margin-right: auto;
+    height: 20dvh;
+}
