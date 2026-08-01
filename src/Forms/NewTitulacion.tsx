@@ -468,8 +468,8 @@ function NewTitulacion() {
                                     <label>Créditos de la titulación:</label>
                                     <input
                                         type="number"
-                                        value={creditos}
-                                        min="60" max="120" step={30}
+                                        defaultValue={creditos}
+                                        min="60" max="120" step="30"
                                         onChange={(e) => {
                                             let creditos_aux = Math.trunc(Number(e.currentTarget.value));
 
@@ -478,6 +478,9 @@ function NewTitulacion() {
                                             }
                                             else if(creditos_aux >= 120){
                                                 creditos_aux = 120;
+                                            }
+                                            else if(creditos_aux === 90){
+                                                creditos_aux = 90;
                                             }
                                             else{
                                                 creditos_aux = creditos;
