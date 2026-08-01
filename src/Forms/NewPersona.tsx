@@ -112,8 +112,6 @@ function NewPersona() {
             const date = new Date();
             let curso = "Curso ";
 
-            console.log(date.getMonth()+1)
-
             if(date.getMonth()+1 <= 9){
                 curso += `${date.getFullYear()}-${date.getFullYear() + 1}`;
             }

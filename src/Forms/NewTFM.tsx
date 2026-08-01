@@ -135,8 +135,6 @@ function NewTFM() {
             setDocentes(dataDocentes);
             
             /*
-            console.log(dataDocentes)
-
             const newDocentes: (Coordinador_Short | Profesor_Short)[] = [];
 
             dataDocentes.forEach((docente: (Coordinador_Short | Profesor_Short)) => {

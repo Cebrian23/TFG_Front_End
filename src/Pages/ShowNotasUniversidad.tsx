@@ -289,8 +289,6 @@ function ShowNotasUniversidad() {
     }
 
     const createPDF = (alumnos: { estudiante: Estudiante_Short, nota: number | string}[]) => {
-        console.log(alumnos);
-
         const doc = new jsPDF();
 
         const headers = [["Nombre completo", "DNI", "Convocatoria", "Nota"]];
