@@ -349,9 +349,6 @@ function NewPersona() {
                         <form className="registerForm">
                             <h2>Registro de usuario</h2>
                             {
-                                rol === "Estudiante" && <span>{cursoAcademico}</span>
-                            }
-                            {
                                 pagina === 1 &&
                                 <>
                                     <div className="column">
