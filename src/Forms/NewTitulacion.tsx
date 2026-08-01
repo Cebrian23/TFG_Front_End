@@ -484,12 +484,12 @@ function NewTitulacion() {
                                                 <option value="No">No</option>
                                             </select>
                                         </div>
-                                        <div className="buttons">
-                                            <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
-                                            <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
-                                        </div>
                                     </>*/
                                 }
+                                <div className="buttons">
+                                    <button type="reset" onClick={handleReset}>Vaciar todos los campos</button>
+                                    <button type="button" onClick={() => setPagina(pagina+1)}>Siguiente página</button>
+                                </div>
                             </>
                         }
                         {
