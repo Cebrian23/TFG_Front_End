@@ -233,8 +233,8 @@ function UpdateUser() {
             }
 
             if(phone.trim() !== ""){
-                body.prefijo_movil = prefix;
-                body.numero_movil = phone;
+                body.prefix = prefix;
+                body.phone = phone;
             }
 
             NProgress.start();
