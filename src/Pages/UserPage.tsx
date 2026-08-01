@@ -36,6 +36,7 @@ function UserPage() {
             if(response_user.status !== 200){
                 const error = await response_user.json();
                 alert(error.error);
+                handleLogout()
 
                 globalThis.location.href = "/login";
             }
