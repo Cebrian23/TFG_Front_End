@@ -164,7 +164,7 @@ function UserPage() {
                     logoutSuccess === true &&
                     <div className="logout_response">
                         <div className="column">
-                            <h1>Sesión exitosamente</h1>
+                            <h1>Sesión exitosamente cerrada</h1>
                         </div>
                         <div className="buttons">
                             <button type="button" onClick={() =>  globalThis.location.href = "/login"}>Continuar</button>
