@@ -83,7 +83,7 @@ function ShowTitulaciones() {
                     <div>
                         {
                             titulaciones !== undefined && titulaciones.length > 0 &&
-                            <div className={titulaciones.length >= 3 ? "grid_titulaciones3" : (titulaciones.length === 2 ? "grid_titulaciones2" : "grid_titulaciones1")}>
+                            <div className={titulaciones.length >= 2 ? "grid_titulaciones2" : "grid_titulaciones1"}>
                                 {
                                     titulaciones.map((titulacion) => {
                                         return(
