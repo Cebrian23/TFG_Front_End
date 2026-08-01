@@ -312,6 +312,18 @@ function NewTitulacion() {
             error_exists = true;
         }
 
+        let creditos_asigs_oblig_totales = 0;
+
+        asignaturas.forEach((asig) => {
+            if(asig.optatividad === "Obligatoria"){
+                creditos_asigs_oblig_totales += asig.creditos;
+            }
+        });
+
+        if(creditos_asigs_oblig_totales > creditos_asig_oblig){
+            alert("La suma de los créditos de las asignaturas obligatorias supera el número de créditos obligatorios permitidos")
+        }
+
         if(error_exists === false){
             const newTitulacion: Titulacion_ins = {
                 nombre: nombre,
