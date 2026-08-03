@@ -92,7 +92,7 @@ function ShowAsignaturasTitulacion() {
                     <div>
                         {
                             asignaturas.length !== 0 &&
-                            <div className={asignaturas.length >= 3 ? "grid_asigs_titulacion2" : "grid_asigs_titulacion1"}>
+                            <div className={asignaturas.length >= 2 ? "grid_asigs_titulacion2" : "grid_asigs_titulacion1"}>
                                 {
                                     asignaturas.map((asig) => {
                                         return(
