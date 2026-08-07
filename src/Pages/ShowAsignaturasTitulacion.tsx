@@ -99,11 +99,11 @@ function ShowAsignaturasTitulacion() {
                                             <div key={asig.id} className="cards">
                                                 {
                                                     asig.tipo === "Asignatura" &&
-                                                    <div className="data">{asig.nombre} ({asig.curso}, {asig.creditos})</div>
+                                                    <div className="data">{asig.nombre} ({asig.curso}, {asig.creditos} ECTS)</div>
                                                 }
                                                 {
                                                     asig.tipo === "Bloque TFMs" &&
-                                                    <div className="data">Trabajos Fin de Master ({asig.curso}, {asig.creditos})</div>
+                                                    <div className="data">Trabajos Fin de Master ({asig.curso}, {asig.creditos} ECTS)</div>
                                                 }
                                                 <div className="buttons">
                                                     <button

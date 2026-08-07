@@ -112,8 +112,8 @@ function TFM_BlockPage() {
                         <div className="infoPage">
                             <p><b>Titulación: </b>{titulacion}</p>
                             <p><b>Curso: </b>{bloque.curso}</p>
-                            <p><b>Créditos: </b>{bloque.creditos}</p>
-                            <p><b>Optatividad: </b>{bloque.optatividad}</p>
+                            <p><b>Créditos: </b>{bloque.creditos} ECTS</p>
+                            <p><b>Tipo: </b>{bloque.optatividad}</p>
                             {
                                 showCursos === true && bloque.cursos.length === 0 &&
                                 <p>

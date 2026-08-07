@@ -197,7 +197,7 @@ function ControlCalidad() {
 
         newDatosPieChart.push(
             {
-                nombre: "Créditos aprobados",
+                nombre: "Créditos ECTS aprobados",
                 valor: aprobados,
                 fill: "#FF8042"
             }
@@ -207,7 +207,7 @@ function ControlCalidad() {
 
         newDatosPieChart.push(
             {
-                nombre: "Créditos suspensos",
+                nombre: "Créditos ECTS suspensos",
                 valor: suspensos,
                 fill: "green",
             }
@@ -217,7 +217,7 @@ function ControlCalidad() {
 
         newDatosPieChart.push(
             {
-                nombre: "Créditos no presentados",
+                nombre: "Créditos ECTS no presentados",
                 valor: no_presentados,
                 fill: "#0088FE",
             }

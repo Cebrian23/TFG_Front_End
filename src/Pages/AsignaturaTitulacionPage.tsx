@@ -123,8 +123,8 @@ function AsignaturaTitulacionPage() {
                             <p><b>Nombre: </b>{asignatura.nombre}</p>
                             <p><b>Titulación: </b>{titulacion}</p>
                             <p><b>Curso: </b>{asignatura.curso}</p>
-                            <p><b>Créditos: </b>{asignatura.creditos}</p>
-                            <p><b>Optatividad: </b>{asignatura.optatividad}</p>
+                            <p><b>Créditos: </b>{asignatura.creditos} ECTS</p>
+                            <p><b>Tipo: </b>{asignatura.optatividad}</p>
                             {
                                 showCursos === true && asignatura.cursos_academicos.length === 0 &&
                                 <p>
