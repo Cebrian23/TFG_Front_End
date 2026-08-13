@@ -234,12 +234,12 @@ function AsignaturaDocentePage() {
                                 </button>
                                 {
                                     asignatura.extraordinaria_firmada === false &&
-                                        <button type="button" onClick={() => {
+                                    <button type="button" onClick={() => {
                                         const curso_aux = asignatura.curso_academico.split(" ")[1].split("-")[1];
 
                                         const date = new Date();
 
-                                        if((date.getFullYear() > Number(curso_aux)) || date.getMonth() + 1 >= 8){
+                                        if((date.getFullYear() > Number(curso_aux)) || date.getMonth() + 1 >= 9){
                                             alert("No se puede evaluar una asignatura fuera de fecha");
 
                                             globalThis.location.href = "/mostrarAsignaturas";
