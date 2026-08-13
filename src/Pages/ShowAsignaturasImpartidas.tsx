@@ -148,7 +148,7 @@ function ShowAsignaturasImpartidas() {
                     }
                     {
                         asignaturas.length > 0 &&
-                        <div className={asignaturas.length >= 3 ? "grid_asigs_docente3" : (asignaturas.length === 2 ? "grid_asigs_docente2" : "grid_asigs_docente1")}>
+                        <div className={asignaturas.length >= 2 ? "grid_asigs_docente2" : "grid_asigs_docente1"}>
                             {
                                 asignaturas.map((asig) => {
                                     return(
