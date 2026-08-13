@@ -193,7 +193,7 @@ function ControlCalidad() {
             fill: string,
         }[] = [];
 
-        const aprobados = data_calidad.creditos_aprobados+30+15;
+        const aprobados = data_calidad.creditos_aprobados;
 
         newDatosPieChart.push(
             {
@@ -203,7 +203,7 @@ function ControlCalidad() {
             }
         );
 
-        const suspensos = (data_calidad.creditos_presentados+30) - aprobados;
+        const suspensos = data_calidad.creditos_presentados - aprobados;
 
         newDatosPieChart.push(
             {
@@ -213,7 +213,7 @@ function ControlCalidad() {
             }
         );
 
-        const no_presentados = (data_calidad.creditos_matriculados+30+9) - (data_calidad.creditos_presentados+15+30);
+        const no_presentados = data_calidad.creditos_matriculados - data_calidad.creditos_presentados;
 
         newDatosPieChart.push(
             {
