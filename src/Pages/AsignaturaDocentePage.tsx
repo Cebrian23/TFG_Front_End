@@ -279,7 +279,7 @@ function AsignaturaDocentePage() {
                     showAlumnos === true &&
                     <div className="AsignaturaImp">
                         <br/>
-                        <embed src={urlAlumnos} width="100%" height="550px"/>
+                        <embed src={urlAlumnos} width="100%" height="450px"/>
                     </div>
                 }
                 </div>
