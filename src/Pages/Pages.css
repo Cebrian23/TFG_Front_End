@@ -333,6 +333,7 @@
 .tablaNotas{
     border-collapse: collapse;
     background-color: #f8fafc;
+    margin-top: 10dvh;
     td{
         text-align: center;
         padding: 5px;
