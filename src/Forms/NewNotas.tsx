@@ -23,6 +23,7 @@ function NewNotas() {
     const [nombreAsignatura, setNombreAsignatura] = useState("");
     const [curso, setCurso] = useState("")
     const [convocatoria, setConvocatoria] = useState("");
+    const [academico, setAcademico] = useState("");
 
     const [buttonAction, setButtonAction] = useState(false);
     const [userRol, setRol] = useState("");
@@ -144,6 +145,7 @@ function NewNotas() {
             }
 
             setCurso(data_curso.id);
+            setAcademico(data_curso.curso_academico);
 
             const TFG_conv = Cookie.get("TFG_conv");
 
@@ -289,7 +291,6 @@ function NewNotas() {
 
         getAlumnos();
 
-
     }, []);
 
     const handlePresentado = (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>, user: string) => {
@@ -388,6 +389,7 @@ function NewNotas() {
             curso: curso,
             convocatoria: convocatoria,
             notas: estudiantes,
+            academico: academico,
         }
 
         NProgress.start();
